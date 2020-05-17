@@ -26,7 +26,7 @@ class ParcelsList_DM extends Component {
     }
     _refresh  =async ()=> {
         this.setState({ refreshing : true , currentPage:1 });
-        await this.props.fetshParcels_DeliveryMan(this.state.status,1) 
+        await this.props.fetshParcels_DeliveryMan(this.state.status,this.state.currentPage) 
       this.setState({refreshing : false })
    
     }
@@ -92,7 +92,7 @@ class ParcelsList_DM extends Component {
                             </TouchableOpacity  >
                             <Text>en attente </Text>
 
-                            <TouchableOpacity onPress={  ()=>{this.setState({currentPage:1},this.props.fetshParcels_DeliveryMan(2,1))}}>
+                            <TouchableOpacity onPress={  ()=>{this.setState({currentPage:1},this.props.fetshParcels_DeliveryMan(2,this.state.currentPage))}}>
                             <Icon   style={{ paddingLeft: 15 }} name="circle" color='green' size={25} />
                             </TouchableOpacity  >
                             
