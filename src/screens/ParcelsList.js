@@ -44,7 +44,7 @@ class ParcelsList extends Component {
              </View> :null);
      }
     render() {
-
+ 
         return (
             <View style={{ flex: 1, backgroundColor: '#EFFBFB' }}>
                 <View style={{ flexDirection: 'row', backgroundColor: '#EFFBFB' }}>
@@ -90,7 +90,7 @@ class ParcelsList extends Component {
                             </TouchableOpacity  >
                             <Text>en attente </Text>
 
-                            <TouchableOpacity onPress={  ()=>{this.setState({currentPage:1},this.props.fetshParcels(2,1))}}>
+                            <TouchableOpacity onPress={  ()=>{this.setState({currentPage:1},this.props.fetshParcels(3,1))}}>
                             <Icon   style={{ paddingLeft: 15 }} name="circle" color='green' size={25} />
                             </TouchableOpacity  >
                             

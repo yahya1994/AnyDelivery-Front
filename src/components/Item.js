@@ -8,8 +8,12 @@ class Item extends Component {
     constructor() {
         super();
         this.state = {
-            visible: false, visible1: false, visibleScanner: false
+            visible: false, visible1: false, visibleScanner: false, QRcheck: null
         }
+    }
+
+    QrCheck = (res) => {
+        this.setState({ QRcheck: res })
     }
 
     OverlayExample = () => {
@@ -31,8 +35,6 @@ class Item extends Component {
         this.setState({ visibleScanner: true });
     };
     render() {
-
-
         const change = {
             ...styles.circle,
             backgroundColor: this.props.item.status === 2 ? '#1BB566' : this.props.item.status === 0 ? 'red' : this.props.item.status === 1 ? 'yellow'
@@ -45,40 +47,46 @@ class Item extends Component {
                     <View style={{ flex: 1, flexDirection: 'column' }}>
                         <View style={{ flexDirection: 'row' }} >
                             <Text style={change}>  </Text>
-                            <Text>{this.props.item.status.toString() === '1' ? 'en cours' : this.props.item.status.toString() === '2' ? 'livré' : this.props.item.status.toString() === '3' ? 'a rammaser' : 'en attente'}</Text>
+                            <Text>{this.props.item.status.toString() === '1' ? 'en cours'
+                                : this.props.item.status.toString() === '2' ? 'livré'
+                                    : this.props.item.status.toString() === '3' ? 'a rammaser'
+                                        : 'en attente'}</Text>
                         </View>
                         {this.props.item.status === 3 ?
                             <View style={{ width: "50%", marginTop: "20%" }}>
                                 <TouchableOpacity onPress={this.toggleOverlay1}  >
                                     <Icon name="user-plus" color='#007a' size={35} />
                                     <Overlay
-                                        overlayStyle={{ width: '90%', height: '60%', borderRadius: 80, flexDirection: 'column', justifyContent: "space-between", alignItems: 'center' }}
+                                        overlayStyle={{
+                                            width: '90%', height: '75%', borderRadius: 80,
+                                            flexDirection: 'column', justifyContent: "space-around", alignItems: 'center'
+                                        }}
                                         isVisible={this.state.visible1}
                                         onBackdropPress={this.OverlayExample1}>
-                                        <View>
-                                            <Text style={{ paddingBottom: 20 }}>votre livreur est  :
-                                           {this.props.item.status.toString() !== '0' ? this.props.item.DeliveryMan['0'].name : ''}</Text>
-
-                                            <QRCode
-                                                style={{ paddingBottom: 20 }}
-                                                size={230}
-                                                value=" test test scanner qr"
-                                            />
-
-                                            <TouchableOpacity style={{ paddingTop: 40 ,alignSelf:'center' }} onPress={this.toggleScanner}  >
-                                               <Text style={{borderWidth :2 }}> Scanner </Text>
-                                            </TouchableOpacity>
-                                        </View>
+                                        <Text >votre livreur est  :  {this.props.item.status.toString() !== '0' ? this.props.item.DeliveryMan['0'].name : ''}</Text>
+                                        <QRCode size={280} value={''.concat(this.props.item.id).concat(this.props.item.Client['0'].id).concat(this.props.item.DeliveryMan['0'].id)} />
+                                        <TouchableOpacity onPress={this.toggleScanner}  >
+                                            <Text style={{ fontSize: 20, borderRadius: 20 }}>resultat de scanne
+                                            :{this.state.QRcheck ? <Icon name="check-circle" color='green' size={35} />
+                                                    : this.state.QRcheck == false ? <Icon name="times-circle" color='red' size={35} /> :
+                                                        <Text style={{ backgroundColor: 'green', color: 'white', borderRadius: 20, }} >  Lancer    </Text>}  </Text>
+                                        </TouchableOpacity>
+                                        <TouchableOpacity style={{ alignSelf: 'center' }} onPress={this.toggleScanner}  >
+                                            <Text style={{
+                                                alignSelf: 'center',
+                                                color: 'white', backgroundColor: 'blue',
+                                                fontSize: 35, borderRadius: 20, paddingLeft: 30, paddingRight: 30
+                                            }}>  Valider </Text>
+                                        </TouchableOpacity>
                                     </Overlay>
-
                                     <Overlay isVisible={this.state.visibleScanner}
                                         onBackdropPress={this.ScannerOverlay}>
-                                        <QrScanner />
+                                        <QrScanner check={this.state.QRcheck} 
+                                        close={this.ScannerOverlay} 
+                                        QrCheck={this.QrCheck} 
+                                        OperationID={''.concat(this.props.item.id).concat(this.props.item.Client['0'].id).concat(this.props.item.DeliveryMan['0'].id)} />
                                     </Overlay>
-
-
                                 </TouchableOpacity   >
-
                                 {2 > 0 && (
                                     <View
                                         style={{
@@ -96,9 +104,7 @@ class Item extends Component {
                                     </View>
                                 )}
                             </View> : null}
-
                     </View>
-
                     <View style={{ flex: 3, alignSelf: 'stretch', }} >
                         <View style={{ justifyContent: 'flex-end', flexDirection: 'row', paddingRight: 20, alignSelf: 'stretch', }} >
 
@@ -113,8 +119,6 @@ class Item extends Component {
                                     overlayStyle={{ width: '90%', height: '20%', borderRadius: 80, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}
                                     isVisible={this.state.visible}
                                     onBackdropPress={this.OverlayExample}>
-
-
                                     <Icon
                                         style={{ padding: 10 }} name="user" color='#007aff' size={65} />
                                     <View>
@@ -125,7 +129,6 @@ class Item extends Component {
                                     <Icon style={{ padding: 10 }} name="envelope-o" color='#007aff' size={45} />
                                 </Overlay>
                             </TouchableOpacity >
-
                             <TouchableOpacity onPress={() => this.props.nav.push('Map')}  >
                                 <Icon style={{ padding: 10 }} name="map-marker" color='#007aff' size={35} />
                             </TouchableOpacity>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
- 
+
 import {
   AppRegistry,
   StyleSheet,
@@ -7,32 +7,35 @@ import {
   TouchableOpacity,
   Linking
 } from 'react-native';
- 
+
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import { RNCamera } from 'react-native-camera';
- 
+
 class QrScanner extends Component {
-  onSuccess = e => {
-      console.log( e.data)
+  onSuccess =async e => {
+    let test = e.data == this.props.OperationID;
+  await  this.props.QrCheck(test);
+  this.props.close();
+    console.log(test)
   };
- 
+
   render() {
     return (
       <QRCodeScanner
         onRead={this.onSuccess}
         flashMode={RNCamera.Constants.FlashMode.off}
-        containerStyle={{  flex:1}}
-        cameraStyle={{ alignSelf:'center',flex:1}}
+        containerStyle={{ flex: 1 }}
+        cameraStyle={{ alignSelf: 'center', flex: 1 }}
         bottomContent={
-          <TouchableOpacity style={styles.buttonTouchable}>
-            <Text style={styles.buttonText}>OK. Got it!</Text>
+          <TouchableOpacity onPress={()=>this.props.close()} style={styles.buttonTouchable}>
+            <Text style={styles.buttonText}>terminer </Text>
           </TouchableOpacity>
         }
-        />
+      />
     );
   }
 }
- 
+
 const styles = StyleSheet.create({
   centerText: {
     flex: 1,
@@ -52,4 +55,4 @@ const styles = StyleSheet.create({
     padding: 16
   }
 });
- export default   QrScanner ;
+export default QrScanner;
