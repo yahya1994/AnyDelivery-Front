@@ -63,3 +63,24 @@ export const ChoseParcel = (id) => dispatch => {
 };
 
 
+
+ 
+  
+export const fetsh_DeliveryMan_Parcel = (status,pageNumber) => dispatch => {
+  dispatch({ type: 'FETCH_DATA_ATTEMPT' })
+  SharedFunction('/deliveryMan/parcel?page='+pageNumber, 'GET').then((response) => {
+   
+    const type = response.current_page ===1 ?'FETCH_PARCEL' :'FETCH_MORE_PARCELS'
+    dispatch({
+      type: type, payload: {
+        items: response.data, 
+        totalItemsCount: response.total,
+        current_page :response.current_page,
+        last_page : response.last_page
+      }
+    })
+   
+  
+}).catch((err) => {
+  console.log("error d= "+ err ); })
+};
