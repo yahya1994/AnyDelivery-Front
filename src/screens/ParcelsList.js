@@ -29,7 +29,7 @@ class ParcelsList extends Component {
    
     }
      LoadMore = ()=>{
-         if (this.state.currentPage <3)
+         if (this.state.currentPage <this.props.Parcels.Last_page)
          {
           this.setState({currentPage : this.state.currentPage+1},
          ()=>{this.props.fetshParcels(this.state.status,this.state.currentPage)}

@@ -41,7 +41,7 @@ export const fetshParcels_DeliveryMan = (status,pageNumber) => dispatch => {
 };
 export const CreateParcel = (data,nav) => dispatch => {
   SharedFunction('/client/parcel', 'POST', data).then((response) => {
-    console.log(response.id)
+    console.log(response)
     nav.replace ('Main');
     dispatch({
       type: 'CREATE_PARCEL', payload: { items: response, } })
@@ -53,9 +53,9 @@ export const CreateParcel = (data,nav) => dispatch => {
 
 export const ChoseParcel = (id) => dispatch => {
   SharedFunction('/deliveryMan/parcel/'+id, 'PUT' ).then((response) => {
-    console.log(response)
+    console.log("response")
     dispatch({
-      type: 'CREATE_PARCEL', payload: { items: response, } })
+      type: 'CHOSE_PARCEL', payload: { items: response, } })
   }).catch((err) => {
     console.log(err);
 
