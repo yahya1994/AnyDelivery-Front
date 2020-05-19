@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, StyleSheet, Dimensions, Alert, PermissionsAndroid, Button, TextInput } from 'react-native'
 import MapView, { Polyline } from 'react-native-maps';
 import geolocation from '@react-native-community/geolocation';
-
+import { getDistance } from 'geolib';
 
 const { width, height } = Dimensions.get('window')
 
@@ -112,9 +112,9 @@ class GetAdresseFromMap extends Component {
     this.setState({ Marker: true })
     console.log(this.state.adresse.latitude)
 
-  }
-
+  } 
   render() {
+ 
     let marker = null;
     let Initmarker = null;
     let Finalmarker = null;
@@ -143,6 +143,7 @@ class GetAdresseFromMap extends Component {
           <Polyline strokeColor={'red'} strokeWidth={4} coordinates={this.state.points} />
 
         </MapView>
+       
         <Button
           onPress={() => this.props.changeFunction(this.state.adresse.latitude, this.state.adresse.latitude)}
           title="       sauvgarder         "></Button>

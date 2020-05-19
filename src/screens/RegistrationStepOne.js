@@ -1,21 +1,9 @@
 import React, { Component } from 'react';
 import { View, TextInput, StyleSheet,   } from 'react-native';
 import { Input, Button ,ThemeProvider} from 'react-native-elements';
+import {Buttons , InputText} from'../components/Shared'; 
 
-
-const theme = {
-    Button: {
-      titleStyle: {
-        color: 'white',  
-        alignSelf: 'center', 
-      },buttonStyle:{
-        borderRadius:30,
-        width:150,
-        backgroundColor:'#007aff',
-        borderWidth:1,borderColor:'#007aff'
-      } 
-    },
-  };
+ 
 class RegistrationStepOne  extends Component {
     constructor() {
         super();
@@ -37,17 +25,14 @@ class RegistrationStepOne  extends Component {
                 <TextInput style={styles.InputText}
                     placeholder='Confirmez le mot de passe'
                 />
-                <View style={styles.btncontainer}>
-                <ThemeProvider theme={theme}>   
-                 <Button 
-                       raised
+                 <Buttons 
+                 width='20%'
                        title='Suivant'
-                        loading={false}
                         onPress={() => this.props.navigation.push('Creér votre compte2', 
                     { ss: "this.state.s" })}
-                    /></ThemeProvider>
+                    /> 
  
-                </View></View>
+                </View> 
 
 
         );

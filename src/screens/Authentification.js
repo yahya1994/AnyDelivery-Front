@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { View, Image, Text, StyleSheet, TextInput, TouchableOpacity, Dimensions, Alert } from 'react-native';
+import { View, Image, Text, StyleSheet, TextInput, TouchableOpacity, Dimensions, Alert, Button } from 'react-native';
 import Animated, { Easing } from 'react-native-reanimated';
 import { TapGestureHandler, State } from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 import { Login  } from '../redux/actions';
 import { connect } from 'react-redux';
-
+import {InputText,Buttons} from '../components/Shared';
 
 const { width, height } = Dimensions.get('window');
 const {
@@ -170,28 +170,20 @@ class Authentification extends Component {
                     </Animated.Text>
               </Animated.View>
             </TapGestureHandler>
-            <TextInput 
+            <InputText 
               placeholder='email'
-              style={styles.TextInputStyle}
-              autoCapitalize='none'
               value={this.state.email}
               onChangeText={text => this.setState({ email: (text) })}
             />
-            <TextInput
+            <InputText
               placeholder='password'
-              style={styles.TextInputStyle}
-              autoCapitalize='none'
-              autoCorrect={false}
               value={this.state.password}
               onChangeText={text => this.setState({ password: (text) })}
               secureTextEntry={true}
             />
-              <TouchableOpacity onPress={()=>this.props.Login(this.state.email,this.state.password,this.props.navigation
-                )} style={styles.btnStyle}>
-            <LinearGradient colors={['#007aff','#30ACE4','#007aff']} 
-             style={{borderRadius:50  ,alignItems: 'center' ,width:'100%'}} >
-              <Text style={styles.textStyle}>Login</Text></LinearGradient>
-            </TouchableOpacity> 
+            <Buttons  width={'97%'}title='Login' loading={this.props.auth.loading} onPress={()=>this.props.Login(this.state.email,this.state.password,this.props.navigation
+                )}/>
+             
             <Text style={{  alignSelf: 'center',}} >vous n'avez pas un compte ?,</Text> 
             <Text onPress={()=>this.props.navigation.navigate("Creér votre compte") } style={  styles.textStyleNewAcount} >creer votre compte </Text>
           </Animated.View>
@@ -200,7 +192,11 @@ class Authentification extends Component {
     );
   }
 }
-export default connect(null, { Login  })(Authentification);
+
+const mapStateToProps = state => {
+  return { auth: state.auth };
+};
+export default connect(mapStateToProps, { Login  })(Authentification);
 const styles = StyleSheet.create({
   container: {
     flex: 1,

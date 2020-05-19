@@ -63,7 +63,7 @@ class Item extends Component {
                                         }}
                                         isVisible={this.state.visible1}
                                         onBackdropPress={this.OverlayExample1}>
-                                        <Text >votre livreur est  :  {this.props.item.status.toString() !== '0' ? this.props.item.DeliveryMan['0'].name : ''}</Text>
+                                        <Text style={{ fontSize:20}} >votre livreur est  :  {this.props.item.status.toString() !== '0' ? this.props.item.DeliveryMan['0'].name : ''}</Text>
                                         <QRCode size={280} value={''.concat(this.props.item.id).concat(this.props.item.Client['0'].id).concat(this.props.item.DeliveryMan['0'].id)} />
                                         <TouchableOpacity onPress={this.toggleScanner}  >
                                             <Text style={{ fontSize: 20, borderRadius: 20 }}>resultat de scanne
@@ -74,8 +74,8 @@ class Item extends Component {
                                         <TouchableOpacity style={{ alignSelf: 'center' }} onPress={this.toggleScanner}  >
                                             <Text style={{
                                                 alignSelf: 'center',
-                                                color: 'white', backgroundColor: 'blue',
-                                                fontSize: 35, borderRadius: 20, paddingLeft: 30, paddingRight: 30
+                                                color: 'white', backgroundColor: '#007aff',
+                                                fontSize: 30, borderRadius: 20, paddingLeft: 30, paddingRight: 30
                                             }}>  Valider </Text>
                                         </TouchableOpacity>
                                     </Overlay>

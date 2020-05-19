@@ -3,6 +3,8 @@ import ImagePicker from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/FontAwesome'; 
 import { View, TextInput, StyleSheet, Image } from 'react-native';
 import { Input, Button ,ThemeProvider} from 'react-native-elements';
+import {InputText} from '../components/Shared';
+
 const options = {
     title: 'ajouter une photo ',
     takePhotoButtonTitle: 'prendre une photo  ',
@@ -64,8 +66,8 @@ class RegistrationSteptwo extends Component {
         console.log(this.state.size['fileSize'])
         return (
             <View style={styles.container}>
-                <TextInput style={styles.InputText}
-                    placeholder='Numero de Cin'
+                <InputText   
+                    placeholder='Numero de Cin'  
                 /><Input
                     disabled
                     inputContainerStyle={{borderBottomWidth: 0   }}
