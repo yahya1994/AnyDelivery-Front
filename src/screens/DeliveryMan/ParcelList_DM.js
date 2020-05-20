@@ -1,18 +1,18 @@
- 
 
-import { FlatList, Text, View, RefreshControl,TouchableOpacity, ActivityIndicator} from 'react-native';
+
+import { FlatList, Text, View, RefreshControl, TouchableOpacity, ActivityIndicator } from 'react-native';
 import React, { Component } from 'react';
 import Item from '../../components/DeliveryMan/Item';
 import { Input, Overlay, ThemeProvider } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { connect } from 'react-redux';
-import {    fetshParcels_DeliveryMan} from '../../redux/actions';
+import { ChoseParcel, fetshParcels_DeliveryMan } from '../../redux/actions';
 
 class ParcelsList_DM extends Component {
     state = {
-        visible: false,Loading:true,status:'',
-        refreshing:null,currentPage:1
-     
+        visible: false, Loading: true, status: '',
+        refreshing: null, currentPage: 1
+
     }
     OverlayExample = () => {
         this.setState({ visible: false });
@@ -20,31 +20,33 @@ class ParcelsList_DM extends Component {
     toggleOverlay = () => {
         this.setState({ visible: true });
     };
-  
-    componentDidMount(){
-          this.props.fetshParcels_DeliveryMan(this.state.status,this.state.currentPage);
+    choseParcel = async (id) => {
+        await this.props.ChoseParcel(id);
+        this._refresh();
     }
-    _refresh  =async ()=> {
-        this.setState({ refreshing : true , currentPage:1 });
-        await this.props.fetshParcels_DeliveryMan(this.state.status,this.state.currentPage) 
-      this.setState({refreshing : false })
-   
+    componentDidMount() {
+        this.props.fetshParcels_DeliveryMan(this.state.status, this.state.currentPage);
     }
-     LoadMore = ()=>{
-         if (this.state.currentPage <this.props.Parcels.Last_page)
-         {
-          this.setState({currentPage : this.state.currentPage+1},
-         ()=>{this.props.fetshParcels_DeliveryMan(this.state.status,this.state.currentPage)}
+    _refresh = async () => {
+        this.setState({ refreshing: true, currentPage: 1 });
+        await this.props.fetshParcels_DeliveryMan(this.state.status, this.state.currentPage)
+        this.setState({ refreshing: false })
+
+    }
+    LoadMore = () => {
+        if (this.state.currentPage < this.props.Parcels.Last_page) {
+            this.setState({ currentPage: this.state.currentPage + 1 },
+                () => { this.props.fetshParcels_DeliveryMan(this.state.status, this.state.currentPage) }
             );
-        } else{this.setState({Loading: false})}
-     }
-     renderFooter=()=>{
-         return (
-             this.state.Loading ?
-             <View>
-             <ActivityIndicator animating size='large'/>
-             </View> :null);
-     }
+        } else { this.setState({ Loading: false }) }
+    }
+    renderFooter = () => {
+        return (
+            this.state.Loading ?
+                <View>
+                    <ActivityIndicator animating size='large' />
+                </View> : null);
+    }
     render() {
 
         return (
@@ -66,7 +68,7 @@ class ParcelsList_DM extends Component {
                         }}
                         leftIcon={
                             <Icon.Button
-                                
+
                                 backgroundColor='white'
                                 name='search'
                                 size={20}
@@ -87,20 +89,20 @@ class ParcelsList_DM extends Component {
                         onBackdropPress={this.OverlayExample}>
                         <Text style={{ alignSelf: 'center' }}>filter selon le status :</Text>
                         <View style={{ flex: 1, flexDirection: 'row', padding: 20, justifyContent: 'space-between' }}>
-                        <TouchableOpacity onPress={  ()=>{this.setState({currentPage:1},this.props.fetshParcels_DeliveryMan(0,1))}} >
-                            <Icon  name="circle" color='red' size={25} />
+                            <TouchableOpacity onPress={() => { this.setState({ currentPage: 1 }, this.props.fetshParcels_DeliveryMan(0, 1)) }} >
+                                <Icon name="circle" color='red' size={25} />
                             </TouchableOpacity  >
                             <Text>en attente </Text>
 
-                            <TouchableOpacity onPress={  ()=>{this.setState({currentPage:1},this.props.fetshParcels_DeliveryMan(2,this.state.currentPage))}}>
-                            <Icon   style={{ paddingLeft: 15 }} name="circle" color='green' size={25} />
+                            <TouchableOpacity onPress={() => { this.setState({ currentPage: 1 }, this.props.fetshParcels_DeliveryMan(2, this.state.currentPage)) }}>
+                                <Icon style={{ paddingLeft: 15 }} name="circle" color='green' size={25} />
                             </TouchableOpacity  >
-                            
+
                             <Text>livré </Text>
-                            <TouchableOpacity  onPress={  ()=>{this.setState({currentPage:1},this.props.fetshParcels_DeliveryMan(1,1))}} >
-                            <Icon   style={{ paddingLeft: 15 }} name="circle" color='yellow' size={25} />
+                            <TouchableOpacity onPress={() => { this.setState({ currentPage: 1 }, this.props.fetshParcels_DeliveryMan(1, 1)) }} >
+                                <Icon style={{ paddingLeft: 15 }} name="circle" color='yellow' size={25} />
                             </TouchableOpacity  >
-                           
+
                             <Text>en cours </Text>
                         </View>
 
@@ -110,15 +112,15 @@ class ParcelsList_DM extends Component {
                     style={{ backgroundColor: '#EFFBFB', padding: 5 }}
                     data={this.props.Parcels.items}
                     renderItem={({ item }) => (
-                        <Item nav={this.props.navigation} item={item} />
+                        <Item nav={this.props.navigation} item={item} choseParcel={this.choseParcel} status={this.state.status} />
                     )}
                     keyExtractor={item => item.id.toString()}
                     refreshControl={
-                        <RefreshControl refreshing = {this.state.refreshing}
-                        onRefresh={this._refresh} />
+                        <RefreshControl refreshing={this.state.refreshing}
+                            onRefresh={this._refresh} />
                     }
-                   
-                  ListFooterComponent={this.renderFooter}
+
+                    ListFooterComponent={this.renderFooter}
                     onEndReached={this.LoadMore}
                 />
             </View>
@@ -128,4 +130,4 @@ class ParcelsList_DM extends Component {
 const mapStateToProps = state => {
     return { Parcels: state.parcel };
 };
-export default connect(mapStateToProps, {    fetshParcels_DeliveryMan })(ParcelsList_DM);
+export default connect(mapStateToProps, { ChoseParcel, fetshParcels_DeliveryMan })(ParcelsList_DM);

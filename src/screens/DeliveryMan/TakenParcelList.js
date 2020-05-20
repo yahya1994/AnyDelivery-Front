@@ -47,7 +47,7 @@ class TakenParcelList extends Component {
              </View> :null);
      }
     render() {
-
+console.log('yahya')
         return (
             <View style={{ flex: 1, backgroundColor: '#EFFBFB' }}>
                 <View style={{ flexDirection: 'row', backgroundColor: '#EFFBFB' }}>

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { TouchableOpacity, View, Text, Alert, Button } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Overlay, CheckBox } from 'react-native-elements'; 
-import {InputText} from '../Shared'
+import {InputText} from '../Shared';
 class TakenParcel extends Component {
     constructor() {
         super();

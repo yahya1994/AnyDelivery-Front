@@ -4,7 +4,7 @@ import Item from '../components/Item';
 import { Input, Overlay, ThemeProvider } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { connect } from 'react-redux';
-import {  fetshParcels} from '../redux/actions';
+import { parcelReady, fetshParcels} from '../redux/actions';
 
 class ParcelsList extends Component {
     state = {
@@ -12,6 +12,10 @@ class ParcelsList extends Component {
         refreshing:null,currentPage:1
      
     }
+    parcelReady=async(id)=>{
+        await this.props.parcelReady(id);
+        this._refresh();
+     }
     OverlayExample = () => {
         this.setState({ visible: false });
     }
@@ -24,7 +28,7 @@ class ParcelsList extends Component {
     }
     _refresh  =async ()=> {
         this.setState({ refreshing : true , currentPage:1 });
-        await this.props.fetshParcels(this.state.status,1) 
+        await this.props.fetshParcels(this.state.status,this.state.currentPage) 
       this.setState({refreshing : false })
    
     }
@@ -108,7 +112,7 @@ class ParcelsList extends Component {
                     style={{ backgroundColor: '#EFFBFB', padding: 5 }}
                     data={this.props.Parcels.items}
                     renderItem={({ item }) => (
-                        <Item nav={this.props.navigation} item={item} />
+                        <Item nav={this.props.navigation} item={item}  parcelReady={this.parcelReady}/>
                     )}
                     keyExtractor={item => item.id.toString()}
                     refreshControl={
@@ -126,4 +130,4 @@ class ParcelsList extends Component {
 const mapStateToProps = state => {
     return { Parcels: state.parcel };
 };
-export default connect(mapStateToProps, {    fetshParcels })(ParcelsList);
+export default connect(mapStateToProps, {parcelReady,fetshParcels })(ParcelsList);

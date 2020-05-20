@@ -51,6 +51,17 @@ export const CreateParcel = (data,nav) => dispatch => {
   })
 };
 
+export const parcelReady = (id) => dispatch => {
+  SharedFunction('/client/parcelReady/'+id, 'PUT' ).then((response) => {
+    console.log(response)
+    dispatch({
+      type: 'CHOSE_PARCEL', payload: { items: response, } })
+  }).catch((err) => {
+    console.log(err);
+
+  })
+};
+
 export const ChoseParcel = (id) => dispatch => {
   SharedFunction('/deliveryMan/parcel/'+id, 'PUT' ).then((response) => {
     console.log("response")

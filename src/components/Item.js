@@ -11,7 +11,11 @@ class Item extends Component {
             visible: false, visible1: false, visibleScanner: false, QRcheck: null
         }
     }
+    parcelReady=async(id)=>{
+       await this.props.parcelReady(id);
+       this.OverlayExample1
 
+    }
     QrCheck = (res) => {
         this.setState({ QRcheck: res })
     }
@@ -55,7 +59,7 @@ class Item extends Component {
                         {this.props.item.status === 3 ?
                             <View style={{ width: "50%", marginTop: "20%" }}>
                                 <TouchableOpacity onPress={this.toggleOverlay1}  >
-                                    <Icon name="user-plus" color='#007a' size={35} />
+                                    <Icon name="users" color='green' size={35} />
                                     <Overlay
                                         overlayStyle={{
                                             width: '90%', height: '75%', borderRadius: 80,
@@ -71,13 +75,21 @@ class Item extends Component {
                                                     : this.state.QRcheck == false ? <Icon name="times-circle" color='red' size={35} /> :
                                                         <Text style={{ backgroundColor: 'green', color: 'white', borderRadius: 20, }} >  Lancer    </Text>}  </Text>
                                         </TouchableOpacity>
-                                        <TouchableOpacity style={{ alignSelf: 'center' }} onPress={this.toggleScanner}  >
+                                       { this.state.QRcheck ==true ? <TouchableOpacity  style={{ alignSelf: 'center' }} onPress={()=>this.parcelReady(this.props.item.id)} >
                                             <Text style={{
                                                 alignSelf: 'center',
                                                 color: 'white', backgroundColor: '#007aff',
                                                 fontSize: 30, borderRadius: 20, paddingLeft: 30, paddingRight: 30
                                             }}>  Valider </Text>
-                                        </TouchableOpacity>
+                                        </TouchableOpacity>:
+                                        <TouchableOpacity disabled= { true } style={{ alignSelf: 'center' }} onPress={()=>console.log('rrrr')} >
+                                            <Text style={{
+                                                opacity:0.5,
+                                                alignSelf: 'center',
+                                                color: 'white', backgroundColor: '#007aff',
+                                                fontSize: 30, borderRadius: 20, paddingLeft: 30, paddingRight: 30
+                                            }}>  Valider </Text>
+                                        </TouchableOpacity>}
                                     </Overlay>
                                     <Overlay isVisible={this.state.visibleScanner}
                                         onBackdropPress={this.ScannerOverlay}>

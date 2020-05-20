@@ -68,8 +68,7 @@ class CreateParcels extends Component {
     };
 
     render() {
-
-        console.log(this.state.distance)
+ 
         return (
             <View style={{ flex: 1, backgroundColor: 'white', flexDirection: 'column' }}>
                 <ProgressSteps  >
@@ -78,13 +77,13 @@ class CreateParcels extends Component {
                         <View style={styles.container}>
                             <TextInput style={styles.InputText}
                                 placeholder='Nom et prenom'
-                                value={this.state.name_Depart}
+                                value={this.props.auth.user.name}
                                 onChangeText={text =>
                                     this.setState({ name_Depart: (text) })}
                             />
                             <TextInput style={styles.InputText}
                                 placeholder='Numéro de telephone'
-                                value={this.state.numTel_Depart}
+                                value={this.props.auth.user.phone_number}
                                 onChangeText={value =>
                                     this.setState({ numTel_Depart: (value) })}
                             />
@@ -306,4 +305,7 @@ const styles = StyleSheet.create({
     }
 }
 );
-export default connect(null, { CreateParcel })(CreateParcels);
+const mapStateToProps = state => {
+    return { auth: state.auth };
+};
+export default connect(mapStateToProps, { CreateParcel })(CreateParcels);

@@ -9,7 +9,7 @@ class Item extends Component {
         super();
         this.state = { visible: false ,checked:'3'}
     }
-
+     
     OverlayExample = () => {
         this.setState({ visible: false });
     }
@@ -17,7 +17,6 @@ class Item extends Component {
         this.setState({ visible: true });
     };
     render() {
-   // console.log(this.props.item.status)
         const change = {
             ...styles.circle,
             backgroundColor: this.props.item.status === 2 ? '#1BB566' : this.props.item.status === 0 ? 'red' :this.props.item.status === 1 ?   'yellow' 
@@ -33,7 +32,7 @@ class Item extends Component {
                         </View>
                         <CheckBox
                              checked={this.state.checked == this.props.item.status.toString()}
-                             onPress={() => this.setState({checked:this.props.item.status.toString()},this.props.ChoseParcel(this.props.item.id))}
+                             onPress={() => this.setState({checked:this.props.item.status.toString()},()=>this.props.choseParcel(this.props.item.id))}
                         />
                     </View>
                     <View style={{ flex: 3, alignSelf: 'stretch', }} >
