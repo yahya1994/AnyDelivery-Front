@@ -9,7 +9,8 @@ export default (state = INITIAL_STATE, action) => {
             return { ...state, loading: true }
 
         case 'SUCCESS':
-            return { ...state, success: action.payload, loading:false };
+            console.log(action.payload.user)
+            return { ...state, user: action.payload.user, success: action.payload.success, loading:false };
         case 'FAIL':
             return { ...state, loading:false,success: action.payload.success, message: action.payload.message, modal: true };
         case 'AUTH_TOKEN':
@@ -20,9 +21,7 @@ export default (state = INITIAL_STATE, action) => {
             return { ...state, token: action.token };
         case 'GET_TOKEN':
             return { ...state, strToken: action.payload.token };
-        case 'ME':
-            return { ...state, user: action.payload.user };
-
+        
         default: return state;
 
     }

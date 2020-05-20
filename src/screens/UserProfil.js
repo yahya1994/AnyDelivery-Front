@@ -1,10 +1,9 @@
-import { View, Text, TextInput, Button } from 'react-native';
+import { View, Text, Image, Button } from 'react-native';
 import React, { Component } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Overlay, CheckBox } from 'react-native-elements';
 import LinearGradient from 'react-native-linear-gradient';
 import { connect } from 'react-redux';
-import {  me} from '../redux/actions';
 class UserProfil extends Component {
     state = {
         place: '', visible: false,
@@ -15,18 +14,25 @@ class UserProfil extends Component {
     toggleOverlay = () => {
         this.setState({ visible: true });
     };
-    componentDidMount(){
-        this.props.me();
-    }
+   
     render() {
 
         return (
             <View style={{ flexDirection: 'column', flex: 1, }} >
                 <LinearGradient colors={['white', '#30ACE4', '#30ACE4', '#007aff']} style={{ flex: 1 }}>
-                    <View style={{ backgroundColor: 'white', borderRadius: 100, flex: 2, justifyContent: 'center', flexDirection: 'column', alignItems: 'center', alignSelf: 'center', width: '50%' }} >
-                        <Icon name="user" color='#007aff' size={85} />
-                        <Text>Yahya ben haj amor </Text>
+                    <View style={{ backgroundColor: 'white',marginTop:3, borderRadius: 100, flex: 2, justifyContent: 'center', flexDirection: 'column', alignItems: 'center', alignSelf: 'center', width: '50%' }} >
+                    <Image
+            source={require('../assets/img/me.jpg')}
+            style={{ borderRadius:80 ,paddingTop:20,height:'100%',width:"100%" }}
+          />
+
                     </View>
+                    <View style={{ backgroundColor: 'white', borderRadius: 10 ,
+                      flexDirection: 'column', alignItems: 'center',marginTop:8, alignSelf: 'center',height:'6%', width: '50%' }} >
+
+                    <Text style={{fontSize:18}}>{this.props.auth.user.name}</Text>
+                    </View>
+
                     <View style={{
                         flex: 3, marginBottom: '5%', borderRadius: 20, marginTop: '5%', width: "95%", borderWidth: 1,
                         backgroundColor: 'white', borderColor: '#007aff', alignSelf: 'center', padding: 5
@@ -34,18 +40,25 @@ class UserProfil extends Component {
                         <View style={{ backgroundColor: 'white', flexDirection: 'row', flex: 1, justifyContent: 'space-between' }}>
                             <Text onPress={this.toggleOverlay}
                                 style={{ borderWidth: 1, borderColor: '#007aff', textAlign: 'center', margin: 5, width: '25%', backgroundColor: 'white', }}
-                            >rapidité  {"\n"}{"\n"} <Icon
+                            >rapidité  {"\n"}{"\n"} 
+                            {this.props.auth.user.rapidity === 0 ?
+                                    <Icon
                                     backgroundColor='white'
                                     name='bicycle'
                                     size={30}
                                     color='#007aff'
-                                /> </Text>
+                                /> : <Icon
+                                backgroundColor='white'
+                                name='car'
+                                size={30}
+                                color='#007aff'
+                            />} </Text>
                             <Text
                                 style={{ borderWidth: 1, width: '25%', borderColor: '#007aff', textAlign: 'center', margin: 5, backgroundColor: 'white', }}
                             >diametre{"\n"} {"\n"} 5 </Text>
                             <Text
                                 style={{ borderWidth: 1, width: '25%', borderColor: '#007aff', textAlign: 'center', margin: 5, backgroundColor: 'white', }}
-                            > frais par km{"\n"}{"\n"}  10 </Text>
+                            > frais par km{"\n"}{"\n"}  {this.props.auth.user.price_km} </Text>
                         </View>
                         <View style={{ alignSelf: 'center', width: '90%', flex: 2, justifyContent: 'space-evenly' }}>
                             <Button title='votre profil' />
@@ -89,6 +102,6 @@ class UserProfil extends Component {
 const mapStateToProps = state => {
     return { auth: state.auth };
 };
-export default connect(mapStateToProps, {  me })(UserProfil);
+export default connect(mapStateToProps )(UserProfil);
 
  

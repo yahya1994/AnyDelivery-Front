@@ -16,7 +16,7 @@ export const me = () => dispatch => {
 
 export const Login = (email, password, nav) => dispatch => {
     dispatch({ type: 'DATA_ATTEMPT'})
-    axios.post('http://dc3f6070.ngrok.io/api/user/login',
+    axios.post('http://0ba1f933.ngrok.io/api/user/login',
         { email, password })
         .then((response) => {
             if (response.data.role === 1) {
@@ -24,13 +24,13 @@ export const Login = (email, password, nav) => dispatch => {
         
                // clearToken()
                nav.navigate('Main');
-                   dispatch({ type: 'SUCCESS', payload: response.data.success })
+                   dispatch({ type: 'SUCCESS', payload: { user:response.data.user, success : response.data.success }})
                  
             }   
             if (response.data.role === 2) {
                 storeData(response.data.token);
                 nav.navigate('MainDeliveryMan');
-                dispatch({ type: 'SUCCESS', payload: response.data.success })      
+                dispatch({ type: 'SUCCESS',  payload: { user:response.data.user, success : response.data.success }})      
            }
             else {
               
