@@ -16,7 +16,7 @@ export const me = () => dispatch => {
 
 export const Login = (email, password, nav) => dispatch => {
     dispatch({ type: 'DATA_ATTEMPT'})
-    axios.post('http://0ba1f933.ngrok.io/api/user/login',
+    axios.post('http://2130ece0.ngrok.io/api/user/login',
         { email, password })
         .then((response) => {
             if (response.data.role === 1) {

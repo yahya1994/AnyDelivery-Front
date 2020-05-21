@@ -6,7 +6,7 @@ import Item from '../../components/DeliveryMan/Item';
 import { Input, Overlay, ThemeProvider } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { connect } from 'react-redux';
-import {    fetsh_DeliveryMan_Parcel} from '../../redux/actions';
+import { parcelDone,   fetsh_DeliveryMan_Parcel} from '../../redux/actions';
 import TakenParcel from '../../components/DeliveryMan/TakenParcel';
 
 class TakenParcelList extends Component {
@@ -15,6 +15,7 @@ class TakenParcelList extends Component {
         refreshing:null,currentPage:1
      
     }
+   
     OverlayExample = () => {
         this.setState({ visible: false });
     }
@@ -32,7 +33,7 @@ class TakenParcelList extends Component {
    
     }
      LoadMore = ()=>{
-         if (this.state.currentPage <this.props.Parcels.Last_page)
+         if (this.state.currentPage <2)
          {
           this.setState({currentPage : this.state.currentPage+1},
          ()=>{this.props.fetsh_DeliveryMan_Parcel(this.state.status,this.state.currentPage)}
@@ -47,7 +48,7 @@ class TakenParcelList extends Component {
              </View> :null);
      }
     render() {
-console.log('yahya')
+ 
         return (
             <View style={{ flex: 1, backgroundColor: '#EFFBFB' }}>
                 <View style={{ flexDirection: 'row', backgroundColor: '#EFFBFB' }}>
@@ -111,7 +112,7 @@ console.log('yahya')
                     style={{ backgroundColor: '#EFFBFB', padding: 5 }}
                     data={this.props.Parcels.item}
                     renderItem={({ item }) => (
-                        <TakenParcel nav={this.props.navigation} item={item} />
+                        <TakenParcel nav={this.props.navigation} refresh={this._refresh}  item={item} />
                     )}
                     keyExtractor={item => item.id.toString()}
                     refreshControl={
@@ -120,7 +121,7 @@ console.log('yahya')
                     }
               
                   ListFooterComponent={this.renderFooter}
-                    onEndReached={this.LoadMore}
+                //   onEndReached={this.LoadMore}
                 />
             </View>
         );

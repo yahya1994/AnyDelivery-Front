@@ -10,7 +10,7 @@ import CreateParcels from '../screens/CreateParcels';
  
 const Tab = createBottomTabNavigator();
 
-const Tabs = () => {
+const Tabs = () => { 
   return (
     <Tab.Navigator
       initialRouteName="Home"

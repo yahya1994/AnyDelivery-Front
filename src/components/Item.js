@@ -4,6 +4,9 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { Overlay, CheckBox } from 'react-native-elements';
 import QrScanner from './QrScanner';
 import QRCode from 'react-native-qrcode-svg';
+import { connect } from 'react-redux';
+import { parcelReady, fetshParcels} from '../redux/actions';
+
 class Item extends Component {
     constructor() {
         super();
@@ -13,9 +16,11 @@ class Item extends Component {
     }
     parcelReady=async(id)=>{
        await this.props.parcelReady(id);
-       this.OverlayExample1
-
+       this.OverlayExample1();
+        this.props.refresh();
     }
+  
+    
     QrCheck = (res) => {
         this.setState({ QRcheck: res })
     }
@@ -53,7 +58,7 @@ class Item extends Component {
                             <Text style={change}>  </Text>
                             <Text>{this.props.item.status.toString() === '1' ? 'en cours'
                                 : this.props.item.status.toString() === '2' ? 'livré'
-                                    : this.props.item.status.toString() === '3' ? 'a rammaser'
+                                    : this.props.item.status.toString() === '3' ? 'réserver'
                                         : 'en attente'}</Text>
                         </View>
                         {this.props.item.status === 3 ?
@@ -141,7 +146,7 @@ class Item extends Component {
                                     <Icon style={{ padding: 10 }} name="envelope-o" color='#007aff' size={45} />
                                 </Overlay>
                             </TouchableOpacity >
-                            <TouchableOpacity onPress={() => this.props.nav.push('Map')}  >
+                            <TouchableOpacity onPress={() => this.props.nav.navigate('Map', { item: this.props.item })}  >
                                 <Icon style={{ padding: 10 }} name="map-marker" color='#007aff' size={35} />
                             </TouchableOpacity>
                             <TouchableOpacity onPress={() => this.props.nav.push('ParcelDetails', { item: this.props.item, user: this.props.item.Client['0'] })}  >
@@ -181,4 +186,7 @@ const styles = {
         width: '13%', height: '10%'
     }
 };
-export default Item;
+const mapStateToProps = state => {
+    return { Parcels: state.parcel };
+};
+export default connect(mapStateToProps, {parcelReady,fetshParcels })(Item);

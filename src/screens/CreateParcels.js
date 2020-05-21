@@ -71,8 +71,8 @@ class CreateParcels extends Component {
  
         return (
             <View style={{ flex: 1, backgroundColor: 'white', flexDirection: 'column' }}>
-                <ProgressSteps  >
-                    <ProgressStep label="¨Point de départ" nextBtnText={'Suivant'}  >
+                <ProgressSteps   >
+                    <ProgressStep   label="¨Point de départ" nextBtnText={'Suivant'}     >
 
                         <View style={styles.container}>
                             <TextInput style={styles.InputText}
@@ -248,7 +248,7 @@ class CreateParcels extends Component {
                             </View>
 
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignSelf: 'stretch', padding: 10 }}>
-                                <Text v
+                                <Text  
                                     style={{ borderRadius: 20, padding: 15, borderColor: '#007aff', }}>Distance estimé</Text>
                                 <TextInput style={{ width: '40%', borderWidth: 2, borderRadius: 20, padding: 15, borderColor: '#007aff', }}    >
                                     {this.state.distance / 1000} Km </TextInput>

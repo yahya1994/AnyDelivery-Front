@@ -23,7 +23,7 @@ export const fetshParcels = ( status,pageNumber) => dispatch => {
 
 export const fetshParcels_DeliveryMan = (status,pageNumber) => dispatch => {
   dispatch({ type: 'FETCH_DATA_ATTEMPT' })
-  SharedFunction('/parcels?page='+pageNumber, 'GET').then((response) => {
+  SharedFunction('/parcels?status='+0+'&page='+pageNumber, 'GET').then((response) => {
    
     const type = response.current_page ===1 ?'FETCH_PARCELS' :'FETCH_MORE_PARCELS'
     dispatch({
@@ -55,12 +55,24 @@ export const parcelReady = (id) => dispatch => {
   SharedFunction('/client/parcelReady/'+id, 'PUT' ).then((response) => {
     console.log(response)
     dispatch({
-      type: 'CHOSE_PARCEL', payload: { items: response, } })
+      type: 'PARCEL_READY', payload: { items: response, } })
   }).catch((err) => {
     console.log(err);
 
   })
 };
+
+export const parcelDone = (id) => dispatch => {
+  SharedFunction('/deliveryMan/parcelDone/'+id, 'PUT' ).then((response) => {
+    console.log('Done '+response)
+    dispatch({
+      type: 'PARCEL_DONE', payload: { items: response, } })
+  }).catch((err) => {
+    console.log(err);
+
+  })
+};
+
 
 export const ChoseParcel = (id) => dispatch => {
   SharedFunction('/deliveryMan/parcel/'+id, 'PUT' ).then((response) => {
@@ -72,16 +84,12 @@ export const ChoseParcel = (id) => dispatch => {
 
   })
 };
-
-
-
  
   
 export const fetsh_DeliveryMan_Parcel = (status,pageNumber) => dispatch => {
   dispatch({ type: 'FETCH_DATA_ATTEMPT' })
-  SharedFunction('/deliveryMan/parcel?page='+pageNumber, 'GET').then((response) => {
-   
-    const type = response.current_page ===1 ?'FETCH_PARCEL' :'FETCH_MORE_PARCELS'
+  SharedFunction('/deliveryMan/parcel?status='+status+'&page='+pageNumber,  'GET').then((response) => {
+    const type = response.current_page ===1 ?'FETCH_TAKEN_PARCEL' :'FETCH_MORE_TAKEN_PARCELS'
     dispatch({
       type: type, payload: {
         items: response.data, 
@@ -90,8 +98,6 @@ export const fetsh_DeliveryMan_Parcel = (status,pageNumber) => dispatch => {
         last_page : response.last_page
       }
     })
-   
-  
 }).catch((err) => {
   console.log("error d= "+ err ); })
 };

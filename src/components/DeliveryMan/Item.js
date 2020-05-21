@@ -28,12 +28,14 @@ class Item extends Component {
                     <View style={{ flex: 1, flexDirection: 'column' }}>
                         <View style={{ flexDirection: 'row' }} >
                             <Text style={change}>  </Text>
-                            <Text>{this.props.item.status.toString() === '1' ? 'en cours' : this.props.item.status.toString() === '2' ? 'livré' : this.props.item.status.toString() === '3' ? 'a rammaser' : 'en attente'}</Text>
+                            <Text>{this.props.item.status.toString() === '1' ? 'en cours' : this.props.item.status.toString() === '2' ? 'livré' : 
+                            this.props.item.status.toString() === '3' ? 'réserver' :
+                             'en attente'}</Text>
                         </View>
-                        <CheckBox
+                     { this.props.item.status.toString() === '0'?  <CheckBox
                              checked={this.state.checked == this.props.item.status.toString()}
                              onPress={() => this.setState({checked:this.props.item.status.toString()},()=>this.props.choseParcel(this.props.item.id))}
-                        />
+                        />: null}
                     </View>
                     <View style={{ flex: 3, alignSelf: 'stretch', }} >
                         <View style={{ justifyContent: 'flex-end', flexDirection: 'row', paddingRight: 20, alignSelf: 'stretch', }} >

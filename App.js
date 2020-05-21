@@ -29,6 +29,22 @@ import Header from './src/components/header';
 const Stack = createStackNavigator();
 
 
+function getHeaderTitle_DeliveryMan(route) {
+  const routeName = route.state
+    ? route.state.routes[route.state.index].name
+    : route.params?.screen || 'Home';
+
+  switch (routeName) {
+    case 'Home':
+      return 'Liste des colis';
+    case 'UserParcel':
+      return "Vos colis";
+    case 'Profil':
+      return 'Profil';
+    case 'chat':
+      return 'chat';
+  }
+}
 function getHeaderTitle(route) {
   const routeName = route.state
     ? route.state.routes[route.state.index].name
@@ -68,7 +84,7 @@ function App() {
           <Stack.Screen name="MainDeliveryMan" component={startMainTabForDeliveryMan}
             options={({ route, }) => ({
               headerTitleAlign: 'center',
-              headerLeft: null, title: getHeaderTitle(route)
+              headerLeft: null, title: getHeaderTitle_DeliveryMan(route)
               , headerTitleStyle: { color: 'white', fontSize: 25, }, headerBackground: () => (<Header />), headerStyle: { height: 49 }
             })} />
 

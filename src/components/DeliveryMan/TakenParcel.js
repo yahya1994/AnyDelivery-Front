@@ -1,16 +1,30 @@
 import React, { Component } from 'react';
 import { TouchableOpacity, View, Text, Alert, Button } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { Overlay, CheckBox } from 'react-native-elements'; 
-import {InputText} from '../Shared';
+import { Overlay, CheckBox } from 'react-native-elements';
+import { InputText } from '../Shared';
+import { Input } from 'react-native-elements';
+import { connect } from 'react-redux';
+import { parcelDone, } from '../../redux/actions';
+
+
+
 class TakenParcel extends Component {
     constructor() {
         super();
         this.state = {
-            visible: false, visible1: false, visibleScanner: false, QRcheck: null
+            visible: false, visible1: false, visibleScanner: false, QRcheck: null, comfirmationCode: ''
         }
     }
 
+
+
+    ParcelDone = async (id) => {
+        await this.props.parcelDone(id);
+         this.OverlayExample1();
+        this.props.refresh();
+
+    }
     QrCheck = (res) => {
         this.setState({ QRcheck: res })
     }
@@ -48,10 +62,10 @@ class TakenParcel extends Component {
                             <Text style={change}>  </Text>
                             <Text>{this.props.item.status.toString() === '1' ? 'en cours'
                                 : this.props.item.status.toString() === '2' ? 'livré'
-                                    : this.props.item.status.toString() === '3' ? 'a rammaser'
+                                    : this.props.item.status.toString() === '3' ? 'réserver'
                                         : 'en attente'}</Text>
                         </View>
-                        {this.props.item.status === 3 ?
+                        {this.props.item.status === 1 ?
                             <View style={{ width: "50%", marginTop: "20%" }}>
                                 <TouchableOpacity onPress={this.toggleOverlay1}  >
                                     <Icon name="users" color='#007a' size={35} />
@@ -62,23 +76,34 @@ class TakenParcel extends Component {
                                         }}
                                         isVisible={this.state.visible1}
                                         onBackdropPress={this.OverlayExample1}>
-                                        <Text style={{ paddingLeft:15, fontSize:20}} > code de comfirmation pour valider la livraison  </Text>
-                                        <InputText  
-                                           placeholder='Code de comfirmation'
-                                           value={this.state.email}
-                                           onChangeText={text => this.setState({ email: (text) })}
-                                        /> 
-                                    
-                                        <TouchableOpacity style={{ alignSelf: 'center' }} onPress={this.toggleScanner}  >
-                                            <Text style={{
-                                                alignSelf: 'center',
-                                                color: 'white', backgroundColor: '#007aff',
-                                                fontSize: 30, borderRadius: 20, paddingLeft: 30, paddingRight: 30
-                                            }}>  Valider </Text>
-                                        </TouchableOpacity> 
-                                    </Overlay> 
+                                        <Text style={{ paddingLeft: 15, fontSize: 20 }} > code de comfirmation pour valider la livraison  </Text>
+                                        <InputText
+                                            placeholder='Code de comfirmation'
+                                            value={this.state.comfirmationCode}
+                                            onChangeText={text => this.setState({ comfirmationCode: (text) })}
+                                        />
+
+                                        {this.state.comfirmationCode.toString() == ''.concat(this.props.item.Client['0'].id).concat(this.props.item.DeliveryMan['0'].id) ?
+                                            <TouchableOpacity style={{ alignSelf: 'center' }}
+
+                                                onPress={() => { this.ParcelDone(this.props.item.id) }} >
+                                                <Text style={{
+                                                    alignSelf: 'center',
+                                                    color: 'white', backgroundColor: '#007aff',
+                                                    fontSize: 30, borderRadius: 20, paddingLeft: 30, paddingRight: 30
+                                                }}>  Valider </Text>
+                                            </TouchableOpacity> :
+                                            <TouchableOpacity disabled={true} style={{ alignSelf: 'center' }} onPress={() => console.log('rrrr')} >
+                                                <Text style={{
+                                                    opacity: 0.5,
+                                                    alignSelf: 'center',
+                                                    color: 'white', backgroundColor: '#007aff',
+                                                    fontSize: 30, borderRadius: 20, paddingLeft: 30, paddingRight: 30
+                                                }}>  Valider </Text>
+                                            </TouchableOpacity>}
+                                    </Overlay>
                                 </TouchableOpacity   >
-                              
+
                             </View> : null}
                     </View>
                     <View style={{ flex: 3, alignSelf: 'stretch', }} >
@@ -145,4 +170,8 @@ const styles = {
         width: '13%', height: '10%'
     }
 };
-export default TakenParcel;
+const mapStateToProps = state => {
+    return { Parcels: state.parcel };
+};
+
+export default connect(mapStateToProps, { parcelDone, })(TakenParcel);

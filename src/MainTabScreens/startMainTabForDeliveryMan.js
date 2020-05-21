@@ -9,7 +9,7 @@ import UserProfil from '../screens/UserProfil';
 import CreateParcels from '../screens/CreateParcels';
 import TakenParcelList from '../screens/DeliveryMan/TakenParcelList';
  
-const Tab = createBottomTabNavigator();
+const Tab = createBottomTabNavigator(); 
 
 const DeliveryManTabs = () => {
   return (
@@ -32,7 +32,7 @@ const DeliveryManTabs = () => {
         }}
       />
         <Tab.Screen
-        name="chats"
+        name="UserParcel"
         component={TakenParcelList}
         options={{
          

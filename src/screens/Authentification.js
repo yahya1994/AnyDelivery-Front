@@ -62,7 +62,7 @@ class Authentification extends Component {
   constructor() {
     super();
     this.state = {
-   email:'ala@gmail.com',password:'ala'
+   email:'yahya@gmail.com',password:'yahya'
     };
     this.buttonOpacity = new Value(1);
      this.onStateChange = event([
@@ -129,6 +129,8 @@ class Authentification extends Component {
   SignUpHandler =()=>{
     this.props.navigation.navigate('Creér votre compte',{  } );
   }
+ 
+
   render() {
     console.log(this.state.email)
     return (

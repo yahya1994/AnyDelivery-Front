@@ -23,8 +23,8 @@ class Map extends Component {
         longitudeDelta: LONGITUDE_DELTA,
       },
       initialPosition: {
-        latitude: 35.6326151,
-        longitude: 10.9530144184827,
+        latitude: 0,
+        longitude: 0,
         latitudeDelta: 0.0922,
         longitudeDelta: LONGITUDE_DELTA,
       },
@@ -36,7 +36,15 @@ class Map extends Component {
     geolocation.clearWatch(this.watchID);
 
   }
-    componentDidMount() {
+     componentDidMount() {
+      /*let dest = {
+        latitude:this.props.route.params.item.starting_latitude,
+        longitude: this.props.route.params.item.starting_longitude,
+        latitudeDelta: LATITUDE_DELTA,
+        longitudeDelta: LONGITUDE_DELTA,
+      };
+       this.setState({ finalPosition: dest });*/
+       
      this.showMAP();
     this.watchID = geolocation.watchPosition((position) => {
       var lat = parseFloat(position.coords.latitude);
@@ -157,20 +165,16 @@ class Map extends Component {
 
     this.setState({ initialPosition: initialRegion, Marker: true })
     this.setState({ Marker: true })
-
-    console.log(this.state.initialPosition)
+ 
   }
 
-  render() {
+  render() { 
     let marker = null;
     let Initmarker = null;
     let Finalmarker = null;
-
     if (this.state.Marker) {
       marker = <MapView.Marker coordinate={this.state.initialPosition} />
     }
-    Initmarker = <MapView.Marker title={"yahya"} coordinate={this.state.initialPosition} />
-    Finalmarker = <MapView.Marker coordinate={this.state.finalPosition} />
 
     return (
       <View style={styles.container} >
@@ -184,8 +188,8 @@ class Map extends Component {
           region={this.state.initialPosition}
         >
           {marker}
-          {Initmarker}  
-          {Finalmarker}
+{    Initmarker = <MapView.Marker title={'yahya'} coordinate={this.state.initialPosition} />}
+   {  Finalmarker = <MapView.Marker  title={'test'} coordinate={this.state.finalPosition} />}
           <Polyline  strokeColor={'red'} strokeWidth={4} coordinates={this.state.points} />
 
         </MapView>

@@ -1,7 +1,6 @@
 import { View, Text, TextInput } from 'react-native';
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { retrieveData, fetshParcels } from '../redux/actions';
+import { connect } from 'react-redux'; 
 import Icon from 'react-native-vector-icons/FontAwesome';
 import QRCode from 'react-native-qrcode-svg';
 import { Overlay } from 'react-native-elements';
@@ -11,11 +10,7 @@ class ParcelDetails extends Component {
         visible: false
 
     }
-    componentDidMount() {
-        // let aaa = await this.retrieveToken();
-        // console.log('token  = '+aaa);
-        this.props.fetshParcels();
-    }
+   
     close = () => {
         this.setState({ visible: false });
     }
@@ -46,14 +41,13 @@ class ParcelDetails extends Component {
                 <View style={{ flex: 3, width: "95%", alignSelf: 'center', borderWidth: 1, backgroundColor: 'white', borderColor: '#007aff' }} >
                     <View style={{ backgroundColor: 'white', justifyContent: 'space-around', flexDirection: 'row', }}>
                         <Text style={{ color: 'green', fontSize: 20, padding: 2, }} >Code Qr</Text>
-                        <Overlay overlayStyle={{ width: '90%', height: '70%', borderRadius: 80, flexDirection: 'column' }}
+                      { this.props.route.params.item.status != 0 ?  <Overlay overlayStyle={{ width: '90%', height: '70%', borderRadius: 80, flexDirection: 'column' }}
                             isVisible={this.state.visible}
                             onBackdropPress={this.close}>
                                 <View style={{ alignItems:'center',paddingTop:50 }}>
-                              
                             <QRCode   size={300} value={''.concat(this.props.route.params.item.id).concat(this.props.route.params.item.Client['0'].id).concat(this.props.route.params.item.DeliveryMan['0'].id)} />
                             </View>
-                        </Overlay>
+                        </Overlay>: null}
                         <Icon style={{ paddingRight: 12, paddingTop: 3 }} onPress={this.open} name="qrcode" color='black' size={45} />
                     </View>
 
@@ -94,4 +88,4 @@ class ParcelDetails extends Component {
 const mapStateToProps = state => {
     return { Parcels: state.parcel };
 };
-export default connect(mapStateToProps, { retrieveData, fetshParcels })(ParcelDetails);
+export default connect(mapStateToProps )(ParcelDetails);

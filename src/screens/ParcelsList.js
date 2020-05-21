@@ -112,7 +112,7 @@ class ParcelsList extends Component {
                     style={{ backgroundColor: '#EFFBFB', padding: 5 }}
                     data={this.props.Parcels.items}
                     renderItem={({ item }) => (
-                        <Item nav={this.props.navigation} item={item}  parcelReady={this.parcelReady}/>
+                        <Item nav={this.props.navigation} item={item} refresh={this._refresh}/>
                     )}
                     keyExtractor={item => item.id.toString()}
                     refreshControl={
