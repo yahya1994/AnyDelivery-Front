@@ -50,14 +50,14 @@ class Item extends Component {
                                     overlayStyle={{ width: '90%', height: '20%', borderRadius: 80, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}
                                     isVisible={this.state.visible}
                                     onBackdropPress={this.OverlayExample}>
-                                    <Icon
+                                     <Icon
                                         style={{ padding: 10 }} name="user" color='#007aff' size={65} />
                                     <View>
                                         <Text>votre livreur :</Text>
                                         <Text>{this.props.item.status.toString() !== '0' ? this.props.item.DeliveryMan['0'].name : ''}</Text>
                                     </View>
                                     <Icon style={{ padding: 10 }} name="phone-square" color='green' size={45} />
-                                    <Icon style={{ padding: 10 }} name="envelope-o" color='#007aff' size={45} />
+                                    <Icon onPress={() => this.props.nav.push('Chat',   {  idReceiver: this.props.item.Client['0'].id})} style={{ padding: 10 }} name="envelope-o" color='#007aff' size={45} />
                                 </Overlay>
                             </TouchableOpacity >
                             <TouchableOpacity onPress={() => this.props.nav.push('Map')}  >
@@ -97,5 +97,9 @@ const styles = {
         width: '13%', height: '10%'
     }
 };
+const mapStateToProps = state => {
+    return { auth: state.auth };
+};
+export default connect(mapStateToProps, {    ChoseParcel })(Item);
+ 
 
-export default connect(null, {    ChoseParcel })(Item);

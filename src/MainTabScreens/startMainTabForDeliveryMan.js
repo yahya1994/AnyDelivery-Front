@@ -6,6 +6,7 @@ import ParcelList_DM from '../screens/DeliveryMan/ParcelList_DM';
 import CreateParcelStepTwo from '../screens/CreateParcelStepTwo';
 import CreateParcel from '../screens/CreateParcel';
 import UserProfil from '../screens/UserProfil';
+import ConversationList from '../screens/ConversationList';
 import CreateParcels from '../screens/CreateParcels';
 import TakenParcelList from '../screens/DeliveryMan/TakenParcelList';
  
@@ -44,7 +45,7 @@ const DeliveryManTabs = () => {
       />
       <Tab.Screen
         name="chat"
-        component={CreateParcels}
+        component={ConversationList}
         options={{
          
           tabBarIcon: ({ color, size }) => (

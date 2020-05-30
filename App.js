@@ -19,6 +19,7 @@ import ParcelDetails from './src/screens/ParcelDetails';
 import CreateParcelStepTwo from './src/screens/CreateParcelStepTwo';
 import CreateParcelStepThree from './src/screens/CreateParcelStepThree';
 import GetAdresseFromMap from './src/screens/GetAdresseFromMap';
+import Chat from './src/screens/Chat';
 import Map from './src/screens/Map';
 import reducers from './src/redux/reducers';
 import { compose, createStore, applyMiddleware } from 'redux';
@@ -26,6 +27,7 @@ import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 
 import Header from './src/components/header';
+import CreateParcels from './src/screens/CreateParcels';
 const Stack = createStackNavigator();
 
 
@@ -88,7 +90,18 @@ function App() {
               , headerTitleStyle: { color: 'white', fontSize: 25, }, headerBackground: () => (<Header />), headerStyle: { height: 49 }
             })} />
 
+<Stack.Screen name="Chat" component={Chat}
+            options={{
+               title: 'chats',
+              cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+            }} />
 
+<Stack.Screen name="create parcel" component={CreateParcels}
+            options={{
+               title: "creation d'une colis", headerBackground: () => (<Header />
+                ), headerTitleStyle: { color: 'white', fontSize: 25, }
+            
+            }} />
 
           <Stack.Screen name="Main" component={startMainTab}
             options={({ route, }) => ({

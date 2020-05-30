@@ -7,6 +7,8 @@ import CreateParcelStepTwo from '../screens/CreateParcelStepTwo';
 import CreateParcel from '../screens/CreateParcel';
 import UserProfil from '../screens/UserProfil';
 import CreateParcels from '../screens/CreateParcels';
+import Chat from '../screens/Chat';
+import ConversationList from '../screens/ConversationList';
  
 const Tab = createBottomTabNavigator();
 
@@ -41,13 +43,13 @@ const Tabs = () => {
       />
       <Tab.Screen
         name="chat"
-        component={CreateParcels}
+        component={ConversationList}
         options={{
          
           tabBarIcon: ({ color, size }) => (
             <Icon name='comments-o' color={color} size={30} /> 
           ), 
-        } 
+        }  
       } 
       />
       <Tab.Screen
