@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import {  Input   } from 'react-native-elements';
 
-const InputText =({  renderErrorMessage,errorStyle,errorMessage,value,onChangeText,placeholder,secureTextEntry })=>{
+const InputText =({ disable,color, renderErrorMessage,errorStyle,errorMessage,value,onChangeText,placeholder,secureTextEntry })=>{
  
      return(
         <Input
+        disabledInputStyle={{color:'black',opacity:1}} 
+        disabled={disable== true ?true : false}
         renderErrorMessage={ renderErrorMessage}
         errorMessage={errorMessage}
         errorStyle={errorStyle}
@@ -12,7 +14,7 @@ const InputText =({  renderErrorMessage,errorStyle,errorMessage,value,onChangeTe
         inputContainerStyle={{borderBottomWidth: 0   }}
             containerStyle={{   borderWidth: 2, 
               borderRadius: 20,
-            borderColor: '#007aff',
+            borderColor: color =='red' ? 'red': '#007aff',
             marginLeft: 5,
             height:55,
             marginRight: 5,
