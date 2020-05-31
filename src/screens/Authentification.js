@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import { View, Image, Text, StyleSheet, TextInput, TouchableOpacity, Dimensions, Alert, Button } from 'react-native';
 import Animated, { Easing } from 'react-native-reanimated';
 import { TapGestureHandler, State } from 'react-native-gesture-handler';
-import LinearGradient from 'react-native-linear-gradient';
-import { Login  } from '../redux/actions';
+import { Login, HideModal } from '../redux/actions';
 import { connect } from 'react-redux';
-import {InputText,Buttons} from '../components/Shared';
-
+import { InputText, Buttons } from '../components/Shared';
+import { Overlay } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import networkCheck from '../helpers/functions/networkCheck';
 const { width, height } = Dimensions.get('window');
 const {
   Value,
@@ -32,7 +33,7 @@ function runTiming(clock, value, dest) {
     position: new Value(0),
     time: new Value(0),
     frameTime: new Value(0),
-   
+
   };
 
   const config = {
@@ -62,10 +63,10 @@ class Authentification extends Component {
   constructor() {
     super();
     this.state = {
-   email:'yahya@gmail.com',password:'yahya'
+      email: 'yahya@gmail.com', password: 'yahya'
     };
     this.buttonOpacity = new Value(1);
-     this.onStateChange = event([
+    this.onStateChange = event([
       {
         nativeEvent: ({ state }) =>
           block([
@@ -76,13 +77,13 @@ class Authentification extends Component {
           ])
       }
     ]);
-    
+
     this.rotateCross = interpolate(this.buttonOpacity, {
       inputRange: [0, 1],
       outputRange: [0, 180],
       extrapolate: Extrapolate.CLAMP
     });
-    this.textInputZindex  = interpolate(this.buttonOpacity, {
+    this.textInputZindex = interpolate(this.buttonOpacity, {
       inputRange: [0, 1],
       outputRange: [1, -1],
       extrapolate: Extrapolate.CLAMP
@@ -126,20 +127,26 @@ class Authentification extends Component {
   handleChangePassword = (event) => {
     this.setState({ password: event.target.value });
   }
-  SignUpHandler =()=>{
-    this.props.navigation.navigate('Creér votre compte',{  } );
+  SignUpHandler = () => {
+    this.props.navigation.navigate('Creér votre compte', {});
   }
- 
 
+componentDidMount(){
+   networkCheck()
+}
   render() {
     console.log(this.state.email)
+  
     return (
       <View
         style={{
-          flex: 1, backgroundColor: 'white', justifyContent: 'flex-end'}} >
+          flex: 1, backgroundColor: 'white', justifyContent: 'flex-end'
+        }} >
+
         <Animated.View
           style={{
-            ...StyleSheet.absoluteFill,transform: [{ translateY: this.bgY }] }} >
+            ...StyleSheet.absoluteFill, transform: [{ translateY: this.bgY }]
+          }} >
           <Image
             source={require('../assets/img/login-image.jpg')}
             style={{ flex: 1, height: null, width: null }}
@@ -167,12 +174,12 @@ class Authentification extends Component {
             }}>
             <TapGestureHandler onHandlerStateChange={this.OnClose}>
               <Animated.View style={styles.closeBtn}>
-                <Animated.Text style={{fontSize: 30, transform: [{ rotate:this.rotateCross  }] }} >
-                   X
+                <Animated.Text style={{ fontSize: 30, transform: [{ rotate: this.rotateCross }] }} >
+                  X
                     </Animated.Text>
               </Animated.View>
             </TapGestureHandler>
-            <InputText 
+            <InputText
               placeholder='email'
               value={this.state.email}
               onChangeText={text => this.setState({ email: (text) })}
@@ -183,12 +190,24 @@ class Authentification extends Component {
               onChangeText={text => this.setState({ password: (text) })}
               secureTextEntry={true}
             />
-            <Buttons  width={'97%'}title='Login' loading={this.props.auth.loading} onPress={()=>this.props.Login(this.state.email,this.state.password,this.props.navigation
-                )}/>
-             
-            <Text style={{  alignSelf: 'center',}} >vous n'avez pas un compte ?,</Text> 
-            <Text onPress={()=>this.props.navigation.navigate("Creér votre compte") } style={  styles.textStyleNewAcount} >creer votre compte </Text>
+            <Buttons width={'97%'} title='Login' loading={this.props.auth.loading} onPress={() => this.props.Login(this.state.email, this.state.password, this.props.navigation
+            )} />
+
+            <Text style={{ alignSelf: 'center', }} >vous n'avez pas un compte ?,</Text>
+            <Text onPress={() => this.props.navigation.navigate("Creér votre compte")} style={styles.textStyleNewAcount} >creer votre compte </Text>
           </Animated.View>
+          <Overlay
+            overlayStyle={{
+              width: '90%', height: '20%', borderRadius: 20,
+              flexDirection: 'column', justifyContent: "flex-start", alignItems: 'center'
+            }}
+            isVisible={this.props.auth.modal}
+            onBackdropPress={() => this.props.HideModal()}>
+ <Text style={{ fontSize: 20 , color:'red',alignSelf:'flex-start',paddingLeft:'5%',marginBottom:"5%"  }} >erreur </Text>
+
+ <Text style={{ fontSize: 20,marginBottom:10 }} > {this.props.auth.message} </Text>
+          </Overlay>
+
         </View>
       </View>
     );
@@ -198,7 +217,7 @@ class Authentification extends Component {
 const mapStateToProps = state => {
   return { auth: state.auth };
 };
-export default connect(mapStateToProps, { Login  })(Authentification);
+export default connect(mapStateToProps, { HideModal, Login })(Authentification);
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -213,12 +232,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginVertical: 5
-  }, TextInputStyle: { 
+  }, TextInputStyle: {
     borderWidth: 2,
-     borderRadius: 50, 
-     borderColor: '#007aff',
+    borderRadius: 50,
+    borderColor: '#007aff',
     alignSelf: 'stretch',
-  
+
     marginLeft: 5,
     marginRight: 5,
     marginBottom: 15,
@@ -227,7 +246,7 @@ const styles = StyleSheet.create({
   },
   btnStyle: {
     alignSelf: 'stretch',
-    backgroundColor: '#007aff'  ,
+    backgroundColor: '#007aff',
     borderRadius: 5,
     borderWidth: 1,
     borderColor: '#007aff',
@@ -242,9 +261,9 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     paddingTop: 10,
     paddingBottom: 10
-  },  textStyleNewAcount: {
+  }, textStyleNewAcount: {
     alignSelf: 'center',
-    color:  '#007aff',
+    color: '#007aff',
     fontSize: 16,
     fontWeight: '600',
     paddingTop: 10,
@@ -262,4 +281,6 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 5, height: 5 },
     shadowColor: 'black',
     shadowOpacity: 2.2, borderWidth: 0.5,
-    borderColor: 'black', }});
+    borderColor: 'black',
+  }
+});

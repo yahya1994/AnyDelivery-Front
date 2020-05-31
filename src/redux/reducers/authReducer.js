@@ -1,7 +1,7 @@
 const INITIAL_STATE = {
     token: null, strToken: null,
     success: null, loading: null,
-    message: '', user: [],
+    message: '', user: [], modal: false
 };
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
@@ -10,9 +10,12 @@ export default (state = INITIAL_STATE, action) => {
 
         case 'SUCCESS':
             console.log(action.payload.user)
-            return { ...state, user: action.payload.user, success: action.payload.success, loading:false };
+            return { ...state, user: action.payload.user, success: action.payload.success, loading: false };
         case 'FAIL':
-            return { ...state, loading:false,success: action.payload.success, message: action.payload.message, modal: true };
+            return { ...state, loading: false, success: action.payload.success, message: action.payload.message, modal: true };
+        case 'HIDE_MODAL':
+            return { ...state, modal: false, message: '' };
+
         case 'AUTH_TOKEN':
             return { ...state, token: action.token };
         case 'LOGOUT':
@@ -21,7 +24,7 @@ export default (state = INITIAL_STATE, action) => {
             return { ...state, token: action.token };
         case 'GET_TOKEN':
             return { ...state, strToken: action.payload.token };
-        
+
         default: return state;
 
     }

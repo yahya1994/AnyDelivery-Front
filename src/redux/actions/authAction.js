@@ -16,7 +16,7 @@ export const me = () => dispatch => {
 
 export const Login = (email, password, nav) => dispatch => {
     dispatch({ type: 'DATA_ATTEMPT'})
-    axios.post('http://2130ece0.ngrok.io/api/user/login',
+    axios.post('http://e828ca511a3a.ngrok.io/api/user/login',
         { email, password })
         .then((response) => {
             if (response.data.role === 1) {
@@ -26,24 +26,23 @@ export const Login = (email, password, nav) => dispatch => {
                nav.navigate('Main');
                    dispatch({ type: 'SUCCESS', payload: { user:response.data.user, success : response.data.success }})
                  
-            }   
+            }    
             if (response.data.role === 2) {
                 storeData(response.data.token);
                 nav.navigate('MainDeliveryMan');
                 dispatch({ type: 'SUCCESS',  payload: { user:response.data.user, success : response.data.success }})      
            }
-            else {
-              
-                dispatch({ type: 'FAIL', payload: { message: "vous n'avez pas le droit pour acceder dans cette interface ", success: false } })
-
-            }
+           
         }, (err) => {
              console.log('xxxxxxxx')
             dispatch({ type: 'FAIL', payload: { message: err.response.data.message, success: err.response.data.success } })
 
         })
 };
- 
+export const HideModal =  () => dispatch=>{
+    dispatch({ type: 'HIDE_MODAL'  })
+    
+  };
 export const storeData = async (token) => {
     try {
       await AsyncStorage.setItem(
