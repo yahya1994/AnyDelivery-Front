@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { connect } from 'react-redux';
 import { parcelReady, fetshParcels } from '../redux/actions';
 import { InputText,Buttons } from '../components/Shared';
+import networkCheck from '../helpers/functions/networkCheck';
 
 class ParcelsList extends Component {
     constructor() {
@@ -29,6 +30,7 @@ class ParcelsList extends Component {
     };
 
     componentDidMount() {
+   networkCheck()
         console.disableYellowBox = true;
 
         this.props.fetshParcels(this.state.status, this.state.currentPage);

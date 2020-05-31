@@ -3,6 +3,7 @@ import { View, StyleSheet, Dimensions, Alert, PermissionsAndroid, Button, TextIn
 import MapView, { Polyline } from 'react-native-maps';
 import geolocation from '@react-native-community/geolocation';
 import { getDistance } from 'geolib';
+import networkCheck from '../helpers/functions/networkCheck';
 
 const { width, height } = Dimensions.get('window')
 
@@ -44,6 +45,7 @@ class GetAdresseFromMap extends Component {
 
   }
   componentDidMount() {
+   networkCheck()
     this.showMAP();
 
     // this.watch();

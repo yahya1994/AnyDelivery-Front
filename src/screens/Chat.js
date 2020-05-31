@@ -6,6 +6,7 @@ import axios from 'axios';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { ScrollView } from 'react-native-gesture-handler';
 import { connect } from 'react-redux';
+import networkCheck from '../helpers/functions/networkCheck';
 
 class Chat extends React.Component {
 
@@ -74,6 +75,7 @@ class Chat extends React.Component {
         }
     }
     componentDidMount() {
+   networkCheck()
         this.FetshMessages();
         let rec = this.props.route.params.idReceiver;
         Pusher.logToConsole = true;

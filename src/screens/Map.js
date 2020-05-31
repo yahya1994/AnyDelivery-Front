@@ -37,6 +37,10 @@ class Map extends Component {
 
   }
      componentDidMount() {
+
+      networkCheck()
+
+
       /*let dest = {
         latitude:this.props.route.params.item.starting_latitude,
         longitude: this.props.route.params.item.starting_longitude,

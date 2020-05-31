@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { connect } from 'react-redux';
 import { parcelReady, fetshParcels } from '../redux/actions';
 import axios from 'axios';
+import networkCheck from '../helpers/functions/networkCheck';
 
 class ConversationList extends Component {
     state = {
@@ -25,6 +26,7 @@ class ConversationList extends Component {
 
    
     componentDidMount() {
+   networkCheck()
         this.FetshMessages();
     }
 

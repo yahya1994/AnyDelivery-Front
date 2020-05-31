@@ -7,6 +7,7 @@ import { Input, Overlay, ThemeProvider } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { connect } from 'react-redux';
 import { ChoseParcel, fetshParcels_DeliveryMan } from '../../redux/actions';
+import networkCheck from '../../helpers/functions/networkCheck';
 
 class ParcelsList_DM extends Component {
     state = {
@@ -25,6 +26,7 @@ class ParcelsList_DM extends Component {
         this._refresh();
     }
     componentDidMount() {
+        networkCheck()
         this.props.fetshParcels_DeliveryMan(this.state.status, this.state.currentPage);
     }
     _refresh = async () => {
@@ -51,6 +53,7 @@ class ParcelsList_DM extends Component {
 
         return (
             <View style={{ flex: 1, backgroundColor: '#EFFBFB' }}>
+                
                 <View style={{ flexDirection: 'row', backgroundColor: '#EFFBFB' }}>
                     <Input
                         placeholder={'rechercher..'}
