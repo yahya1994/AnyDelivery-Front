@@ -112,7 +112,7 @@ class GetAdresseFromMap extends Component {
 
     this.setState({ adresse: initialRegion, Marker: true })
     this.setState({ Marker: true })
-    console.log(this.state.adresse.latitude)
+    //console.log(this.state.adresse.latitude)
 
   } 
   render() {
@@ -147,7 +147,7 @@ class GetAdresseFromMap extends Component {
         </MapView>
        
         <Button
-          onPress={() => this.props.changeFunction(this.state.adresse.latitude, this.state.adresse.latitude)}
+          onPress={() => this.props.changeFunction(this.state.adresse.latitude, this.state.adresse.longitude)}
           title="       sauvgarder         "></Button>
       </View>
     );
