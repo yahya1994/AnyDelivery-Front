@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { TouchableOpacity, View, Text, Alert, Button } from 'react-native';
+import { TouchableOpacity, View, Text, Alert, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Overlay, CheckBox } from 'react-native-elements';
 import QrScanner from './QrScanner';
 import QRCode from 'react-native-qrcode-svg';
 import { connect } from 'react-redux';
-import { parcelReady, fetshParcels} from '../redux/actions';
+import { parcelReady, fetshParcels } from '../redux/actions';
 
 class Item extends Component {
     constructor() {
@@ -14,13 +14,13 @@ class Item extends Component {
             visible: false, visible1: false, visibleScanner: false, QRcheck: null
         }
     }
-    parcelReady=async(id)=>{
-       await this.props.parcelReady(id);
-       this.OverlayExample1();
+    parcelReady = async (id) => {
+        await this.props.parcelReady(id);
+        this.OverlayExample1();
         this.props.refresh();
     }
-  
-    
+
+
     QrCheck = (res) => {
         this.setState({ QRcheck: res })
     }
@@ -67,41 +67,32 @@ class Item extends Component {
                                     <Icon name="users" color='green' size={35} />
                                     <Overlay
                                         overlayStyle={{
-                                            width: '90%', height: '75%', borderRadius: 80,
+                                            width: '90%', height: '70%', borderRadius: 80,
                                             flexDirection: 'column', justifyContent: "space-around", alignItems: 'center'
                                         }}
                                         isVisible={this.state.visible1}
                                         onBackdropPress={this.OverlayExample1}>
-                                        <Text style={{ fontSize:20}} >votre livreur est  :  {this.props.item.status.toString() !== '0' ? this.props.item.DeliveryMan['0'].name : ''}</Text>
-                                        <QRCode size={280} value={''.concat(this.props.item.id).concat(this.props.item.Client['0'].id).concat(this.props.item.DeliveryMan['0'].id)} />
+                                        <Text style={{ fontSize: 20 }} >votre livreur est  :  {this.props.item.status.toString() !== '0' ? this.props.item.DeliveryMan['0'].name : ''}</Text>
+                                        <Image
+                                            source={require('../assets/img/me.jpg')}
+                                            style={{ borderRadius: 80, paddingTop: 20, height: '60%', width: "90%" }}
+                                        />
                                         <TouchableOpacity onPress={this.toggleScanner}  >
                                             <Text style={{ fontSize: 20, borderRadius: 20 }}>resultat de scanne
                                             :{this.state.QRcheck ? <Icon name="check-circle" color='green' size={35} />
                                                     : this.state.QRcheck == false ? <Icon name="times-circle" color='red' size={35} /> :
                                                         <Text style={{ backgroundColor: 'green', color: 'white', borderRadius: 20, }} >  Lancer    </Text>}  </Text>
                                         </TouchableOpacity>
-                                       { this.state.QRcheck ==true ? <TouchableOpacity  style={{ alignSelf: 'center' }} onPress={()=>this.parcelReady(this.props.item.id)} >
-                                            <Text style={{
-                                                alignSelf: 'center',
-                                                color: 'white', backgroundColor: '#007aff',
-                                                fontSize: 30, borderRadius: 20, paddingLeft: 30, paddingRight: 30
-                                            }}>  Valider </Text>
-                                        </TouchableOpacity>:
-                                        <TouchableOpacity disabled= { true } style={{ alignSelf: 'center' }} onPress={()=>console.log('rrrr')} >
-                                            <Text style={{
-                                                opacity:0.5,
-                                                alignSelf: 'center',
-                                                color: 'white', backgroundColor: '#007aff',
-                                                fontSize: 30, borderRadius: 20, paddingLeft: 30, paddingRight: 30
-                                            }}>  Valider </Text>
-                                        </TouchableOpacity>}
-                                    </Overlay>
+                                       
+                                    </Overlay> 
                                     <Overlay isVisible={this.state.visibleScanner}
                                         onBackdropPress={this.ScannerOverlay}>
-                                        <QrScanner check={this.state.QRcheck} 
-                                        close={this.ScannerOverlay} 
-                                        QrCheck={this.QrCheck} 
-                                        OperationID={''.concat(this.props.item.id).concat(this.props.item.Client['0'].id).concat(this.props.item.DeliveryMan['0'].id)} />
+                                        <QrScanner check={this.state.QRcheck}
+                                            close={this.ScannerOverlay}
+                                            QrCheck={this.QrCheck}
+                                            refresh={()=>this.props.refresh()}
+                                            id={this.props.item.id}
+                                            OperationID={''.concat(this.props.item.id).concat(this.props.item.Client['0'].id).concat(this.props.item.DeliveryMan['0'].id)} />
                                     </Overlay>
                                 </TouchableOpacity   >
                                 {2 > 0 && (
@@ -143,8 +134,8 @@ class Item extends Component {
                                         <Text>{this.props.item.status.toString() !== '0' ? this.props.item.DeliveryMan['0'].name : ''}</Text>
                                     </View>
                                     <Icon style={{ padding: 10 }} name="phone-square" color='green' size={45} />
-                                    <Icon onPress={() => this.props.nav.push('Chat',   {  idReceiver: this.props.item.Client['0'].id})} 
-                                    style={{ padding: 10 }} name="envelope-o" color='#007aff' size={45} />
+                                    <Icon onPress={() => this.props.nav.push('Chat', { idReceiver: this.props.item.Client['0'].id })}
+                                        style={{ padding: 10 }} name="envelope-o" color='#007aff' size={45} />
                                 </Overlay>
                             </TouchableOpacity >
                             <TouchableOpacity onPress={() => this.props.nav.navigate('Map', { item: this.props.item })}  >
@@ -190,4 +181,4 @@ const styles = {
 const mapStateToProps = state => {
     return { Parcels: state.parcel };
 };
-export default connect(mapStateToProps, {parcelReady,fetshParcels })(Item);
+export default connect(mapStateToProps, { parcelReady, fetshParcels })(Item);

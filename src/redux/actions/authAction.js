@@ -3,20 +3,10 @@ import { CLIENT_ROLE, ANYDELIVERY_BASE_URL } from '../../helpers/constants/const
 import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios'; 
 import {SharedFunction, } from '../../helpers/functions/functions'; 
-
-export const me = () => dispatch => {
-  
-        SharedFunction('/me','GET').then((response)=>
-        {console.log('user : '+response )
-          
-        }).catch ((err) => {
-          console.log(err);
-        }) 
-    }; 
-
+ 
 export const Login = (email, password, nav) => dispatch => {
     dispatch({ type: 'DATA_ATTEMPT'})
-    axios.post('http://e828ca511a3a.ngrok.io/api/user/login',
+    axios.post('http://7523694db5cb.ngrok.io/api/user/login',
         { email, password })
         .then((response) => {
             if (response.data.role === 1) {

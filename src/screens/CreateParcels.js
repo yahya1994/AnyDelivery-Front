@@ -48,8 +48,8 @@ class CreateParcels extends Component {
             destination_adresse: this.state.adresse_Destination,
             starting_longitude: this.state.long_Depart,
             starting_latitude: this.state.lat_Depart,
-            destination_longitude: this.state.lat_Destination,
-            destination_latitude: this.state.long_Destination
+            destination_longitude: this.state.long_Destination,
+            destination_latitude: this.state.lat_Destination
         }
         console.log(data);
         this.props.CreateParcel(data, this.props.navigation);
@@ -68,7 +68,7 @@ class CreateParcels extends Component {
     };
 
     render() {
- 
+ console.log('ggggg'+this.state.lat_Depart,this.state.long_Depart)
         return (
             <View style={{ flex: 1, backgroundColor: 'white', flexDirection: 'column' }}>
                 <ProgressSteps   >

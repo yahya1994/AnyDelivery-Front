@@ -32,15 +32,7 @@ const Tabs = () => {
           ),
         }}
       />
-      <Tab.Screen
-        name="creer"
-        component={CreateParcels}
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <Icon name='plus-square-o' color={color} size={30} />
-          ),
-        }}
-      />
+   
       <Tab.Screen
         name="chat"
         component={ConversationList}
@@ -96,6 +88,17 @@ const Tabs = () => {
       <Tab.Screen name="Creer" component={Home} />
       <Tab.Screen name="Profil" component={Home} />
     </Tab.Navigator>
+
+
+       <Tab.Screen
+        name="creer"
+        component={CreateParcels}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Icon name='plus-square-o' color={color} size={30} />
+          ),
+        }}
+      />
 */
   );
 }
