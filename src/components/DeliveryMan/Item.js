@@ -3,7 +3,7 @@ import { TouchableOpacity, View, Text, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Overlay ,CheckBox} from 'react-native-elements';
 import { connect } from 'react-redux';
-import {  ChoseParcel} from '../../redux/actions';
+import { HideModal, ChoseParcel} from '../../redux/actions';
 class Item extends Component {
     constructor() {
         super();
@@ -33,8 +33,9 @@ class Item extends Component {
                              'en attente'}</Text>
                         </View>
                      { this.props.item.status.toString() === '0'?  <CheckBox
-                             checked={this.state.checked == this.props.item.status.toString()}
-                             onPress={() => this.setState({checked:this.props.item.status.toString()},()=>this.props.choseParcel(this.props.item.id))}
+                            checked={this.props.Parcels.success } 
+                             onPress={() => this.setState({checked:this.props.item.status.toString()},
+                             ()=>this.props.choseParcel(this.props.item.id))}
                         />: null}
                     </View>
                     <View style={{ flex: 3, alignSelf: 'stretch', }} >
@@ -68,6 +69,17 @@ class Item extends Component {
                             </TouchableOpacity>
                         </View></View>
                 </View>
+                <Overlay
+                    overlayStyle={{
+                        width: '90%', height: '20%', borderRadius: 20,
+                        flexDirection: 'column', justifyContent: "flex-start", alignItems: 'center'
+                    }}
+                    isVisible={this.props.Parcels.modal}
+                    onBackdropPress={() => this.props.HideModal()}>
+                    <Text style={{ fontSize: 20, color: 'red', alignSelf: 'flex-start', paddingLeft: '5%', marginBottom: "5%" }} >erreur </Text>
+
+                    <Text style={{ fontSize: 20, marginBottom: 10, paddingLeft: '5%' }} > {this.props.Parcels.message} </Text>
+                </Overlay>
             </View>
 
         );
@@ -98,8 +110,8 @@ const styles = {
     }
 };
 const mapStateToProps = state => {
-    return { auth: state.auth };
+    return { auth: state.auth ,Parcels: state.parcel};
 };
-export default connect(mapStateToProps, {    ChoseParcel })(Item);
+export default connect(mapStateToProps, {  HideModal,  ChoseParcel })(Item);
  
 

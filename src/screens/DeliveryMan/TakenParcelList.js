@@ -13,7 +13,7 @@ import networkCheck from '../../helpers/functions/networkCheck';
 class TakenParcelList extends Component {
     state = {
         visible: false, Loading: true, status: '',
-        refreshing: null, currentPage: 1
+        refreshing: null, currentPage: 1,input:''
 
     }
 
@@ -23,21 +23,21 @@ class TakenParcelList extends Component {
     toggleOverlay = () => {
         this.setState({ visible: true });
     };
-
+ 
     componentDidMount() {
         networkCheck()
-        this.props.fetsh_DeliveryMan_Parcel(this.state.status, this.state.currentPage);
+        this.props.fetsh_DeliveryMan_Parcel(this.state.status,this.state.input, this.state.currentPage);
     }
-    _refresh = async () => {
-        this.setState({ refreshing: true, currentPage: 1 });
-        await this.props.fetsh_DeliveryMan_Parcel(this.state.status, this.state.currentPage)
-        this.setState({ refreshing: false })
-
+    _refresh =   () => {
+           this.setState({refreshing: true, input:'',currentPage: 1,status:''},
+        () => { this.props.fetsh_DeliveryMan_Parcel('', '',this.state.currentPage) }
+    );
+    this.setState({ refreshing: false })
     }
     LoadMore = () => {
-        if (this.state.currentPage < 2) {
+        if (this.state.currentPage < this.props.Parcels.Last_page) {
             this.setState({ currentPage: this.state.currentPage + 1 },
-                () => { this.props.fetsh_DeliveryMan_Parcel(this.state.status, this.state.currentPage) }
+                () => { this.props.fetsh_DeliveryMan_Parcel(this.state.status,this.state.input, this.state.currentPage) }
             );
         } else { this.setState({ Loading: false }) }
     }
@@ -56,6 +56,7 @@ class TakenParcelList extends Component {
                     <Input
                         placeholder={'rechercher..'}
                         inputContainerStyle={{ borderBottomWidth: 0 }}
+                        onChangeText={text => this.setState({ input: (text) })}
                         containerStyle={{
                             borderWidth: 2,
                             borderRadius: 20,
@@ -67,14 +68,17 @@ class TakenParcelList extends Component {
                             width: '85%',
                             backgroundColor: '#fff'
                         }}
-                        leftIcon={
+                        rightIcon={
                             <Icon.Button
-
+ 
                                 backgroundColor='white'
                                 name='search'
                                 size={20}
                                 color='grey'
-                                onPress={() => this.props.navigation.push('getAdresseFromMap')}
+                                onPress={() =>
+                                    this.setState({ currentPage: 1,status:'' },
+                        () => {   this.props.fetsh_DeliveryMan_Parcel('', this.state.input,1)}
+                                     ) }  
                             />
                         }
                     /><Icon style={{ alignItems: 'center', alignSelf: 'center' }}
@@ -85,28 +89,32 @@ class TakenParcelList extends Component {
                         onPress={this.toggleOverlay}
                     />
                     <Overlay
-                        overlayStyle={{ width: '90%', height: '18%', borderRadius: 80, flexDirection: 'column' }}
+                        overlayStyle={{ width: '90%', height: '25%', borderRadius: 40, flexDirection: 'column' }}
                         isVisible={this.state.visible}
                         onBackdropPress={this.OverlayExample}>
-                        <Text style={{ alignSelf: 'center' }}>filter selon le status :</Text>
-                        <View style={{ flex: 1, flexDirection: 'row', padding: 20, justifyContent: 'space-between' }}>
-                            <TouchableOpacity onPress={() => { this.setState({ currentPage: 1 }, this.props.fetsh_DeliveryMan_Parcel(0, 1)) }} >
-                                <Icon name="circle" color='red' size={25} />
-                            </TouchableOpacity  >
-                            <Text>en attente </Text>
-
-                            <TouchableOpacity onPress={() => { this.setState({ currentPage: 1 }, this.props.fetsh_DeliveryMan_Parcel(2, this.state.currentPage)) }}>
-                                <Icon style={{ paddingLeft: 15 }} name="circle" color='green' size={25} />
-                            </TouchableOpacity  >
-
-                            <Text>livré </Text>
-                            <TouchableOpacity onPress={() => { this.setState({ currentPage: 1 }, this.props.fetsh_DeliveryMan_Parcel(1, 1)) }} >
-                                <Icon style={{ paddingLeft: 15 }} name="circle" color='yellow' size={25} />
-                            </TouchableOpacity  >
-
-                            <Text>en cours </Text>
+                        <Text style={{ alignSelf: 'center',paddingBottom:'5%' }}>filter selon le status :</Text>
+                        <View style={{ flex: 1, flexDirection: 'column', padding: 3, }}>
+                            <View style={{ flex: 1, flexDirection: 'row' , justifyContent: 'space-between' }}>
+                                <TouchableOpacity onPress={() => { this.setState({currentPage: 1 , input:'', status:0 }, this.props.fetsh_DeliveryMan_Parcel(0,this.state.input,1)) }} >
+                                    <Icon name="circle" color='red' size={25} />
+                                </TouchableOpacity  >
+                                <TouchableOpacity onPress={() => { this.setState({currentPage: 1 , input:'', status:3 }, this.props.fetsh_DeliveryMan_Parcel(3,this.state.input,1)) }}>
+                                    <Icon style={{ paddingLeft: 15 }} name="circle" color='orange' size={25} />
+                                </TouchableOpacity  >
+                                <TouchableOpacity onPress={() => { this.setState({currentPage: 1 , input:'', status:1 }, this.props.fetsh_DeliveryMan_Parcel(1,this.state.input,1)) }} >
+                                    <Icon style={{ paddingLeft: 15 }} name="circle" color='yellow' size={25} />
+                                </TouchableOpacity  >
+                                <TouchableOpacity onPress={() => { this.setState({currentPage: 1 , input:'', status:2}, this.props.fetsh_DeliveryMan_Parcel(2,this.state.input,1)) }} >
+                                    <Icon style={{ paddingLeft: 15 }} name="circle" color='green' size={25} />
+                                </TouchableOpacity  >
+                            </View>
+                            <View style={{ flex: 1, flexDirection: 'row' , justifyContent: 'space-between' }}>
+                                <Text>en attente </Text>
+                                <Text>Reservé </Text>
+                                <Text>en cours </Text>
+                                <Text>livré </Text>
+                            </View>
                         </View>
-
                     </Overlay>
                 </View>
                 <FlatList
@@ -120,9 +128,9 @@ class TakenParcelList extends Component {
                         <RefreshControl refreshing={this.state.refreshing}
                             onRefresh={this._refresh} />
                     }
-
+                    onEndReachedThreshold ={0.4}
                     ListFooterComponent={this.renderFooter}
-                //   onEndReached={this.LoadMore}
+                   onEndReached={this.LoadMore}
                 />
             </View>
         );

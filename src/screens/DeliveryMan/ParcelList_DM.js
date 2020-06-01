@@ -12,7 +12,7 @@ import networkCheck from '../../helpers/functions/networkCheck';
 class ParcelsList_DM extends Component {
     state = {
         visible: false, Loading: true, status: '',
-        refreshing: null, currentPage: 1
+        refreshing: null, currentPage: 1,input:'',
 
     }
     OverlayExample = () => {
@@ -57,6 +57,7 @@ class ParcelsList_DM extends Component {
                 <View style={{ flexDirection: 'row', backgroundColor: '#EFFBFB' }}>
                     <Input
                         placeholder={'rechercher..'}
+                        onChangeText={text => this.setState({ input: (text) })}
                         inputContainerStyle={{ borderBottomWidth: 0 }}
                         containerStyle={{
                             borderWidth: 2,
@@ -69,16 +70,19 @@ class ParcelsList_DM extends Component {
                             width: '85%',
                             backgroundColor: '#fff'
                         }}
-                        leftIcon={
+                        rightIcon={
                             <Icon.Button
-
-                                backgroundColor='white'
-                                name='search'
-                                size={20}
-                                color='grey'
-                                onPress={() => this.props.navigation.push('getAdresseFromMap')}
-                            />
-                        }
+ 
+                            backgroundColor='white'
+                            name='search'
+                            size={20}
+                            color='grey'
+                            onPress={() =>
+                                this.setState({ currentPage: 1 },
+                    () => {   this.props.fetshParcels_DeliveryMan( this.state.input,1)}
+                                 ) }  
+                        />
+                    }
                     /><Icon style={{ alignItems: 'center', alignSelf: 'center' }}
                         backgroundColor='white'
                         name='filter'
@@ -122,7 +126,7 @@ class ParcelsList_DM extends Component {
                         <RefreshControl refreshing={this.state.refreshing}
                             onRefresh={this._refresh} />
                     }
-
+                    onEndReachedThreshold ={0.4}
                     ListFooterComponent={this.renderFooter}
                     onEndReached={this.LoadMore}
                 />

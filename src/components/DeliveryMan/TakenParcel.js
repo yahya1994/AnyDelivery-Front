@@ -82,8 +82,6 @@ class TakenParcel extends Component {
                                             value={this.state.comfirmationCode}
                                             onChangeText={text => this.setState({ comfirmationCode: (text) })}
                                         />
-
-                                        {this.state.comfirmationCode.toString() == ''.concat(this.props.item.Client['0'].id).concat(this.props.item.DeliveryMan['0'].id) ?
                                             <TouchableOpacity style={{ alignSelf: 'center' }}
 
                                                 onPress={() => { this.ParcelDone(this.props.item.id) }} >
@@ -92,15 +90,8 @@ class TakenParcel extends Component {
                                                     color: 'white', backgroundColor: '#007aff',
                                                     fontSize: 30, borderRadius: 20, paddingLeft: 30, paddingRight: 30
                                                 }}>  Valider </Text>
-                                            </TouchableOpacity> :
-                                            <TouchableOpacity disabled={true} style={{ alignSelf: 'center' }} onPress={() => console.log('rrrr')} >
-                                                <Text style={{
-                                                    opacity: 0.5,
-                                                    alignSelf: 'center',
-                                                    color: 'white', backgroundColor: '#007aff',
-                                                    fontSize: 30, borderRadius: 20, paddingLeft: 30, paddingRight: 30
-                                                }}>  Valider </Text>
-                                            </TouchableOpacity>}
+                                            </TouchableOpacity> 
+                                         
                                     </Overlay>
                                 </TouchableOpacity   >
 
