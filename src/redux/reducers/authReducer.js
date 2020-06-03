@@ -15,9 +15,11 @@ export default (state = INITIAL_STATE, action) => {
             return { ...state, loading: false, success: action.payload.success, message: action.payload.message, modal: true };
         case 'HIDE_MODAL':
             return { ...state, modal: false, message: '' };
-
         case 'AUTH_TOKEN':
             return { ...state, token: action.token };
+
+        case 'REGISTERATION':
+            return { ...state, loading: false };
         case 'LOGOUT':
             return { ...state };
         case 'SET_TOKEN':

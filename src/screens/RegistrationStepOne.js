@@ -2,37 +2,50 @@ import React, { Component } from 'react';
 import { View, TextInput, StyleSheet,   } from 'react-native';
 import { Input, Button ,ThemeProvider} from 'react-native-elements';
 import {Buttons , InputText} from'../components/Shared'; 
+import { ScrollView } from 'react-native-gesture-handler';
 
  
 class RegistrationStepOne  extends Component {
     constructor() {
         super();
         this.state = {
-            s: 'ssssssssss',
+            name: '',email :'',password:'',phone_number:''
         };
     }
     render() {
-        return (
+        return (  
+             
+
             <View style={styles.container}>
-                <TextInput style={styles.InputText}
+                <InputText style={styles.InputText}
                     placeholder='Nom et prenom'
+                    onChangeText={text =>
+                        this.setState({ name: (text) })}
                 />
-                <TextInput style={styles.InputText}
+                <InputText style={styles.InputText}
                     placeholder='Email'
-                /><TextInput style={styles.InputText}
+                    onChangeText={text =>
+                        this.setState({ email: (text) })}
+                /><InputText style={styles.InputText}
                     placeholder='Mot de passe '
+                    onChangeText={text =>
+                        this.setState({ password: (text) })}
                 />
-                <TextInput style={styles.InputText}
+                <InputText style={styles.InputText}
                     placeholder='Confirmez le mot de passe'
-                />
+                    onChangeText={text =>
+                        this.setState({ password: (text) })}
+                />  
+                <InputText
+                placeholder='Numero de Télephone'   onChangeText={text =>
+                    this.setState({ phone_number: (text) })}/>
                  <Buttons 
-                 width='20%'
+                 width='40%'
                        title='Suivant'
                         onPress={() => this.props.navigation.push('Creér votre compte2', 
-                    { ss: "this.state.s" })}
+                    {  name:this.state.name,email:this.state.email,password:this.state.password,phone_number:this.state.phone_number })}
                     /> 
- 
-                </View> 
+           </View> 
 
 
         );
@@ -43,7 +56,6 @@ const styles = StyleSheet.create({
         paddingTop: Platform.OS === 'ios' ? 60 : 60,
         flex: 1,
         justifyContent: 'space-around',
-        alignItems: 'center',
         backgroundColor: 'white'
     }, InputContainer: {
         width: '80%'
