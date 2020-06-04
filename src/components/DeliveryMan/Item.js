@@ -61,7 +61,7 @@ class Item extends Component {
                                     <Icon onPress={() => this.props.nav.push('Chat',   {  idReceiver: this.props.item.Client['0'].id})} style={{ padding: 10 }} name="envelope-o" color='#007aff' size={45} />
                                 </Overlay>
                             </TouchableOpacity >
-                            <TouchableOpacity onPress={() => this.props.nav.push('Map')}  >
+                            <TouchableOpacity onPress={() => this.props.nav.push('Map', { item: this.props.item, DeliveryMan: this.props.item.DeliveryMan['0'], Client: this.props.item.Client['0'] })}  >
                                 <Icon style={{ padding: 10 }} name="map-marker" color='#007aff' size={35} />
                             </TouchableOpacity>
                             <TouchableOpacity onPress={() => this.props.nav.push('ParcelDetails', { item: this.props.item, user: this.props.item.Client['0'] })}  >

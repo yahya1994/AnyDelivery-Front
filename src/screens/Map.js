@@ -3,7 +3,9 @@ import { View, StyleSheet, Dimensions, Alert, PermissionsAndroid, Button,   } fr
 import MapView, { Polyline } from 'react-native-maps';
 import geolocation from '@react-native-community/geolocation';
 import networkCheck from '../helpers/functions/networkCheck';
-
+import axios from 'axios';
+import Pusher from 'pusher-js/react-native';
+import { connect } from 'react-redux';
 const { width, height } = Dimensions.get('window')
 
 const SCREEN_HEIGHT = height
@@ -15,17 +17,22 @@ class Map extends Component {
   constructor() {
     super();
     this.state = {
-      points: [
-      ],
+      points: [],
       finalPosition: {
         latitude: 35.6326110,
         longitude: 10.95301441848278,
         latitudeDelta: 0.0922,
         longitudeDelta: LONGITUDE_DELTA,
       },
-      initialPosition: {
+      DeliveryManPosition: {
         latitude: 0,
         longitude: 0,
+        latitudeDelta: 0.0922,
+        longitudeDelta: LONGITUDE_DELTA,
+      },
+      initialPosition: {
+        latitude: 35.6326110,
+        longitude: 10.95301441848278,
         latitudeDelta: 0.0922,
         longitudeDelta: LONGITUDE_DELTA,
       }, DepartPosition: {
@@ -37,33 +44,42 @@ class Map extends Component {
       Marker: false
     }
   }
- 
-  componentWillUnmount() {
-    geolocation.clearWatch(this.watchID);
-
-  }
-     componentDidMount() {
-      networkCheck()
-      var dest = {
-        latitude:this.props.route.params.item.starting_latitude,
-        longitude:this.props.route.params.item.starting_longitude,
+ Tracking(){
+  Pusher.logToConsole = true;
+  var pusher = new Pusher('0c956035633c2f990d85', {
+      cluster: 'eu', forceTLS: true
+  });
+  let this2 = this
+  var channel = pusher.subscribe('my-channel');
+  channel.bind('my-event', function (data) {
+     //alert(JSON.stringify(data));
+      let points = this2.state.points;
+     // points.push(data.location);
+     if (this2.props.route.params.item.id == this2.props.route.params.item.id){
+      this2.setState(prevState => ({
+        points: [...prevState.points, {
+            id: data.location.id,
+            latitude:parseFloat( data.location.latitude),
+            longitude:parseFloat (data.location.longitude),
+            latitudeDelta: LATITUDE_DELTA,
+            longitudeDelta: LONGITUDE_DELTA,
+        }]
+       }) )
+       var initialRegion = {
+        latitude:parseFloat( data.location.latitude),
+        longitude:parseFloat (data.location.longitude),
+        latitudeDelta: LATITUDE_DELTA,
+        longitudeDelta: LONGITUDE_DELTA,
       };
-       this.setState({ finalPosition: dest });
-       var depart = {
-        latitude:this.props.route.params.item.destination_latitude,
-        longitude:this.props.route.params.item.destination_longitude,
-      };
-       this.setState({ DepartPosition: depart });
-     this.showMAP();
-    this.watchID = geolocation.watchPosition((position) => {
-      var lat = parseFloat(position.coords.latitude);
-      var long = parseFloat(position.coords.longitude);
-      var initialRegion = {
+       this2.setState({ DeliveryManPosition: initialRegion });}
+   /*
+     var deliveryManCurentLocation = {
         latitude: lat,
         longitude: long,
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA,
       };
+   
       var point = [];
       point.push({
         latitude: lat,
@@ -77,12 +93,71 @@ class Map extends Component {
           longitude: long,
         }]
       }))
+   ---------------
+      mess.push(data.message);
+      this2.setState(prevState => ({
+          message: [...prevState.message, {
+              _id: data.message.id,
+              text: data.message.content,
+              createdAt: new Date(),
+              user: {
+                  _id: data.message.user_id,
+                  name: 'React Native',
+                  avatar: 'https://placeimg.com/140/140/any',
+              },
+          }]
+         }) 
+      ) */} 
+  );
+ }
+  componentWillUnmount() {
+    geolocation.clearWatch(this.watchID);
+  }
+      componentDidMount() {
+      networkCheck()
+      var dest = {
+        latitude:parseFloat(this.props.route.params.item.starting_latitude) ,
+        longitude:parseFloat(this.props.route.params.item.starting_longitude)  ,
+      };
+          this.setState({ finalPosition: dest });
+       var depart = {
+        latitude:parseFloat(this.props.route.params.item.destination_latitude)  ,
+        longitude:parseFloat(this.props.route.params.item.destination_longitude),
+      };
+      this.setState({ DepartPosition: depart });
+      this.setState({ DeliveryManPosition: depart });
+      
 
-      console.log(this.state.points)
- 
-      this.setState({ initialPosition: initialRegion });
-      console.log(this.state.initialPosition.latitude);
-     
+   this.showMAP();
+    this.watchID = geolocation.watchPosition((position) => {
+      var lat = parseFloat(position.coords.latitude);
+      var long = parseFloat(position.coords.longitude);
+   
+      var initialRegion = {
+        latitude: lat,
+        longitude: long,
+        latitudeDelta: LATITUDE_DELTA,
+        longitudeDelta: LONGITUDE_DELTA,
+      };
+   
+     /* var point = [];
+      point.push({
+        latitude: lat,
+        longitude: long,
+
+      });
+
+      this.setState(prevState => ({
+        points: [...prevState.points, {
+          latitude: lat,
+          longitude: long,
+        }]
+      }))*/
+  if (this.props.auth.user.role == 2) { this.Send(long,lat) }
+         console.log("SendFct : "+this.state.points);
+  this.Tracking();
+
+     // this.setState({ initialPosition: initialRegion });
      // Alert.alert('done' + ' ' + this.state.initialPosition.latitude);
     }, error => { Alert.alert('Error', JSON.stringify(error)); } ,
     );
@@ -120,11 +195,23 @@ class Map extends Component {
   PermissionsGPS = () => {
     geolocation.requestAuthorization();
   }
-
-  showMAPs = () => {
+  Send = async (long,lat) => {
+    axios.post('http://086465303af3.ngrok.io/api/track',
+        { 
+          client_id:this.props.route.params.Client.id, 
+        delivery_man_id: 2, 
+        parcel_id: this.props.route.params.item.id,
+        longitude:long,
+        latitude:lat
+        })
+        .then((response) => {
+            console.log('succes : ' + response)
+            console.log('successssssssssssssssssssssssss :b3aaath ')
+        }) 
+}
+/*  showMAPs = () => {
     geolocation.watchPosition((position) => {
       var lat = parseFloat(position.coords.latitude);
-      console.log(lat + 'rrrrrrrrrrrrrrrr');
       Alert.alert('Error');
     }, error => { geolocation.requestAuthorization();}, {
       enableHighAccuracy: true,
@@ -134,7 +221,7 @@ class Map extends Component {
       distanceFilter: 1
     });
   }
-
+*/
   config=()=>{
     skipPermissionRequests = false;
 }
@@ -192,8 +279,8 @@ class Map extends Component {
     let Finalmarker = null;
     if (this.state.Marker) {
       marker = <MapView.Marker coordinate={this.state.finalPosition} />
-    }
-console.log('============'+this.props.route.params.item.starting_latitude)
+    } 
+
     return (
       <View style={styles.container} >
 
@@ -204,10 +291,10 @@ console.log('============'+this.props.route.params.item.starting_latitude)
           showsUserLocation
           region={this.state.initialPosition}
         > 
-          {marker}
-{    Initmarker = <MapView.Marker title={'yahya'} pinColor={'green'} description={ '1234 Foo Drive' } coordinate={this.state.initialPosition} />}
-{  Finalmarker = <MapView.Marker  title={'test'}  description={ '1234 Foo Drive' } coordinate={this.state.finalPosition} />}
-   {  Departmarker = <MapView.Marker  title={'yyy'}  description={ '1234 Foo Drive' } coordinate={this.state.DepartPosition} />}
+          {marker} 
+          {Initmarker = <MapView.Marker  title={this.props.route.params.DeliveryMan.name} pinColor={"green"} description={ '1234 Foo Drive' } coordinate={this.state.DeliveryManPosition  } />}
+          {Finalmarker = <MapView.Marker  title={this.props.route.params.item.Receiver_name}  description={ 'recepteur -- 1234 Foo Drive' } coordinate={this.state.finalPosition } />}
+          {Departmarker = <MapView.Marker  title={this.props.route.params.Client.name}  description={ 'emeteur -- 1234 Foo Drive' } coordinate={this.state.DepartPosition } />}
           <Polyline  strokeColor={'red'} strokeWidth={4} coordinates={this.state.points} />
 
         </MapView>
@@ -227,4 +314,7 @@ const styles = StyleSheet.create({
 
   }
 });
-export default Map;
+const mapStateToProps = state => {
+  return { auth: state.auth };
+};
+export default connect(mapStateToProps, null)(Map);
