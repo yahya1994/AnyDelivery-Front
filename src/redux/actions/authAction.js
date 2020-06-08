@@ -5,11 +5,11 @@ import axios from 'axios';
 import {SharedFunction, } from '../../helpers/functions/functions'; 
 import { Alert   } from 'react-native';
  
-export const Registration = (email,name,password,role,cin,phone_number,adresse,price_km,rapidity,Accepted,nav) => dispatch => {
+export const Registration = (data,nav) => dispatch => {
     dispatch({ type: 'DATA_ATTEMPT'})
-    axios.post('http://74fd7e377358.ngrok.io/api/user/register',
-    {email,name,password,role,cin,phone_number,adresse,price_km,rapidity,Accepted}).then((response) => {
-          console.log(response)
+    axios.post(ANYDELIVERY_BASE_URL+'/user/register',
+    data).then((response) => {
+          console.log(response.data)
           Alert.alert(
             "success",
             "Done",
@@ -26,7 +26,7 @@ export const Registration = (email,name,password,role,cin,phone_number,adresse,p
 };
 export const Login = (email, password, nav) => dispatch => {
     dispatch({ type: 'DATA_ATTEMPT'})
-    axios.post('http://89a17577d5bd.ngrok.io/api/user/login',
+    axios.post(ANYDELIVERY_BASE_URL+'/user/login',
         { email, password })
         .then((response) => {
             if (response.data.role === 1) {

@@ -21,52 +21,75 @@ class RegistrationSteptwo extends Component {
     constructor() {
         super();
         this.state = {
-            Image: null,file:null,adresse:'',CIN:0,   fileName: {
+            Image: null, file: null, adresse: '',type:'', CIN: 0, fileName: {
                 fileName: 'photo de CIN'
             }, size: { fileSize: 0 }
         };
     }
-    registration = ()=> {
-      //  let src =  "file://".concat(this.state.file['uri']);
-/*        let data = {
-            email: this.props.route.params.email,
-            name: this.props.route.params.name,
-            password: this.props.route.params.password, 
-            role: 1,
-            cin:this.state.CIN,
-            phone_number:  this.props.route.params.phone_number,
-            adresse: this.state.adresse,
-          //  identity_card_image: 'file:///C:/Users/rbinfo/Desktop/livreur.jpg',
-            price_km: 0,
-            rapidity: 0,
-            Accepted: 1,
-        }*/
-      /*  let formData = new FormData();
+    registration = () => {
+        //  let src =  "file://".concat(this.state.file['uri']);
+        /*        let data = {
+                    email: this.props.route.params.email,
+                    name: this.props.route.params.name,
+                    password: this.props.route.params.password, 
+                    role: 1,
+                    cin:this.state.CIN,
+                    phone_number:  this.props.route.params.phone_number,
+                    adresse: this.state.adresse,
+                  //  identity_card_image: 'file:///C:/Users/rbinfo/Desktop/livreur.jpg',
+                    price_km: 0,
+                    rapidity: 0,
+                    Accepted: 1,
+                }*/
+
+        var data = new FormData();
+        var image = {
+            uri: this.state.Image.toString(),
+            name: this.state.fileName.toString(),
+            type: this.state.type.toString()
+        };
+
+
+
+  /*      let formData = new FormData();
         formData.append('file', this.state.file.uri);
         var data = new FormData();
 
         data.append('identity_card_image', {
-          uri:  this.state.file.uri
-        });*/
-    
-           let email= "monji@gmail.com";
-           let name= "monji";
-           let password= "monji"; 
-            let role= '1';
-           let cin= 124242;
-           let phone_number=  '4444';
-           let adresse= 'teboulba';
-           let price_km= 0;
-           let rapidity= 0;
-           let Accepted= '1' ;
-      this.props.Registration(email,name,password,role,cin,phone_number,adresse,price_km,rapidity,Accepted, this.props.navigation);
+            uri: this.state.file.uri
+        });
+*/
+         data.append('email', 'ccc@gmail.com') ;
+         data.append('name', 'ccc');
+         data.append('password', 'ccc');
+         data.append('role', '1');
+         data.append('cin',666);
+         data.append('phone_number', '7777');
+         data.append('adresse', 'monji@gmail.com');
+         data.append('identity_card_image', image);
+         data.append('price_km', 0);
+         data.append('rapidity', 0);
+         data.append('Accepted', '1');
+
+       /* let name = "monji";
+        let password = "monji";
+        let role = '1';
+        let cin = 124242;
+        let phone_number = '4444';
+        let adresse = 'teboulba';
+        let identity_card_image = data;
+        let price_km = 0;
+        let rapidity = 0;
+        let Accepted = '1';*/
+        console.log(data);
+        this.props.Registration(data, this.props.navigation);
     }
     componentDidMount() {
         networkCheck()
     }
     getImage = () => {
         ImagePicker.showImagePicker(options, (response) => {
-            console.log('Response = ', response.uri);
+            console.log('Response = ', response.type);
 
             if (response.didCancel) {
                 console.log('User cancelled image picker');
@@ -81,12 +104,14 @@ class RegistrationSteptwo extends Component {
                 const file = { uri: response.path };
                 const fileName = { fileName: response.fileName };
                 const FileSize = { fileSize: response.fileSize };
+                const type = { type: response.type };
 
                 this.setState({
                     Image: source,
                     fileName: fileName,
                     size: FileSize,
-                    file :file
+                    type:type,
+                    file: file
                 });
             }
         });
@@ -96,9 +121,9 @@ class RegistrationSteptwo extends Component {
         return (
             <View style={styles.container}>
                 <InputText placeholder='adresse' onChangeText={text =>
-                    this.setState({ adresse: (text) })}/>   
+                    this.setState({ adresse: (text) })} />
                 <InputText placeholder='Numero de Cin' onChangeText={text =>
-                    this.setState({ CIN:  (parseInt(text)) })}/> 
+                    this.setState({ CIN: (parseInt(text)) })} />
                 <Input
                     disabled
                     inputContainerStyle={{ borderBottomWidth: 0 }}
@@ -120,7 +145,7 @@ class RegistrationSteptwo extends Component {
                             name='upload'
                             size={24}
                             color='red'
-                            onPress={this.getImage}  /> }
+                            onPress={this.getImage} />}
                 />
                 <Image source={this.state.Image}
                     style={{
@@ -131,7 +156,7 @@ class RegistrationSteptwo extends Component {
                     width='70%'
                     title="Creer votre Compte"
                     loading={false}
-                    onPress={() =>this.registration()}
+                    onPress={() => this.registration()}
                 />
 
             </View>

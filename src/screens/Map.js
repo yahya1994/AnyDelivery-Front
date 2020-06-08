@@ -6,6 +6,7 @@ import networkCheck from '../helpers/functions/networkCheck';
 import axios from 'axios';
 import Pusher from 'pusher-js/react-native';
 import { connect } from 'react-redux';
+import{ANYDELIVERY_BASE_URL} from '../helpers/constants/constants';
 const { width, height } = Dimensions.get('window')
 
 const SCREEN_HEIGHT = height
@@ -196,7 +197,7 @@ class Map extends Component {
     geolocation.requestAuthorization();
   }
   Send = async (long,lat) => {
-    axios.post('http://086465303af3.ngrok.io/api/track',
+    axios.post(ANYDELIVERY_BASE_URL+'/track',
         { 
           client_id:this.props.route.params.Client.id, 
         delivery_man_id: 2, 

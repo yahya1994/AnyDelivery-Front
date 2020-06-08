@@ -7,6 +7,7 @@ import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { ScrollView } from 'react-native-gesture-handler';
 import { connect } from 'react-redux';
 import networkCheck from '../helpers/functions/networkCheck';
+import{ANYDELIVERY_BASE_URL} from '../helpers/constants/constants';
 
 class Chat extends React.Component {
 
@@ -39,7 +40,7 @@ class Chat extends React.Component {
         }))
     }
     Send = async (messages) => {
-        axios.post('http://6e49c2d55f30.ngrok.io/api/message',
+        axios.post(ANYDELIVERY_BASE_URL+'/message',
             { 
             content: messages['0'].text, 
             user_id: this.props.auth.user.id, 
@@ -51,7 +52,7 @@ class Chat extends React.Component {
             }) 
     }
     FetshMessages = async () => {
-        const response = await axios.get(`http://6e49c2d55f30.ngrok.io/api/message?id=${this.props.route.params.idReceiver}`);
+        const response = await axios.get(ANYDELIVERY_BASE_URL+`/message?id=${this.props.route.params.idReceiver}`);
         try {
             console.log(response.data);
             for (let dd of response.data) {

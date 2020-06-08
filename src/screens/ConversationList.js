@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import { parcelReady, fetshParcels } from '../redux/actions';
 import axios from 'axios';
 import networkCheck from '../helpers/functions/networkCheck';
+import{ANYDELIVERY_BASE_URL} from '../helpers/constants/constants';
 
 class ConversationList extends Component {
     state = {
@@ -15,7 +16,7 @@ class ConversationList extends Component {
 
     }
     FetshMessages = async () => {
-        const response = await axios.get('http://6e49c2d55f30.ngrok.io/api/des');
+        const response = await axios.get(ANYDELIVERY_BASE_URL+'/des');
         try {
               
             this.setState({ data: response.data })

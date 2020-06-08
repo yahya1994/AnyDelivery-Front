@@ -56,6 +56,8 @@ class ParcelDetails extends Component {
                         <Text style={{ color: '#007aff', padding: 2, }} >{this.props.route.params.item.date}</Text>
                     </View>
                     <Text style={{ color: '#007aff', marginLeft: 5, }} >description</Text>
+                    <Text></Text>
+                    <Text style={{ color: '#007aff', marginLeft: 5, }} >code comfirmation : 23</Text>
                     <TextInput
                         multiline={true}
                         numberOfLines={3}

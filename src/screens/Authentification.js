@@ -63,7 +63,7 @@ class Authentification extends Component {
   constructor() {
     super();
     this.state = {
-      email: 'yahya@gmail.com', password: 'yahya'
+      email: 'ala@gmail.com', password: 'ala'
     };
     this.buttonOpacity = new Value(1);
     this.onStateChange = event([
