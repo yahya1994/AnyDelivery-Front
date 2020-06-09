@@ -24,7 +24,6 @@ class ParcelDetails extends Component {
             <View style={{ backgroundColor: '#EFFBFB', flexDirection: 'column', flex: 1 }} >
                 <View style={{ backgroundColor: '#EFFBFB', flex: 1, justifyContent: 'center', flexDirection: 'row', alignItems: 'center', alignSelf: 'stretch', }} >
                     <Icon style={{ padding: 10 }} name="user" color='#007aff' size={65} />
-
                     <View style={{ alignItems: 'center', flex: 1, justifyContent: 'center', flexDirection: 'column' }} >
                         <Text   >{this.props.route.params.user.name}-{this.props.route.params.item.Receiver_name}{"\n"} </Text>
                         <View style={{ backgroundColor: 'white', borderWidth: 1, borderRadius: 20, padding: 15, borderColor: 'blue', flexDirection: 'row', }}>
@@ -33,22 +32,28 @@ class ParcelDetails extends Component {
                         </View>
                     </View>
                     <View style={{ justifyContent: 'center', flexDirection: 'column' }} >
-
+                    <View style={{ backgroundColor: '#EFFBFB', flexDirection: 'column', flex: 1   ,marginRight:'3%'}}>
+                    <Icon style={{   marginTop:'5%' , alignSelf:'center' }}  name="sticky-note-o" color='black' size={35} />
+                    <Text  >Reclammer</Text>
+                    </View>
 
 
                     </View>
                 </View>
                 <View style={{ flex: 3, width: "95%", alignSelf: 'center', borderWidth: 1, backgroundColor: 'white', borderColor: '#007aff' }} >
                     <View style={{ backgroundColor: 'white', justifyContent: 'space-around', flexDirection: 'row', }}>
-                        <Text style={{ color: 'green', fontSize: 20, padding: 2, }} >Code Qr</Text>
-                      { this.props.route.params.item.status != 0 ?  <Overlay overlayStyle={{ width: '90%', height: '70%', borderRadius: 80, flexDirection: 'column' }}
+                        
+                      { this.props.route.params.item.status != 0 ?  <Overlay overlayStyle={{ width: '90%', height: '70%', borderRadius: 30, flexDirection: 'column' }}
                             isVisible={this.state.visible}
                             onBackdropPress={this.close}>
                                 <View style={{ alignItems:'center',paddingTop:50 }}>
                             <QRCode   size={300} value={''.concat(this.props.route.params.item.id).concat(this.props.route.params.item.Client['0'].id).concat(this.props.route.params.item.DeliveryMan['0'].id)} />
                             </View>
                         </Overlay>: null}
-                        <Icon style={{ paddingRight: 12, paddingTop: 3 }} onPress={this.open} name="qrcode" color='black' size={45} />
+                        { this.props.route.params.item.status != 0 ? 
+                        <Text style={{ color: 'green', fontSize: 20, padding: 2, }} >Code Qr</Text>: null}
+                        { this.props.route.params.item.status != 0 ? 
+                        <Icon style={{ paddingRight: 12, paddingTop: 3 }} onPress={this.open} name="qrcode" color='black' size={45} /> : null}
                     </View>
 
                     <View style={{ backgroundColor: 'white', justifyContent: 'flex-start', flexDirection: 'row', }}>
@@ -57,7 +62,7 @@ class ParcelDetails extends Component {
                     </View>
                     <Text style={{ color: '#007aff', marginLeft: 5, }} >description</Text>
                     <Text></Text>
-                    <Text style={{ color: '#007aff', marginLeft: 5, }} >code comfirmation : 23</Text>
+                    <Text style={{ color: '#007aff', marginLeft: 5, }} >code comfirmation :   {this.props.route.params.item.id}{this.props.route.params.item.DeliveryMan['0'].id}{this.props.route.params.item.Client['0'].id}  </Text>
                     <TextInput
                         multiline={true}
                         numberOfLines={3}

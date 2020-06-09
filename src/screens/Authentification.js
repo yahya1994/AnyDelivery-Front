@@ -63,7 +63,7 @@ class Authentification extends Component {
   constructor() {
     super();
     this.state = {
-      email: 'ala@gmail.com', password: 'ala'
+      email: 'yahya@gmail.com', password: 'yahya'
     };
     this.buttonOpacity = new Value(1);
     this.onStateChange = event([
@@ -189,12 +189,12 @@ componentDidMount(){
               value={this.state.password}
               onChangeText={text => this.setState({ password: (text) })}
               secureTextEntry={true}
-            />
+            /> 
             <Buttons width={'97%'} title='Login' loading={this.props.auth.loading} onPress={() => this.props.Login(this.state.email, this.state.password, this.props.navigation
             )} />
 
             <Text style={{ alignSelf: 'center', }} >vous n'avez pas un compte ?,</Text>
-            <Text onPress={() => this.props.navigation.navigate("Creér votre compte")} style={styles.textStyleNewAcount} >creer votre compte </Text>
+            <Text onPress={() => this.props.navigation.navigate("RegistrationType")} style={styles.textStyleNewAcount} >creer votre compte </Text>
           </Animated.View>
           <Overlay
             overlayStyle={{
