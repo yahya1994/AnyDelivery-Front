@@ -17,6 +17,7 @@ import RegistrationSteptwo from './src/screens/RegistrationSteptwo';
 import RegistrationStepOne from './src/screens/RegistrationStepOne';
 import ParcelDetails from './src/screens/ParcelDetails';
 import CreateParcelStepTwo from './src/screens/CreateParcelStepTwo';
+import RegistrationType from './src/screens/RegistrationType';
 import CreateParcelStepThree from './src/screens/CreateParcelStepThree';
 import GetAdresseFromMap from './src/screens/GetAdresseFromMap';
 import Chat from './src/screens/Chat';
@@ -24,7 +25,7 @@ import Map from './src/screens/Map';
 import reducers from './src/redux/reducers';
 import { compose, createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
-import { Provider } from 'react-redux';
+import { Provider } from 'react-redux'; 
 
 import Header from './src/components/header';
 import CreateParcels from './src/screens/CreateParcels';
@@ -71,10 +72,16 @@ function App() {
       <NavigationContainer>
         <Stack.Navigator  >
           <Stack.Screen name="Auth" component={Authentification} options={{ headerShown: false }} />
-          <Stack.Screen name="Creér votre compte" component={RegistrationStepOne}
+          
+            <Stack.Screen name="Creér votre compte" component={RegistrationStepOne}
             options={{
               headerTransparent: true, title: 'Creér votre compte',
-              cardStyleInterpolator: CardStyleInterpolators.forRevealFromBottomAndroid,
+              cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+            }} />
+          <Stack.Screen name="RegistrationType" component={RegistrationType}
+            options={{
+              headerTransparent: true, title: 'Creér votre compte',
+              cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
             }} />
 
           <Stack.Screen name="Creér votre compte2" component={RegistrationSteptwo}
@@ -90,17 +97,17 @@ function App() {
               , headerTitleStyle: { color: 'white', fontSize: 25, }, headerBackground: () => (<Header />), headerStyle: { height: 49 }
             })} />
 
-<Stack.Screen name="Chat" component={Chat}
+          <Stack.Screen name="Chat" component={Chat}
             options={{
-               title: 'chats',
+              title: 'chats',
               cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
             }} />
 
-<Stack.Screen name="create parcel" component={CreateParcels}
+          <Stack.Screen name="create parcel" component={CreateParcels}
             options={{
-               title: "creation d'une colis", headerBackground: () => (<Header />
-                ), headerTitleStyle: { color: 'white', fontSize: 25, }
-            
+              title: "creation d'une colis", headerBackground: () => (<Header />
+              ), headerTitleStyle: { color: 'white', fontSize: 25, }
+
             }} />
 
           <Stack.Screen name="Main" component={startMainTab}

@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { Overlay, CheckBox } from 'react-native-elements';
 import LinearGradient from 'react-native-linear-gradient';
 import { connect } from 'react-redux';
+import {logout} from '../redux/actions';
 class UserProfil extends Component {
     state = {
         place: '', visible: false,
@@ -20,24 +21,22 @@ class UserProfil extends Component {
         return (
             <View style={{ flexDirection: 'column', flex: 1, }} >
                 <LinearGradient colors={['white', '#30ACE4', '#30ACE4', '#007aff']} style={{ flex: 1 }}>
-                    <View style={{ backgroundColor: 'white',marginTop:3, borderRadius: 100, flex: 2, justifyContent: 'center', flexDirection: 'column', alignItems: 'center', alignSelf: 'center', width: '50%' }} >
+                    <View style={{ backgroundColor: 'white',marginTop:'1%', borderRadius: 100, flex: 2, justifyContent: 'center', flexDirection: 'column', alignItems: 'center', alignSelf: 'center', width: '50%' }} >
                     <Image
             source={require('../assets/img/me.jpg')}
             style={{ borderRadius:80 ,paddingTop:20,height:'100%',width:"100%" }}
           />
 
                     </View>
-                    <View style={{ backgroundColor: 'white', borderRadius: 10 ,
-                      flexDirection: 'column', alignItems: 'center',marginTop:8, alignSelf: 'center',height:'6%', width: '50%' }} >
-
+                    <View style={{ backgroundColor: 'white', borderRadius: 20 ,
+                      flexDirection: 'column',justifyContent:'center', alignItems: 'center',marginTop:'3%', alignSelf: 'center',height:'8%', width: '70%' }} >
                     <Text style={{fontSize:18}}>{this.props.auth.user.name}</Text>
                     </View>
-
                     <View style={{
-                        flex: 3, marginBottom: '5%', borderRadius: 20, marginTop: '5%', width: "95%", borderWidth: 1,
+                        flex: 3, marginBottom: '3%', borderRadius: 20, marginTop: '5%', width: "95%", borderWidth: 1,
                         backgroundColor: 'white', borderColor: '#007aff', alignSelf: 'center', padding: 5
                     }} >
-                        <View style={{ backgroundColor: 'white', flexDirection: 'row', flex: 1, justifyContent: 'space-between' }}>
+                        <View style={{ backgroundColor: 'white', flexDirection: 'row', flex: 1, justifyContent: 'space-around' }}>
                             <Text onPress={this.toggleOverlay}
                                 style={{ borderWidth: 1, borderColor: '#007aff', textAlign: 'center', margin: 5, width: '25%', backgroundColor: 'white', }}
                             >rapidité  {"\n"}{"\n"} 
@@ -53,9 +52,7 @@ class UserProfil extends Component {
                                 size={30}
                                 color='#007aff'
                             />} </Text>
-                            <Text
-                                style={{ borderWidth: 1, width: '25%', borderColor: '#007aff', textAlign: 'center', margin: 5, backgroundColor: 'white', }}
-                            >diametre{"\n"} {"\n"} 5 </Text>
+                            
                             <Text
                                 style={{ borderWidth: 1, width: '25%', borderColor: '#007aff', textAlign: 'center', margin: 5, backgroundColor: 'white', }}
                             > frais par km{"\n"}{"\n"}  {this.props.auth.user.price_km} </Text>
@@ -63,7 +60,7 @@ class UserProfil extends Component {
                         <View style={{ alignSelf: 'center', width: '90%', flex: 2, justifyContent: 'space-evenly' }}>
                             <Button title='votre profil' />
                             <Button title='votre caisse ' />
-                            <Button title='Déconnexion' />
+                            <Button title='Déconnexion' onPress={()=>this.props.logout(this.props.navigation)}  />
                         </View>
                     </View>
                     <Overlay
@@ -102,6 +99,6 @@ class UserProfil extends Component {
 const mapStateToProps = state => {
     return { auth: state.auth };
 };
-export default connect(mapStateToProps )(UserProfil);
+export default connect(mapStateToProps,{logout} )(UserProfil);
 
  

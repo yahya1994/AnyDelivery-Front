@@ -69,15 +69,15 @@ export const storeData = async (token) => {
   } catch (error) {
   }
 };
-export const clearToken = async () => {
+export const clearToken =async   () => {
 
-  await AsyncStorage.RemoveItem(AUTH_TOKEN);
+  await  AsyncStorage.removeItem('AUTH_TOKEN');
   console.log('clear token  ')
 };
 
-export const logout = () => dispatch => {
-  localStorage.clear();
-  History.push("/login");
-  dispatch({ type: LOGOUT })
+export const logout = (nav) =>   dispatch => {
+ clearToken()
+  nav.navigate('Auth');
+  dispatch({ type: 'LOGOUT' })
 };
 
