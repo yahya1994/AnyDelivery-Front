@@ -7,7 +7,6 @@ export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case 'DATA_ATTEMPT':
             return { ...state, loading: true }
-
         case 'SUCCESS':
             console.log(action.payload.user)
             return { ...state, user: action.payload.user, success: action.payload.success, loading: false };

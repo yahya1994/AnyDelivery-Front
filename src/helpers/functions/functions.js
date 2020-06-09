@@ -21,6 +21,7 @@ import AsyncStorage from '@react-native-community/async-storage';
  }
  export const retrieveToken = async (key) => {
   let value = await AsyncStorage.getItem(key)
+  console.log(value);
   return value;
 };
  

@@ -43,33 +43,27 @@ class RegistrationSteptwo extends Component {
                 }*/
 
         var data = new FormData();
-        var image = {
-            uri: this.state.Image.toString(),
-            name: this.state.fileName.toString(),
-            type: this.state.type.toString()
+    /*    data.append('identity_card_image', {
+            uri:  this.state.file.uri.toString() ,
+            type: 'image/jpeg',
+            name: 'image.jpeg'
+          })*/
+        let image = {
+            uri:   this.state.Image.uri.toString() ,
+            type: this.state.type.type,
+            name: this.state.fileName["fileName"],
         };
-
-
-
-  /*      let formData = new FormData();
-        formData.append('file', this.state.file.uri);
-        var data = new FormData();
-
-        data.append('identity_card_image', {
-            uri: this.state.file.uri
-        });
-*/
-         data.append('email', 'ccc@gmail.com') ;
-         data.append('name', 'ccc');
-         data.append('password', 'ccc');
-         data.append('role', '1');
-         data.append('cin',666);
-         data.append('phone_number', '7777');
-         data.append('adresse', 'monji@gmail.com');
+         data.append('email', "monji@gmail.com") ;
+         data.append('name',  "monji");
+         data.append('password', "monji");
+         data.append('role', 1);
+         data.append('cin', 24242);
+         data.append('phone_number', '4444');
+         data.append('adresse', 'teboulba');
          data.append('identity_card_image', image);
          data.append('price_km', 0);
          data.append('rapidity', 0);
-         data.append('Accepted', '1');
+         data.append('Accepted',1);
 
        /* let name = "monji";
         let password = "monji";
@@ -81,8 +75,9 @@ class RegistrationSteptwo extends Component {
         let price_km = 0;
         let rapidity = 0;
         let Accepted = '1';*/
-        console.log(data);
-        this.props.Registration(data, this.props.navigation);
+        console.log(image);
+        console.log (this.state.Image.uri)
+       this.props.Registration(data, this.props.navigation);
     }
     componentDidMount() {
         networkCheck()
@@ -155,7 +150,7 @@ class RegistrationSteptwo extends Component {
                 <Buttons
                     width='70%'
                     title="Creer votre Compte"
-                    loading={false}
+                    loading={this.props.auth.loading}
                     onPress={() => this.registration()}
                 />
 
