@@ -43,7 +43,7 @@ class RegistrationStepOne  extends Component {
                  width='40%'
                        title='Suivant'
                         onPress={() => this.props.navigation.push('Creér votre compte2', 
-                    {  name:this.state.name,email:this.state.email,password:this.state.password,phone_number:this.state.phone_number })}
+                    {  name:this.state.name,email:this.state.email,password:this.state.password,phone_number:this.state.phone_number,role:this.props.route.params.role })}
                     /> 
            </View> 
 
@@ -53,7 +53,7 @@ class RegistrationStepOne  extends Component {
 }
 const styles = StyleSheet.create({
     container: {
-        paddingTop: Platform.OS === 'ios' ? 60 : 60,
+        paddingTop: Platform.OS === 'ios' ? 90 : '15%',
         flex: 1,
         justifyContent: 'space-around',
         backgroundColor: 'white'

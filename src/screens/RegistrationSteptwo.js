@@ -21,9 +21,15 @@ class RegistrationSteptwo extends Component {
     constructor() {
         super();
         this.state = {
-            Image: null, file: null, adresse: '',type:'', CIN: 0, fileName: {
-                fileName: 'photo de CIN'
-            }, size: { fileSize: 0 }
+            Image: null, 
+            type:'',
+            Image2: null, 
+            type2:'',
+            fileName2: {  fileName: 'photo de CIN'  },
+            adresse: '',
+             CIN: 0, 
+             fileName: {  fileName: 'photo de CIN'  },
+             size: { fileSize: 0 }
         };
     }
     registration = () => {
@@ -48,7 +54,7 @@ class RegistrationSteptwo extends Component {
             type: 'image/jpeg',
             name: 'image.jpeg'
           })*/
-        let image = {
+          let image = {
             uri:   this.state.Image.uri.toString() ,
             type: this.state.type.type,
             name: this.state.fileName["fileName"],
@@ -56,7 +62,6 @@ class RegistrationSteptwo extends Component {
          data.append('email', "monji@gmail.com") ;
          data.append('name',  "monji");
          data.append('password', "monji");
-         data.append('role', 1);
          data.append('cin', 24242);
          data.append('phone_number', '4444');
          data.append('adresse', 'teboulba');
@@ -64,7 +69,17 @@ class RegistrationSteptwo extends Component {
          data.append('price_km', 0);
          data.append('rapidity', 0);
          data.append('Accepted',1);
-
+            let image2 = {
+               uri:   this.state.Image2.uri.toString() ,
+               type: this.state.type2.type,
+               name: this.state.fileName2["fileName"],
+           }
+         if (this.props.route.params.role==2 ) {
+           data.append('driver_license_image', image2);
+           data.append('role', 2);
+        } else{
+            data.append('role', 1);
+        }
        /* let name = "monji";
         let password = "monji";
         let role = '1';
@@ -76,7 +91,9 @@ class RegistrationSteptwo extends Component {
         let rapidity = 0;
         let Accepted = '1';*/
         console.log(image);
+        console.log(image2);
         console.log (this.state.Image.uri)
+        console.log (this.state.Image2.uri)
        this.props.Registration(data, this.props.navigation);
     }
     componentDidMount() {
@@ -106,18 +123,44 @@ class RegistrationSteptwo extends Component {
                     fileName: fileName,
                     size: FileSize,
                     type:type,
-                    file: file
                 });
             }
         });
-
+      
     }
+    getImage2 = () => {
+        ImagePicker.showImagePicker(options, (response) => {
+            console.log('Response = ', response.type);
+
+            if (response.didCancel) {
+                console.log('User cancelled image picker');
+            } else if (response.error) {
+                console.log('ImagePicker Error: ', response.error);
+            } else if (response.takePhotoButtonTitle) {
+                console.log('User tapped custom button: ', response.takePhotoButtonTitle);
+            } else if (response.chooseFromLibraryButtonTitle) {
+                console.log('chooseFromLibraryButtonTitle', response.chooseFromLibraryButtonTitle);
+            } else {
+                const source = { uri: response.uri };
+                const file = { uri: response.path };
+                const fileName = { fileName: response.fileName };
+                const FileSize = { fileSize: response.fileSize };
+                const type = { type: response.type };
+
+                this.setState({
+                    Image2: source,
+                    fileName2: fileName,
+                    size: FileSize,
+                    type2:type,
+                });
+            }
+        });}
     render() {
         return (
             <View style={styles.container}>
-                <InputText placeholder='adresse' onChangeText={text =>
+                <InputText placeholder='adresse'   onChangeText={text =>
                     this.setState({ adresse: (text) })} />
-                <InputText placeholder='Numero de Cin' onChangeText={text =>
+                <InputText placeholder='Numero de Cin'   onChangeText={text =>
                     this.setState({ CIN: (parseInt(text)) })} />
                 <Input
                     disabled
@@ -130,7 +173,7 @@ class RegistrationSteptwo extends Component {
                         marginLeft: 5,
                         height: 55,
                         marginRight: 5,
-                        marginBottom: 15,
+                        marginBottom: 5,
                         paddingLeft: 15, width: '97%',
                         backgroundColor: '#fff'
                     }}
@@ -144,11 +187,39 @@ class RegistrationSteptwo extends Component {
                 />
                 <Image source={this.state.Image}
                     style={{
-                        height: 150, width: 250
+                        height: 120, width: 250
                     }}
                 />
+                {this.props.route.params.role===2 ? <Input
+                    disabled
+                    inputContainerStyle={{ borderBottomWidth: 0 }}
+                    placeholder={this.state.fileName2['fileName']}
+                    containerStyle={{
+                        borderWidth: 2,
+                        borderRadius: 20,
+                        borderColor: '#007aff',
+                        marginLeft: 5,
+                        height: 55,
+                        marginRight: 5,
+                        marginBottom: 5,
+                        paddingLeft: 15, width: '97%',
+                        backgroundColor: '#fff'
+                    }}
+                    rightIcon={
+                        <Icon.Button
+                            backgroundColor='white'
+                            name='upload'
+                            size={24}
+                            color='red'
+                            onPress={this.getImage2} />}
+                />:null }
+                 <Image source={this.state.Image2}
+                    style={{
+                        height: 120, width: 250
+                    }}
+                /> 
                 <Buttons
-                    width='70%'
+                    width='80%'
                     title="Creer votre Compte"
                     loading={this.props.auth.loading}
                     onPress={() => this.registration()}
@@ -162,35 +233,13 @@ class RegistrationSteptwo extends Component {
 }
 const styles = StyleSheet.create({
     container: {
-        flex: 1, paddingTop: Platform.OS === 'ios' ? 90 : 90,
+        flex: 1, paddingTop: Platform.OS === 'ios' ? 90 : '15%',
         justifyContent: 'space-around',
         alignItems: 'center',
         backgroundColor: 'white'
     }, InputContainer: {
         width: '100%'
-    }, TxTContainer: {
-        width: 300,
-        alignSelf: 'stretch',
-    },
-    InputText: {
-        borderWidth: 2,
-        borderRadius: 20,
-        borderColor: '#007aff',
-        alignSelf: 'stretch',
-        marginLeft: 5,
-        marginLeft: 5,
-        marginBottom: 50,
-        width: '95%',
-        backgroundColor: '#fff',
-    }, btncontainer: {
-        alignSelf: 'stretch',
-        justifyContent: 'flex-end',
-        alignItems: 'center',
-
-    }, btnStyle: {
-
-
-    }
+    }, 
 });
 const mapStateToProps = state => {
     return { auth: state.auth };
