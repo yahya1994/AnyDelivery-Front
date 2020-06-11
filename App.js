@@ -25,8 +25,8 @@ import Map from './src/screens/Map';
 import reducers from './src/redux/reducers';
 import { compose, createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
-import { Provider } from 'react-redux'; 
-
+import { Provider } from 'react-redux';
+import Report from './src/screens/Report';
 import Header from './src/components/header';
 import CreateParcels from './src/screens/CreateParcels';
 const Stack = createStackNavigator();
@@ -72,8 +72,7 @@ function App() {
       <NavigationContainer>
         <Stack.Navigator  >
           <Stack.Screen name="Auth" component={Authentification} options={{ headerShown: false }} />
-          
-            <Stack.Screen name="Creér votre compte" component={RegistrationStepOne}
+          <Stack.Screen name="Creér votre compte" component={RegistrationStepOne}
             options={{
               headerTransparent: true, title: 'Creér votre compte',
               cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
@@ -118,8 +117,13 @@ function App() {
             })} />
           <Stack.Screen name="ParcelDetails" component={ParcelDetails} options={{
             headerBackground: () => (<Header />
-            ), headerTitleStyle: { color: 'white', fontSize: 25, }
+            ),  title: "Details Colis", headerTitleStyle: { color: 'white', fontSize: 25, }
           }} />
+          <Stack.Screen name="Report" component={Report} options={{
+            headerBackground: () => (<Header />
+            ), title: "Reclamation",  headerTitleStyle: { color: 'white',fontSize: 25, }
+          }} />
+
           <Stack.Screen name="Map" component={Map} options={{
             headerBackground: () => (
               <Header />

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import QRCode from 'react-native-qrcode-svg';
 import { Overlay } from 'react-native-elements';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 class ParcelDetails extends Component {
     state = {
@@ -28,14 +29,17 @@ class ParcelDetails extends Component {
                         <Text   >{this.props.route.params.user.name}-{this.props.route.params.item.Receiver_name}{"\n"} </Text>
                         <View style={{ backgroundColor: 'white', borderWidth: 1, borderRadius: 20, padding: 15, borderColor: 'blue', flexDirection: 'row', }}>
                             <Icon name="map-marker" color='#007aff' size={35} />
-                            <Text style={{ margin: 10 }}>{this.props.route.params.item.starting_adresse}-->{this.props.route.params.item.destination_adresse}</Text>
+                            <Text style={{ margin: 10 }}>{this.props.route.params.item.starting_adresse} -- {this.props.route.params.item.destination_adresse}</Text>
                         </View>
                     </View>
                     <View style={{ justifyContent: 'center', flexDirection: 'column' }} >
-                    <View style={{ backgroundColor: '#EFFBFB', flexDirection: 'column', flex: 1   ,marginRight:'3%'}}>
+                    <View  style={{ backgroundColor: '#EFFBFB', flexDirection: 'column', flex: 1   ,marginRight:'3%'}}>
+                    <TouchableOpacity onPress={ ()=>this.props.navigation.navigate('Report',{ParcelId : this.props.route.params.item.id})}>
                     <Icon style={{   marginTop:'5%' , alignSelf:'center' }}  name="exclamation-circle" color='black' size={35} />
                     <Text  >Reclammer</Text>
+                    </TouchableOpacity>
                     </View>
+
 
 
                     </View>
