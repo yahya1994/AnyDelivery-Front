@@ -7,6 +7,8 @@ import { InputText, Buttons } from '../components/Shared';
 import networkCheck from '../helpers/functions/networkCheck';
 import { Registration } from '../redux/actions';
 import { connect } from 'react-redux';
+import { validateNumCin, validateAdresse, validateImage } from '../helpers/functions/InputValidation';
+
 const options = {
     title: 'ajouter une photo ',
     takePhotoButtonTitle: 'prendre une photo  ',
@@ -21,15 +23,16 @@ class RegistrationSteptwo extends Component {
     constructor() {
         super();
         this.state = {
-            Image: null, 
-            type:'',
-            Image2: null, 
-            type2:'',
-            fileName2: {  fileName: 'photo de CIN'  },
+            Image: null,
+            type: '',
+            Image2: null,
+            type2: '',
+            fileName2: { fileName: 'photo de CIN' },
             adresse: '',
-             CIN: 0, 
-             fileName: {  fileName: 'photo de CIN'  },
-             size: { fileSize: 0 }
+            CIN: 0,
+            fileName: { fileName: 'photo de CIN' },
+            size: { fileSize: 0 },
+            size2: { fileSize: 0 }
         };
     }
     registration = () => {
@@ -49,52 +52,52 @@ class RegistrationSteptwo extends Component {
                 }*/
 
         var data = new FormData();
-    /*    data.append('identity_card_image', {
-            uri:  this.state.file.uri.toString() ,
-            type: 'image/jpeg',
-            name: 'image.jpeg'
-          })*/
-          let image = {
-            uri:   this.state.Image.uri.toString() ,
+        /*    data.append('identity_card_image', {
+                uri:  this.state.file.uri.toString() ,
+                type: 'image/jpeg',
+                name: 'image.jpeg'
+              })*/
+        let image = {
+            uri: this.state.Image.uri.toString(),
             type: this.state.type.type,
             name: this.state.fileName["fileName"],
         };
-         data.append('email', "monji@gmail.com") ;
-         data.append('name',  "monji");
-         data.append('password', "monji");
-         data.append('cin', 24242);
-         data.append('phone_number', '4444');
-         data.append('adresse', 'teboulba');
-         data.append('identity_card_image', image);
-         data.append('price_km', 0);
-         data.append('rapidity', 0);
-         data.append('Accepted',1);
-            let image2 = {
-               uri:   this.state.Image2.uri.toString() ,
-               type: this.state.type2.type,
-               name: this.state.fileName2["fileName"],
-           }
-         if (this.props.route.params.role==2 ) {
-           data.append('driver_license_image', image2);
-           data.append('role', 2);
-        } else{
+        data.append('email', "monji@gmail.com");
+        data.append('name', "monji");
+        data.append('password', "monji");
+        data.append('cin', 24242);
+        data.append('phone_number', '4444');
+        data.append('adresse', 'teboulba');
+        data.append('identity_card_image', image);
+        data.append('price_km', 0);
+        data.append('rapidity', 0);
+        data.append('Accepted', 1);
+        let image2 = {
+            uri: this.state.Image2.uri.toString(),
+            type: this.state.type2.type,
+            name: this.state.fileName2["fileName"],
+        }
+        if (this.props.route.params.role == 2) {
+            data.append('driver_license_image', image2);
+            data.append('role', 2);
+        } else {
             data.append('role', 1);
         }
-       /* let name = "monji";
-        let password = "monji";
-        let role = '1';
-        let cin = 124242;
-        let phone_number = '4444';
-        let adresse = 'teboulba';
-        let identity_card_image = data;
-        let price_km = 0;
-        let rapidity = 0;
-        let Accepted = '1';*/
+        /* let name = "monji";
+         let password = "monji";
+         let role = '1';
+         let cin = 124242;
+         let phone_number = '4444';
+         let adresse = 'teboulba';
+         let identity_card_image = data;
+         let price_km = 0;
+         let rapidity = 0;
+         let Accepted = '1';*/
         console.log(image);
         console.log(image2);
-        console.log (this.state.Image.uri)
-        console.log (this.state.Image2.uri)
-       this.props.Registration(data, this.props.navigation);
+        console.log(this.state.Image.uri)
+        console.log(this.state.Image2.uri)
+        this.props.Registration(data, this.props.navigation);
     }
     componentDidMount() {
         networkCheck()
@@ -122,11 +125,11 @@ class RegistrationSteptwo extends Component {
                     Image: source,
                     fileName: fileName,
                     size: FileSize,
-                    type:type,
+                    type: type,
                 });
             }
         });
-      
+
     }
     getImage2 = () => {
         ImagePicker.showImagePicker(options, (response) => {
@@ -150,19 +153,28 @@ class RegistrationSteptwo extends Component {
                 this.setState({
                     Image2: source,
                     fileName2: fileName,
-                    size: FileSize,
-                    type2:type,
+                    size2: FileSize,
+                    type2: type,
                 });
             }
-        });}
+        });
+    }
+    
+  
     render() {
+        console.log(this.state.size['fileSize'])
         return (
             <View style={styles.container}>
-                <InputText placeholder='adresse'   onChangeText={text =>
-                    this.setState({ adresse: (text) })} />
-                <InputText placeholder='Numero de Cin'   onChangeText={text =>
-                    this.setState({ CIN: (parseInt(text)) })} />
+                <InputText placeholder='adresse' onChangeText={text =>
+                    this.setState({ adresse: (text) })}
+                    errorMessage={validateAdresse(this.state.adresse)}
+                />
+                <InputText placeholder='Numero de Cin' onChangeText={text =>
+                    this.setState({ CIN: (parseInt(text)) })}
+                    errorMessage={validateNumCin(this.state.CIN)}
+                />
                 <Input
+                    errorMessage={validateImage(this.state.size['fileSize'])}
                     disabled
                     inputContainerStyle={{ borderBottomWidth: 0 }}
                     placeholder={this.state.fileName['fileName']}
@@ -185,13 +197,14 @@ class RegistrationSteptwo extends Component {
                             color='red'
                             onPress={this.getImage} />}
                 />
-                <Image source={this.state.Image}
+                {validateImage(this.state.size['fileSize']) == false ? <Image source={this.state.Image}
                     style={{
-                        height: 120, width: 250
+                        height: 120, width: 250, borderRadius: 20
                     }}
-                />
-                {this.props.route.params.role===2 ? <Input
+                /> : null}
+                {this.props.route.params.role === 2 ? <Input
                     disabled
+                    errorMessage={validateImage(this.state.size2['fileSize'])}
                     inputContainerStyle={{ borderBottomWidth: 0 }}
                     placeholder={this.state.fileName2['fileName']}
                     containerStyle={{
@@ -212,13 +225,14 @@ class RegistrationSteptwo extends Component {
                             size={24}
                             color='red'
                             onPress={this.getImage2} />}
-                />:null }
-                 <Image source={this.state.Image2}
+                /> : null}
+              {validateImage(this.state.size2['fileSize']) == false ? <Image source={this.state.Image2}
                     style={{
-                        height: 120, width: 250
+                        height: 120, width: 250, borderRadius: 20
                     }}
-                /> 
+                /> : null}
                 <Buttons
+                    disabled={validateNumCin || validateAdresse || validateImage}
                     width='80%'
                     title="Creer votre Compte"
                     loading={this.props.auth.loading}
@@ -239,7 +253,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white'
     }, InputContainer: {
         width: '100%'
-    }, 
+    },
 });
 const mapStateToProps = state => {
     return { auth: state.auth };

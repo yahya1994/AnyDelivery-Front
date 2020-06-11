@@ -1,51 +1,86 @@
 import React, { Component } from 'react';
-import { View, TextInput, StyleSheet,   } from 'react-native';
-import { Input, Button ,ThemeProvider} from 'react-native-elements';
-import {Buttons , InputText} from'../components/Shared'; 
-import { ScrollView } from 'react-native-gesture-handler';
+import { View, TextInput, StyleSheet, } from 'react-native';
+import { Input, Button, ThemeProvider } from 'react-native-elements';
+import { Buttons, InputText } from '../components/Shared';
+import {validateName,validateEmail,validateNumTel,validatePassword,validateComfirmPassword} from '../helpers/functions/InputValidation';
 
- 
-class RegistrationStepOne  extends Component {
+export default class RegistrationStepOne extends Component {
     constructor() {
         super();
         this.state = {
-            name: '',email :'',password:'',phone_number:''
+            name: '', email: '', password: '', Comfirmpassword: '', phone_number: ''
         };
     }
+    validatePassword = (name) => {
+        var errorMessage = '*';
+        if (name.length < 1) {
+            return errorMessage = '*'
+        }
+        if (name.length < 5) {
+            return errorMessage = 'mot de passe trop court'
+        }
+    };
+     
+   
+
     render() {
-        return (  
-             
+
+        console.log(this.state.isValide)
+        return (
+
 
             <View style={styles.container}>
                 <InputText style={styles.InputText}
                     placeholder='Nom et prenom'
-                    onChangeText={text =>
-                        this.setState({ name: (text) })}
+                    onChangeText={text => {
+                        this.setState({ name: (text) })
+
+                    }}
+                    errorMessage={validateName(this.state.name)}
+
                 />
                 <InputText style={styles.InputText}
                     placeholder='Email'
-                    onChangeText={text =>
-                        this.setState({ email: (text) })}
+                    onChangeText={text => {
+                        this.setState({ email: (text) })
+                    }
+                    }
+                    errorMessage={validateEmail(this.state.email)}
                 /><InputText style={styles.InputText}
                     placeholder='Mot de passe '
                     onChangeText={text =>
                         this.setState({ password: (text) })}
+
+                    errorMessage={validatePassword(this.state.password)}
                 />
                 <InputText style={styles.InputText}
                     placeholder='Confirmez le mot de passe'
                     onChangeText={text =>
-                        this.setState({ password: (text) })}
-                />  
+                        this.setState({ Comfirmpassword: (text) })}
+                    errorMessage={validateComfirmPassword(this.state.Comfirmpassword,this.state.password)}
+
+                />
                 <InputText
-                placeholder='Numero de Télephone'   onChangeText={text =>
-                    this.setState({ phone_number: (text) })}/>
-                 <Buttons 
-                 width='40%'
-                       title='Suivant'
-                        onPress={() => this.props.navigation.push('Creér votre compte2', 
-                    {  name:this.state.name,email:this.state.email,password:this.state.password,phone_number:this.state.phone_number,role:this.props.route.params.role })}
-                    /> 
-           </View> 
+                    placeholder='Numero de Télephone' onChangeText={text =>
+                        this.setState({ phone_number: (text) })}
+                    errorMessage={validateNumTel(this.state.phone_number)}
+
+                />
+
+                <Buttons disabled={  
+                    validateName(this.state.name)
+                    || validateEmail(this.state.email)
+                    ||validatePassword(this.state.password)
+                    || validateComfirmPassword(this.state.Comfirmpassword)
+                || validateNumTel(this.state.phone_number) }
+                    width='40%'
+                    title='Suivant'
+                    onPress={() => {
+                        this.props.navigation.push('Creér votre compte2',
+                            { name: this.state.name, email: this.state.email, password: this.state.password, phone_number: this.state.phone_number, role: this.props.route.params.role })
+                    }}
+                />
+            </View>
 
 
         );
@@ -81,4 +116,3 @@ const styles = StyleSheet.create({
 }
 
 );
-export default RegistrationStepOne;
