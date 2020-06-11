@@ -3,7 +3,7 @@ import { View ,  TouchableOpacity} from 'react-native';
 import {   Button ,ThemeProvider} from 'react-native-elements';
 import LinearGradient from 'react-native-linear-gradient';
 
-const Buttons =( { width, loadingProps,onPress,loading,title } )=>{
+const Buttons =( { disabled,width, loadingProps,onPress,loading,title } )=>{
   
      return(
     
@@ -27,6 +27,7 @@ const Buttons =( { width, loadingProps,onPress,loading,title } )=>{
                  title={title}
                  loading={loading}
                  onPress={onPress}
+                 disabled={disabled}
              /> 
      );
  };

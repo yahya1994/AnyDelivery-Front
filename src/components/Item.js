@@ -115,11 +115,10 @@ class Item extends Component {
                     </View>
                     <View style={{ flex: 3, alignSelf: 'stretch', }} >
                         <View style={{ justifyContent: 'flex-end', flexDirection: 'row', paddingRight: 20, alignSelf: 'stretch', }} >
-
                             <Text   >{this.props.item.Distance} km</Text>
                         </View>
-                        <Text>{this.props.item.Client['0'].name} -{this.props.item.Receiver_name} </Text>
-                        <Text>{this.props.item.starting_adresse} --{this.props.item.destination_adresse}</Text>
+                        <Text>{this.props.item.Client['0'].name} -- {this.props.item.Receiver_name} </Text>
+                        <Text>{this.props.item.starting_adresse} -- {this.props.item.destination_adresse}</Text>
                         <View style={{ justifyContent: 'flex-end', flexDirection: 'row', alignSelf: 'stretch', }} >
                             <TouchableOpacity onPress={this.toggleOverlay}  >
                                 <Icon style={{ padding: 10 }} name="comments-o" color='#DB4BDB' size={35} />

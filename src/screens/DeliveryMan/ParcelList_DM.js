@@ -87,7 +87,7 @@ class ParcelsList_DM extends Component {
                         backgroundColor='white'
                         name='filter'
                         size={30}
-                        color='blue'
+                        color='#007aff'
                         onPress={this.toggleOverlay}
                     />
                     <Overlay

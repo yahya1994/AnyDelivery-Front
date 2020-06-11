@@ -58,7 +58,6 @@ class ParcelsList extends Component {
                 </View> : null);
     }
     animation = new Animated.Value(0);
-
     toggleBtn = () => {
         const toValue = this.open ? 0 : 1;
         Animated.spring(this.animation, {
@@ -124,7 +123,7 @@ class ParcelsList extends Component {
                         backgroundColor='white'
                         name='filter'
                         size={30}
-                        color='blue'
+                        color='#007aff'
                         onPress={this.toggleOverlay}
                     />
                     <Overlay
@@ -134,16 +133,16 @@ class ParcelsList extends Component {
                         <Text style={{ alignSelf: 'center',paddingBottom:'5%' }}>filter selon le status :</Text>
                         <View style={{ flex: 1, flexDirection: 'column', padding: 3, }}>
                             <View style={{ flex: 1, flexDirection: 'row' , justifyContent: 'space-between' }}>
-                                <TouchableOpacity onPress={() => { this.setState({currentPage: 1 , input:'', status:0 }, this.props.fetshParcels(0,this.state.input,1)) }} >
+                                <TouchableOpacity onPress={() => { this.setState({currentPage: 1 , input:'', status:0,visible: false ,Loading:true }, this.props.fetshParcels(0,this.state.input,1)) }} >
                                     <Icon name="circle" color='red' size={25} />
                                 </TouchableOpacity  >
-                                <TouchableOpacity onPress={() => { this.setState({currentPage: 1 , input:'', status:3 }, this.props.fetshParcels(3,this.state.input,1)) }}>
+                                <TouchableOpacity onPress={() => { this.setState({currentPage: 1 , input:'', status:3,visible: false ,Loading:true }, this.props.fetshParcels(3,this.state.input,1)) }}>
                                     <Icon style={{ paddingLeft: 15 }} name="circle" color='orange' size={25} />
                                 </TouchableOpacity  >
-                                <TouchableOpacity onPress={() => { this.setState({currentPage: 1 , input:'', status:1 }, this.props.fetshParcels(1,this.state.input,1)) }} >
+                                <TouchableOpacity onPress={() => { this.setState({currentPage: 1 , input:'', status:1 ,visible: false ,Loading:true}, this.props.fetshParcels(1,this.state.input,1)) }} >
                                     <Icon style={{ paddingLeft: 15 }} name="circle" color='yellow' size={25} />
                                 </TouchableOpacity  >
-                                <TouchableOpacity onPress={() => { this.setState({currentPage: 1 , input:'', status:2}, this.props.fetshParcels(2,this.state.input,1)) }} >
+                                <TouchableOpacity onPress={() => { this.setState({currentPage: 1 , input:'', status:2,visible: false ,Loading:true}, this.props.fetshParcels(2,this.state.input,1)) }} >
                                     <Icon style={{ paddingLeft: 15 }} name="circle" color='green' size={25} />
                                 </TouchableOpacity  >
                             </View>

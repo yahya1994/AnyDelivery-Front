@@ -17,7 +17,7 @@ class QrScanner extends Component {
     let test = e.data == this.props.OperationID;
   await this.props.parcelReady(this.props.id,this.props.OperationID,e.data);
   await  this.props.QrCheck(test);
-  this.props.refresh();
+  await this.props.refresh();
   this.props.close();
    // console.log(test)
   }; 

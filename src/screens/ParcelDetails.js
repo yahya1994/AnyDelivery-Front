@@ -33,7 +33,7 @@ class ParcelDetails extends Component {
                     </View>
                     <View style={{ justifyContent: 'center', flexDirection: 'column' }} >
                     <View style={{ backgroundColor: '#EFFBFB', flexDirection: 'column', flex: 1   ,marginRight:'3%'}}>
-                    <Icon style={{   marginTop:'5%' , alignSelf:'center' }}  name="sticky-note-o" color='black' size={35} />
+                    <Icon style={{   marginTop:'5%' , alignSelf:'center' }}  name="exclamation-circle" color='black' size={35} />
                     <Text  >Reclammer</Text>
                     </View>
 
@@ -62,7 +62,7 @@ class ParcelDetails extends Component {
                     </View>
                     <Text style={{ color: '#007aff', marginLeft: 5, }} >description</Text>
                     <Text></Text>
-                    <Text style={{ color: '#007aff', marginLeft: 5, }} >code comfirmation :   {this.props.route.params.item.id}{this.props.route.params.item.DeliveryMan['0'].id}{this.props.route.params.item.Client['0'].id}  </Text>
+                    { this.props.route.params.item.status != 0 ?  <Text style={{ color: '#007aff', marginLeft: 5, }} >code comfirmation :   {this.props.route.params.item.id}{this.props.route.params.item.DeliveryMan['0'].id}{this.props.route.params.item.Client['0'].id}  </Text>:null }
                     <TextInput
                         multiline={true}
                         numberOfLines={3}

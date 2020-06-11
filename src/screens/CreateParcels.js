@@ -41,7 +41,7 @@ class CreateParcels extends Component {
             Receiver_name: this.state.name_Destination,
             Receiver_num_Tel: this.state.numTel_Destination,
             Distance: this.state.distance,
-            date:this.state.date,
+            date: this.state.date,
             cost: this.state.frais,
             status: 0,
             starting_adresse: this.state.adresse_Depart,
@@ -68,30 +68,27 @@ class CreateParcels extends Component {
     };
 
     render() {
- console.log('ggggg'+this.state.lat_Depart,this.state.long_Depart)
+        console.log('ggggg' + this.state.lat_Depart, this.state.long_Depart)
         return (
             <View style={{ flex: 1, backgroundColor: 'white', flexDirection: 'column' }}>
                 <ProgressSteps   >
-                    <ProgressStep   label="¨Point de départ" nextBtnTextStyle={{ fontSize:40}}
-                     nextBtnText={<Icon style={{ alignItems: 'center', alignSelf: 'center' }}
-                     backgroundColor='white'
-                     name='chevron-circle-right'
-                     size={50} 
-                 />}     >
-
+                    <ProgressStep label="¨Point de départ" nextBtnTextStyle={{ fontSize: 40 }}
+                        nextBtnText={<Icon style={{ alignItems: 'center', alignSelf: 'center' }}
+                            backgroundColor='white'
+                            name='chevron-circle-right'
+                            size={50}
+                        />} >
                         <View style={styles.container}>
                             <TextInput style={styles.InputText}
                                 placeholder='Nom et prenom'
                                 value={this.props.auth.user.name}
                                 onChangeText={text =>
-                                    this.setState({ name_Depart: (text) })}
-                            />
+                                    this.setState({ name_Depart: (text) })} />
                             <TextInput style={styles.InputText}
                                 placeholder='Numéro de telephone'
-                                value={this.props.auth.user.phone_number}
+                                value={'+216 ' + this.props.auth.user.phone_number}
                                 onChangeText={value =>
-                                    this.setState({ numTel_Depart: (value) })}
-                            />
+                                    this.setState({ numTel_Depart: (value) })} />
                             <Input
                                 disabled
                                 placeholder={'localisation'}
@@ -117,44 +114,36 @@ class CreateParcels extends Component {
                                         color='blue'
                                         onPress={this.toggleOverlay}
                                     />
-                                }
-                            />
+                                } />
                             <TextInput style={styles.InputText}
                                 placeholder='adresse'
                                 value={this.state.adresse_Depart}
-                                onChangeText={text => this.setState({ adresse_Depart: (text) })}
-                            />
+                                onChangeText={text => this.setState({ adresse_Depart: (text) })} />
                             <DatePicker
                                 mode="date"
-                                   date={this.state.date}
+                                date={this.state.date}
                                 placeholder="date"
                                 format="YY-MM-DD"
                                 minDate="2016-05-01"
                                 maxDate="2025-06-01"
                                 confirmBtnText="Confirm"
                                 cancelBtnText="Cancel"
-                                style={{  borderWidth: 2,width:'90%',
-                                borderRadius: 20,
-                                borderColor: '#007aff',
-                                alignSelf: 'stretch',
-                                marginLeft: 5,
-                                marginRight: 5,
-                                marginBottom: 15,
-                                paddingLeft: 15, width: '97%',
-                                backgroundColor: '#fff'}}
-                                customStyles={{
-                                    dateIcon: {
-                                        
-                                    },
-                                    dateInput: {
-                                        marginLeft: 1,borderColor:'white'
-
-                                    }
+                                style={{
+                                    borderWidth: 2, width: '90%',
+                                    borderRadius: 20,
+                                    borderColor: '#007aff',
+                                    alignSelf: 'stretch',
+                                    marginLeft: 5,
+                                    marginRight: 5,
+                                    marginBottom: 15,
+                                    paddingLeft: 15, width: '97%',
+                                    backgroundColor: '#fff'
                                 }}
-                                onDateChange={(date) => { this.setState({ date: date }) }}
-                            />
-
- 
+                                customStyles={{
+                                    dateInput: {
+                                        marginLeft: 1, borderColor: 'white'  }
+                                }}
+                                onDateChange={(date) => { this.setState({ date: date }) }} />
                             <Overlay
                                 overlayStyle={{ width: '90%', height: '80%', flexDirection: 'column' }}
                                 isVisible={this.state.visible}
@@ -163,27 +152,25 @@ class CreateParcels extends Component {
                             </Overlay>
                         </View>
                     </ProgressStep>
-                    <ProgressStep label="Point de destination" 
-                    nextBtnTextStyle={{ fontSize:40}}
-                    nextBtnText={<Icon style={{ alignItems: 'center', alignSelf: 'center' }}
-                    backgroundColor='white'
-                    name='chevron-circle-right'
-                    size={50} 
-                />}    previousBtnTextStyle={{ fontSize:40}}
-                previousBtnText={<Icon style={{ alignItems: 'center', alignSelf: 'center' }}
-                backgroundColor='white'
-                name='chevron-circle-left'
-                size={50} 
-            />}   
-                     onNext={() =>
-                        this.setState({
-                            distance: getDistance(
-                                { latitude: this.state.lat_Destination, longitude: this.state.long_Destination },
-                                { latitude:  this.state.lat_Depart, longitude: this.state.long_Depart}
-                            )
-                        })
-                    }
-                    >
+                    <ProgressStep label="Point de destination"
+                        nextBtnTextStyle={{ fontSize: 40 }}
+                        nextBtnText={<Icon style={{ alignItems: 'center', alignSelf: 'center' }}
+                            backgroundColor='white'
+                            name='chevron-circle-right'
+                            size={50} />}
+                        previousBtnTextStyle={{ fontSize: 40 }}
+                        previousBtnText={<Icon style={{ alignItems: 'center', alignSelf: 'center' }}
+                            backgroundColor='white'
+                            name='chevron-circle-left'
+                            size={50} />}
+                        onNext={() =>
+                            this.setState({
+                                distance: getDistance(
+                                    { latitude: this.state.lat_Destination, longitude: this.state.long_Destination },
+                                    { latitude: this.state.lat_Depart, longitude: this.state.long_Depart }
+                                )/1000
+                            })
+                        } >
                         <View style={styles.container}>
                             <TextInput style={styles.InputText}
                                 placeholder='Nom et prenom'
@@ -229,14 +216,13 @@ class CreateParcels extends Component {
                             </Overlay>
                         </View>
                     </ProgressStep>
-                    <ProgressStep label="validation" finishBtnText={'valider'} 
-                    finishBtnTextStyle={{color:"red"}}
-                     previousBtnTextStyle={{ fontSize:40}}
-                     previousBtnText={<Icon style={{ alignItems: 'center', alignSelf: 'center' }}
-                     backgroundColor='white'
-                     name='chevron-circle-left'
-                     size={50} 
-                 />}   
+                    <ProgressStep label="validation" finishBtnText={'valider'}
+                        finishBtnTextStyle={{ color: "red" }}
+                        previousBtnTextStyle={{ fontSize: 40 }}
+                        previousBtnText={<Icon style={{ alignItems: 'center', alignSelf: 'center' }}
+                            backgroundColor='white'
+                            name='chevron-circle-left'
+                            size={50} />}
                         onSubmit={() => this.createParcel()}>
                         <View style={styles.container}>
                             <TextInput style={styles.InputText}
@@ -248,8 +234,7 @@ class CreateParcels extends Component {
                                 <View style={{ flexDirection: 'row' }}>
                                     <CheckBox
                                         checked={this.state.checked == 0}
-                                        onPress={() => this.setState({ checked: 0 })}
-                                    />
+                                        onPress={() => this.setState({ checked: 0 })} />
                                     <Icon
                                         backgroundColor='white'
                                         name='bicycle'
@@ -258,8 +243,7 @@ class CreateParcels extends Component {
                                 <View style={{ flexDirection: 'row' }}>
                                     <CheckBox
                                         checked={this.state.checked == 1}
-                                        onPress={() => this.setState({ checked: 1 })}
-                                    />
+                                        onPress={() => this.setState({ checked: 1 })} />
                                     <Icon
                                         backgroundColor='white'
                                         name='car'
@@ -267,14 +251,12 @@ class CreateParcels extends Component {
                                         color='#007aff' />
                                 </View>
                             </View>
-
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignSelf: 'stretch', padding: 10 }}>
-                                <Text  
+                                <Text
                                     style={{ borderRadius: 20, padding: 15, borderColor: '#007aff', }}>Distance estimé</Text>
                                 <TextInput style={{ width: '40%', borderWidth: 2, borderRadius: 20, padding: 15, borderColor: '#007aff', }}    >
-                                    {this.state.distance / 1000} Km </TextInput>
+                                    {this.state.distance} Km </TextInput>
                             </View>
-
                             <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignSelf: 'stretch', padding: 10, }}>
                                 <Text style={{
                                     borderRadius: 20,
@@ -285,14 +267,11 @@ class CreateParcels extends Component {
                                     style={{ width: '40%', borderWidth: 2, borderRadius: 20, padding: 15, borderColor: '#007aff', }}
                                     value={this.state.frais}
                                     onChangeText={text => this.setState({ frais: (parseInt(text)) })} />
-
                             </View>
                         </View>
                     </ProgressStep>
                 </ProgressSteps>
             </View>
-
-
         );
     }
 }

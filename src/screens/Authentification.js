@@ -232,36 +232,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginVertical: 5
-  }, TextInputStyle: {
-    borderWidth: 2,
-    borderRadius: 50,
-    borderColor: '#007aff',
-    alignSelf: 'stretch',
-
-    marginLeft: 5,
-    marginRight: 5,
-    marginBottom: 15,
-    paddingLeft: 15,
-    backgroundColor: '#fff',
-  },
-  btnStyle: {
-    alignSelf: 'stretch',
-    backgroundColor: '#007aff',
-    borderRadius: 5,
-    borderWidth: 1,
-    borderColor: '#007aff',
-    marginLeft: 5,
-    marginRight: 5,
-    borderRadius: 25
-  },
-  textStyle: {
-    alignSelf: 'center',
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: '600',
-    paddingTop: 10,
-    paddingBottom: 10
-  }, textStyleNewAcount: {
+  },  
+   textStyleNewAcount: {
     alignSelf: 'center',
     color: '#007aff',
     fontSize: 16,
