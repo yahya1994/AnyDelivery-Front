@@ -1,83 +1,118 @@
 
-export const  validateName = (name) => {
+export const validateName = (name) => {
     var errorMessage = '*';
     let error = false;
-    if (name.length < 1) {
-        error = true
-        return errorMessage = '*'
+    switch (true) {
+        case name.length == 0:
+            return [errorMessage = '*', error = true]
+            break;
+        case (name.length < 5):
+            return [errorMessage = 'invalid', error = true]
+            break;
+        default:
+            return error;
     }
-    if (name.length < 2) {
-        error = true
-        return errorMessage = 'invalid'
+};
+export const validateComfirmPassword = (name, password) => {
+    var errorMessage = '*';
+    let error = false;
+
+    if (password != name) {
+        return [errorMessage = 'invalid', error = true];
     } return error;
 
-
 };
-export const  validateComfirmPassword = (name,password) => {
-    var errorMessage = '*';
-    if (password != name) {
-        return errorMessage = 'invalid';
-    }
-};
-export const  validateNumTel = (name) => {
+export const validateNumTel = (name) => {
     let reg = /^\d*\.?\d*$/;
     var errorMessage = '*';
-    if (name.length < 1) {
-        return errorMessage = '*'
+    let error = false;
+    switch (true) {
+        case name.length == 0:
+            return [errorMessage = '*', error = true]
+            break;
+        case (name.length < 4 || reg.test(name) === false):
+            return [errorMessage = 'format invalid', error = true]
+            break;
+        default:
+            return error;
     }
-    if (name.length < 4 || reg.test(name) === false) {
-        return errorMessage = 'format invalid'
-    }
+
+
 };
-export const  validatePassword = (name) => {
+export const validatePassword = (name) => {
     var errorMessage = '*';
-    if (name.length < 1) {
-        return errorMessage = '*'
+    let error = false;
+
+    switch (true) {
+        case name.length == 0:
+            return [errorMessage = '*', error = true]
+            break;
+        case (name.length < 4):
+            return [errorMessage = 'mot de passe trop court', error = true]
+            break;
+        default:
+            return error;
     }
-    if (name.length < 5) {
-        return errorMessage = 'mot de passe trop court'
-    }
+
 };
-export const  validateEmail = (name) => {
+export const validateEmail = (name) => {
     let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     var errorMessage = '*';
-    if (name.length < 1) {
-        return errorMessage = '*'
-    }
-    if (name.length < 2 || reg.test(name) === false) {
-        return errorMessage = 'format email invalid'
+    let error = false;
+    switch (true) {
+        case name.length == 0:
+            return [errorMessage = '*', error = true]
+            break;
+        case (name.length < 2 || reg.test(name) === false):
+            return [errorMessage = 'format email invalid', error = true]
+            break;
+        default:
+            return error;
     }
 };
 
 export const validateNumCin = (name) => {
     let reg = /^\d*\.?\d*$/;
     var errorMessage = '*';
-    if (name.toString().length < 2) {
-        return errorMessage = '*'
+    var error = false;
+    switch (true) {
+        case (name.toString().length < 2):
+            return [errorMessage = '*', error = true]
+            break;
+        case (name.toString().length < 4 || reg.test(name) === false):
+            return [errorMessage = 'format invalid', error = true]
+            break;
+        default:
+            return error;
     }
-    if (name.toString().length < 4 || reg.test(name) === false) {
-        return errorMessage = 'format invalid'
-    }
+
 };
 export const validateAdresse = (name) => {
     var errorMessage = '*';
-    if (name.length < 1) {
-        return errorMessage = '*'
-    }
-    if (name.length < 2) {
-        return errorMessage = 'trop court'
+    var error = false;
+    switch (true) {
+        case name.length == 0:
+            return [errorMessage = '*', error = true]
+            break;
+        case (name.length < 3):
+            return [errorMessage = 'trop court', error = true]
+            break;
+        default:
+            return error;
     }
 };
 export const validateImage = (fileSize) => {
     var errorMessage = '*';
-    let error = false ; 
-    if (fileSize < 1) {
-        error= true;
-        return errorMessage = '*'
+    let error = false;
+
+    switch (true) {
+        case (fileSize < 1):
+            return [errorMessage = '*', error = true]
+            break;
+        case (fileSize > 800000):
+            return [errorMessage = 'taille trés grand', error = true]
+            break;
+        default:
+            return error;
     }
-    if (fileSize > 800000) {
-        error= true;
-        return errorMessage = 'taille trés grand'
-    }  
-  return error ; 
 }

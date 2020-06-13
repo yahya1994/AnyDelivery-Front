@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, TextInput, StyleSheet, } from 'react-native';
+import { View, Alert, StyleSheet, } from 'react-native';
 import { Input, Button, ThemeProvider } from 'react-native-elements';
 import { Buttons, InputText } from '../components/Shared';
 import {validateName,validateEmail,validateNumTel,validatePassword,validateComfirmPassword} from '../helpers/functions/InputValidation';
@@ -11,15 +11,7 @@ export default class RegistrationStepOne extends Component {
             name: '', email: '', password: '', Comfirmpassword: '', phone_number: ''
         };
     }
-    validatePassword = (name) => {
-        var errorMessage = '*';
-        if (name.length < 1) {
-            return errorMessage = '*'
-        }
-        if (name.length < 5) {
-            return errorMessage = 'mot de passe trop court'
-        }
-    };
+  
      
    
 
@@ -67,18 +59,21 @@ export default class RegistrationStepOne extends Component {
 
                 />
 
-                <Buttons disabled={  
-                    validateName(this.state.name)
-                    || validateEmail(this.state.email)
-                    ||validatePassword(this.state.password)
-                    || validateComfirmPassword(this.state.Comfirmpassword)
-                || validateNumTel(this.state.phone_number) }
+                <Buttons  
                     width='40%'
                     title='Suivant'
-                    onPress={() => {
-                        this.props.navigation.push('Creér votre compte2',
-                            { name: this.state.name, email: this.state.email, password: this.state.password, phone_number: this.state.phone_number, role: this.props.route.params.role })
-                    }}
+                    
+                    onPress={ ( 
+                         validateName(this.state.name)
+                        || validateEmail(this.state.email)
+                        || validatePassword(this.state.password)
+                        || validateComfirmPassword(this.state.Comfirmpassword,this.state.password)
+                        || validateNumTel(this.state.phone_number))==false ? () => this.props.navigation.push('Creér votre compte2',
+                        { name: this.state.name, email: this.state.email, password: this.state.password, phone_number: this.state.phone_number, role: this.props.route.params.role }): ()=> Alert.alert(
+                        "Erreur",
+                        "vérifier vos champs",
+                        [{ text: "OK",   cancelable: false   }],
+                        { cancelable: false })}
                 />
             </View>
 

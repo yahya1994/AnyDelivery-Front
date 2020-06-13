@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ImagePicker from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { View, TextInput, StyleSheet, Image } from 'react-native';
+import { View, Alert, StyleSheet, Image } from 'react-native';
 import { Input, Button, ThemeProvider } from 'react-native-elements';
 import { InputText, Buttons } from '../components/Shared';
 import networkCheck from '../helpers/functions/networkCheck';
@@ -27,7 +27,7 @@ class RegistrationSteptwo extends Component {
             type: '',
             Image2: null,
             type2: '',
-            fileName2: { fileName: 'photo de CIN' },
+            fileName2: { fileName: 'photo de Carte de grise' },
             adresse: '',
             CIN: 0,
             fileName: { fileName: 'photo de CIN' },
@@ -36,67 +36,36 @@ class RegistrationSteptwo extends Component {
         };
     }
     registration = () => {
-        //  let src =  "file://".concat(this.state.file['uri']);
-        /*        let data = {
-                    email: this.props.route.params.email,
-                    name: this.props.route.params.name,
-                    password: this.props.route.params.password, 
-                    role: 1,
-                    cin:this.state.CIN,
-                    phone_number:  this.props.route.params.phone_number,
-                    adresse: this.state.adresse,
-                  //  identity_card_image: 'file:///C:/Users/rbinfo/Desktop/livreur.jpg',
-                    price_km: 0,
-                    rapidity: 0,
-                    Accepted: 1,
-                }*/
 
         var data = new FormData();
-        /*    data.append('identity_card_image', {
-                uri:  this.state.file.uri.toString() ,
-                type: 'image/jpeg',
-                name: 'image.jpeg'
-              })*/
+
         let image = {
             uri: this.state.Image.uri.toString(),
             type: this.state.type.type,
             name: this.state.fileName["fileName"],
         };
-        data.append('email', "monji@gmail.com");
-        data.append('name', "monji");
-        data.append('password', "monji");
-        data.append('cin', 24242);
-        data.append('phone_number', '4444');
-        data.append('adresse', 'teboulba');
+        data.append('email', this.props.route.params.email);
+        data.append('name', this.props.route.params.name);
+        data.append('password', this.props.route.params.password);
+        data.append('cin', this.state.CIN);
+        data.append('phone_number', this.props.route.params.phone_number);
+        data.append('adresse', this.state.adresse);
         data.append('identity_card_image', image);
         data.append('price_km', 0);
         data.append('rapidity', 0);
         data.append('Accepted', 1);
-        let image2 = {
-            uri: this.state.Image2.uri.toString(),
-            type: this.state.type2.type,
-            name: this.state.fileName2["fileName"],
-        }
+
         if (this.props.route.params.role == 2) {
+            let image2 = {
+                uri: this.state.Image2.uri.toString(),
+                type: this.state.type2.type,
+                name: this.state.fileName2["fileName"],
+            }
             data.append('driver_license_image', image2);
             data.append('role', 2);
         } else {
             data.append('role', 1);
         }
-        /* let name = "monji";
-         let password = "monji";
-         let role = '1';
-         let cin = 124242;
-         let phone_number = '4444';
-         let adresse = 'teboulba';
-         let identity_card_image = data;
-         let price_km = 0;
-         let rapidity = 0;
-         let Accepted = '1';*/
-        console.log(image);
-        console.log(image2);
-        console.log(this.state.Image.uri)
-        console.log(this.state.Image2.uri)
         this.props.Registration(data, this.props.navigation);
     }
     componentDidMount() {
@@ -106,61 +75,70 @@ class RegistrationSteptwo extends Component {
         ImagePicker.showImagePicker(options, (response) => {
             console.log('Response = ', response.type);
 
-            if (response.didCancel) {
-                console.log('User cancelled image picker');
-            } else if (response.error) {
-                console.log('ImagePicker Error: ', response.error);
-            } else if (response.takePhotoButtonTitle) {
-                console.log('User tapped custom button: ', response.takePhotoButtonTitle);
-            } else if (response.chooseFromLibraryButtonTitle) {
-                console.log('chooseFromLibraryButtonTitle', response.chooseFromLibraryButtonTitle);
-            } else {
-                const source = { uri: response.uri };
-                const file = { uri: response.path };
-                const fileName = { fileName: response.fileName };
-                const FileSize = { fileSize: response.fileSize };
-                const type = { type: response.type };
+            switch (true) {
+                case response.didCancel:
+                    console.log('User cancelled image picker');
+                    break;
+                case response.error:
+                    console.log('ImagePicker Error: ', response.error);
+                    break;
+                case response.takePhotoButtonTitle:
+                    console.log('ImagePicker Error: ', response.error);
+                    break; 
+                case response.chooseFromLibraryButtonTitle:
+                    console.log('ImagePicker Error: ', response.error);
+                    break;
+               
+                default:
+                    const source = { uri: response.uri };
+                    const file = { uri: response.path };
+                    const fileName = { fileName: response.fileName };
+                    const FileSize = { fileSize: response.fileSize };
+                    const type = { type: response.type };
 
-                this.setState({
-                    Image: source,
-                    fileName: fileName,
-                    size: FileSize,
-                    type: type,
-                });
+                    this.setState({
+                        Image: source,
+                        fileName: fileName,
+                        size: FileSize,
+                        type: type,
+                    });
             }
         });
-
     }
     getImage2 = () => {
         ImagePicker.showImagePicker(options, (response) => {
             console.log('Response = ', response.type);
+            switch (true) {
+                case response.didCancel:
+                    console.log('User cancelled image picker');
+                    break;
+                case response.error:
+                    console.log('ImagePicker Error: ', response.error);
+                    break;
+                case response.takePhotoButtonTitle:
+                    console.log('ImagePicker Error: ', response.error);
+                    break; 
+                case response.chooseFromLibraryButtonTitle:
+                    console.log('ImagePicker Error: ', response.error);
+                    break;
+                default:
+                    const source = { uri: response.uri };
+                    const file = { uri: response.path };
+                    const fileName = { fileName: response.fileName };
+                    const FileSize = { fileSize: response.fileSize };
+                    const type = { type: response.type };
 
-            if (response.didCancel) {
-                console.log('User cancelled image picker');
-            } else if (response.error) {
-                console.log('ImagePicker Error: ', response.error);
-            } else if (response.takePhotoButtonTitle) {
-                console.log('User tapped custom button: ', response.takePhotoButtonTitle);
-            } else if (response.chooseFromLibraryButtonTitle) {
-                console.log('chooseFromLibraryButtonTitle', response.chooseFromLibraryButtonTitle);
-            } else {
-                const source = { uri: response.uri };
-                const file = { uri: response.path };
-                const fileName = { fileName: response.fileName };
-                const FileSize = { fileSize: response.fileSize };
-                const type = { type: response.type };
-
-                this.setState({
-                    Image2: source,
-                    fileName2: fileName,
-                    size2: FileSize,
-                    type2: type,
-                });
-            }
+                    this.setState({
+                        Image2: source,
+                        fileName2: fileName,
+                        size2: FileSize,
+                        type2: type,
+                    });
+            } 
         });
     }
-    
-  
+
+
     render() {
         console.log(this.state.size['fileSize'])
         return (
@@ -226,17 +204,22 @@ class RegistrationSteptwo extends Component {
                             color='red'
                             onPress={this.getImage2} />}
                 /> : null}
-              {validateImage(this.state.size2['fileSize']) == false ? <Image source={this.state.Image2}
+                {validateImage(this.state.size2['fileSize']) == false ? <Image source={this.state.Image2}
                     style={{
                         height: 120, width: 250, borderRadius: 20
                     }}
                 /> : null}
                 <Buttons
-                    disabled={validateNumCin || validateAdresse || validateImage}
                     width='80%'
                     title="Creer votre Compte"
                     loading={this.props.auth.loading}
-                    onPress={() => this.registration()}
+                    onPress={(validateNumCin(this.state.CIN)
+                        || validateAdresse(this.state.adresse)
+                        || validateImage(this.state.size['fileSize'])) == false ? () => this.registration() : () => Alert.alert(
+                            "Erreur",
+                            "vérifier vos champs",
+                            [{ text: "OK", cancelable: false }],
+                            { cancelable: false })}
                 />
 
             </View>
