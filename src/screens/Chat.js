@@ -30,8 +30,6 @@ class Chat extends React.Component {
     }
 
     onSend = (messages) => {
-        // alert(JSON.stringify(messages['0'].text));
-        //console.log('==================='+messages)
         this.setState(previousState => ({
             message: GiftedChat.append(previousState.message, messages)
         }))
@@ -45,7 +43,7 @@ class Chat extends React.Component {
             })
             .then((response) => {
                 console.log('succes : ' + response)
-                console.log('successssssssssssssssssssssssss : ')
+            
             }) 
     }
     FetshMessages = async () => {
@@ -85,7 +83,6 @@ class Chat extends React.Component {
         channel.bind('my-event', function (data) {
            // alert(JSON.stringify(data));
             let mess = this2.state.message;
-            /*   this2.setState({  message: mess})*/
           if (data.message.parcel_id === rec ){
             mess.push(data.message);
             this2.setState(prevState => ({
