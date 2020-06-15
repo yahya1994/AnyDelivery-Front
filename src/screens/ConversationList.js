@@ -7,7 +7,8 @@ import { connect } from 'react-redux';
 import { parcelReady, fetshParcels } from '../redux/actions';
 import axios from 'axios';
 import networkCheck from '../helpers/functions/networkCheck';
-import{ANYDELIVERY_BASE_URL} from '../helpers/constants/constants';
+import { ANYDELIVERY_BASE_URL } from '../helpers/constants/constants';
+import { retrieveToken, } from '../helpers/functions/functions';
 
 class ConversationList extends Component {
     state = {
@@ -16,39 +17,40 @@ class ConversationList extends Component {
 
     }
     FetshMessages = async () => {
-        const response = await axios.get(ANYDELIVERY_BASE_URL+'/des');
+        let token =await retrieveToken('AUTH_TOKEN');
+        const response = await axios.get(ANYDELIVERY_BASE_URL + '/dess', { headers: { Authorization: 'Bearer '.concat(token) }});
         try {
-              
+
             this.setState({ data: response.data })
         } catch (err) {
             return console.log(err);
         }
     }
 
-   
+
     componentDidMount() {
-   networkCheck()
+        networkCheck();
         this.FetshMessages();
     }
 
     render() {
         console.log("***************")
-         console.log(this.state.data['rec']);
+        console.log(this.state.data['rec']);
         return (
             <View style={{ flex: 1, backgroundColor: '#EFFBFB' }}>
-            
-                    
-                        
-                       { this.state.data['rec'] != '' ? <FlatList
-                            style={{ backgroundColor: '#EFFBFB', padding: 5 }}
-                            data={this.state.data['rec']}
-                            renderItem={({ item }) => (
-                            <ChatItem  nav={this.props.navigation}  item={item} />
-                            )}
-                            keyExtractor={item => item.user_id.toString()}
 
-                        /> : <Text >Vos  N'avez pas des enciens convesation </Text>}
-                 
+
+
+                {this.state.data['rec'] != '' ? <FlatList
+                    style={{ backgroundColor: '#EFFBFB', padding: 5 }}
+                    data={this.state.data['rec']}
+                    renderItem={({ item }) => (
+                        <ChatItem nav={this.props.navigation} item={item} />
+                    )}
+                    keyExtractor={item => item.user_id.toString()}
+
+                /> : <Text >Vos  N'avez pas des enciens convesation </Text>}
+
 
             </View>
         );

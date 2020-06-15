@@ -1,10 +1,7 @@
 import React from 'react';
 import Pusher from 'pusher-js/react-native';
-import { View, Text, Button, KeyboardAvoidingView } from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat';
 import axios from 'axios';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-import { ScrollView } from 'react-native-gesture-handler';
 import { connect } from 'react-redux';
 import networkCheck from '../helpers/functions/networkCheck';
 import{ANYDELIVERY_BASE_URL} from '../helpers/constants/constants';

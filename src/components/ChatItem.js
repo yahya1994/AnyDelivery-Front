@@ -12,11 +12,16 @@ class ChatItem extends Component {
 
     render() {
 
-        return (
+        return ( 
             <View style={{flex:1}}>
 
                 { this.props.auth.user.role !== this.props.item.user['0'].role
-                &&( this.props.auth.user.id !== this.props.item.user_id )?
+                &&( this.props.auth.user.id !== this.props.item.user_id ) 
+                && ( this.props.auth.user.role ==2 ? 
+                    this.props.item.deliveryMan['0'].delivery_man_id == this.props.auth.user.id :true
+                    )    
+                
+                ?
                    
                         <View  onStartShouldSetResponder={() => this.props.nav.push('Chat',
                         { idReceiver: this.props.item.parcel_id })} style={styles.containerStyle}>
