@@ -15,12 +15,14 @@ class ChatItem extends Component {
         return ( 
             <View style={{flex:1}}>
 
-                { this.props.auth.user.role !== this.props.item.user['0'].role
-                &&( this.props.auth.user.id !== this.props.item.user_id ) 
-                && ( this.props.auth.user.role ==2 ? 
+                {  
+              this.props.auth.user.role !==this.props.item.user['0'].role 
+              &&
+                   (this.props.auth.user.role ==2 ? 
                     this.props.item.deliveryMan['0'].delivery_man_id == this.props.auth.user.id :true
-                    )    
-                
+               ) &&(this.props.auth.user.role == 1 ? 
+                  this.props.item.deliveryMan['0'].user_id == this.props.auth.user.id :true      
+                )
                 ?
                    
                         <View  onStartShouldSetResponder={() => this.props.nav.push('Chat',
