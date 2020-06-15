@@ -29,6 +29,7 @@ import { Provider } from 'react-redux';
 import Report from './src/screens/Report';
 import Header from './src/components/header';
 import CreateParcels from './src/screens/CreateParcels';
+import SplashScreen from './src/screens/SplashScreen';
 const Stack = createStackNavigator();
 
 
@@ -71,6 +72,7 @@ function App() {
     <Provider store={createStore(reducers, {}, applyMiddleware(thunk))}>
       <NavigationContainer>
         <Stack.Navigator  >
+        <Stack.Screen name="splashScreen" component={SplashScreen} options={{ headerShown: false } } />
           <Stack.Screen name="Auth" component={Authentification} options={{ headerShown: false }} />
           <Stack.Screen name="Creér votre compte" component={RegistrationStepOne}
             options={{

@@ -17,7 +17,7 @@ class Report extends Component {
             title: this.state.title,   }
         console.log('=='+data);
         if (data.description != '' || data.title != '' ) {
-        this.props.CreateReport(id,data, this.props.navigation);
+        this.props.CreateReport(id,data,this.props.auth.user.role, this.props.navigation);
         } else {
             Alert.alert(
                 "erreur",
@@ -57,6 +57,6 @@ class Report extends Component {
     }
 }
 const mapStateToProps = state => {
-    return { Report: state.Report };
+    return { Report: state.Report ,auth:state.auth};
 };
 export default connect(mapStateToProps,{CreateReport})(Report);

@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   Linking
 } from 'react-native';
-
+ 
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import { RNCamera } from 'react-native-camera';
 import { connect } from 'react-redux';
@@ -16,9 +16,9 @@ class QrScanner extends Component {
   onSuccess =async e => {
     let test = e.data == this.props.OperationID;
   await this.props.parcelReady(this.props.id,this.props.OperationID,e.data);
-  await  this.props.QrCheck(test);
+  await  this.props.QrCheck(test) ;
   await this.props.refresh();
-  this.props.close();
+   this.props.close();
    // console.log(test)
   }; 
 

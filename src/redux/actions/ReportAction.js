@@ -3,7 +3,7 @@ import { Alert } from 'react-native';
 
 
 
-export const CreateReport = (id,data,nav) => dispatch => {
+export const CreateReport = (id,data,role ,nav) => dispatch => {
   dispatch({ type: 'CREATE_REPORT_ATTEMPT' })
   SharedFunction('/parcel/'+id+'/reclamation', 'POST', data).then((response) => {
         console.log(data);
@@ -11,7 +11,7 @@ export const CreateReport = (id,data,nav) => dispatch => {
         Alert.alert(
           "success",
           "votre Reclamation est creér avec success",
-          [{ text: "OK", onPress: () => nav.replace('Main') }],
+          [{ text: "OK", onPress: ()=>  nav.goBack()    }],
           { cancelable: false });
      
       dispatch({
