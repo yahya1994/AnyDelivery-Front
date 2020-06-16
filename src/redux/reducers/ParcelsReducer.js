@@ -8,9 +8,10 @@ import {
 const INITIAL_STATE = {
     items: [],
     item: [],
+    profil:[],
     Loading: true,
     Last_page: 0,
-    current_page: 0, success: null, modal: null
+    current_page: 0, success: null, modal: null,delivery_man_id:null,parcel_id:null
 
 };
 export default (state = INITIAL_STATE, action) => {
@@ -58,8 +59,13 @@ export default (state = INITIAL_STATE, action) => {
             return { ...state, success: action.payload.success, message: action.payload.message, modal: true }
         case HIDE_MODAL:
             return { ...state, modal: false, message: '' };
-        case LOGOUT:
+        case LOGOUT: 
             return { ...state, items: [] };
+            case 'SHOW_PROFIL':
+                console.log(action.payload.profil['profils'].length)
+                return { ...state, profil: action.payload.profil };
+            case 'REQUEST_FOR_PARCEL':
+            return { ...state, parcel_id : action.payload.parcel_id,delivery_man_id: action.payload.delivery_man_id };
         default:
             return state;
 

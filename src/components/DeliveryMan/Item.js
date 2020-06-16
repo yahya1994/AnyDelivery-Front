@@ -3,7 +3,7 @@ import { TouchableOpacity, View, Text, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Overlay ,CheckBox} from 'react-native-elements';
 import { connect } from 'react-redux';
-import { HideModal, ChoseParcel} from '../../redux/actions';
+import { HideModal,sendRequest, ChoseParcel} from '../../redux/actions';
 class Item extends Component {
     constructor() {
         super();
@@ -32,10 +32,11 @@ class Item extends Component {
                             this.props.item.status.toString() === '3' ? 'réserver' :
                              'en attente'}</Text>
                         </View>
-                     { this.props.item.status.toString() === '0'?  <CheckBox
-                            checked={this.props.Parcels.success } 
-                             onPress={() => this.setState({checked:this.props.item.status.toString()},
-                             ()=>this.props.choseParcel(this.props.item.id))}
+                     { this.props.item.status.toString() === '0'?  
+                     <CheckBox
+             checked={this.props.Parcels.delivery_man_id ==this.props.auth.user.id&&this.props.item.id==this.props.Parcels.parcel_id ? true : false   } 
+                             onPress={() => this.setState({checked:true},
+                             ()=>this.props.sendRequest(this.props.item.id,this.props.auth.user.id))}
                         />: null}
                     </View>
                     <View style={{ flex: 3, alignSelf: 'stretch', }} >
@@ -58,7 +59,7 @@ class Item extends Component {
                                         <Text>{this.props.item.status.toString() !== '0' ? this.props.item.DeliveryMan['0'].name : ''}</Text>
                                     </View>
                                     <Icon style={{ padding: 10 }} name="phone-square" color='green' size={45} />
-                                    <Icon onPress={() => this.props.nav.push('Chat',   {  idReceiver: this.props.item.Client['0'].id})} style={{ padding: 10 }} name="envelope-o" color='#007aff' size={45} />
+                                    <Icon   onPress={() => this.props.nav.push('Chat',   {  idReceiver: this.props.item.id})} style={{ padding: 10 }} name="envelope-o" color='#007aff' size={45} />
                                 </Overlay>
                             </TouchableOpacity >
                             <TouchableOpacity onPress={() => this.props.nav.push('Map', { item: this.props.item, DeliveryMan: this.props.item.DeliveryMan['0'], Client: this.props.item.Client['0'] })}  >
@@ -112,6 +113,6 @@ const styles = {
 const mapStateToProps = state => {
     return { auth: state.auth ,Parcels: state.parcel};
 };
-export default connect(mapStateToProps, {  HideModal,  ChoseParcel })(Item);
+export default connect(mapStateToProps, {  HideModal, sendRequest, ChoseParcel })(Item);
  
 

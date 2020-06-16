@@ -66,7 +66,20 @@ export const CreateParcel = (data,nav) => dispatch => {
 
   })
 };
+export const sendRequest = (parcel_id,delivery_man_id) => dispatch => {
+  let data ={
+    parcel_id,delivery_man_id
+  }
+  SharedFunction('/deliveryMan/req', 'POST', { parcel_id,delivery_man_id}).then((response) => {
+    console.log(response)
+     
+    dispatch({
+      type: 'REQUEST_FOR_PARCEL', payload: { parcel_id:response.parcel_id,delivery_man_id: response.delivery_man_id } })
+  }).catch((err) => {
+    console.log(err);
 
+  })
+};
 export const parcelReady = (id,OperationID,e) => dispatch => {
   SharedFunction('/client/parcelReady/'+id+'/'+OperationID+'/'+e, 'PUT' ).then((response) => {
     console.log('7777777'+response)
@@ -89,13 +102,22 @@ export const parcelDone = (id) => dispatch => {
   })
 };
 
+export const showProfil = (parcel_id) => dispatch => {
+  SharedFunction('/client/showProfils/?parcel='+parcel_id, 'GET' ).then((response) => {
+    console.log('Done '+response['profils'])
+    dispatch({
+      type: 'SHOW_PROFIL', payload: { profil: response, } })
+  }).catch((err) => {
+    console.log(err);
 
-export const ChoseParcel = (id) => dispatch => {
-  SharedFunction('/deliveryMan/parcel/'+id, 'PUT' ).then((response) => {
-if (response !=1) {
-  dispatch({  type: CHOSE_PARCEL_FAIL, payload: {  message:"cette colis n'est pas encore disponible", success: false } })
-   
-}else  dispatch({ type: CHOSE_PARCEL, payload: { items: response, } })
+  })
+};   
+
+
+
+export const ChoseParcel = (id,delivery_man_id) => dispatch => {
+  SharedFunction('/client/parcel/'+id+'/'+delivery_man_id, 'PUT' ).then((response) => {
+dispatch({ type: CHOSE_PARCEL, payload: { items: response, } })
   }).catch((err) => {
     console.log("response2")
     dispatch({  type: CHOSE_PARCEL_FAIL, payload: { message: "cette colis n'est pas encore disponible", success: false } })

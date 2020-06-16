@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { TouchableOpacity, View, Text, Alert, Image } from 'react-native';
+import { TouchableOpacity, View, Text, FlatList, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Overlay, CheckBox } from 'react-native-elements';
 import QrScanner from './QrScanner';
 import QRCode from 'react-native-qrcode-svg';
 import { connect } from 'react-redux';
-import { parcelReady, fetshParcels } from '../redux/actions';
-
+import { parcelReady, showProfil, fetshParcels } from '../redux/actions';
+import ShowProfils from './ShowProfils';
 class Item extends Component {
     constructor() {
         super();
@@ -83,14 +83,14 @@ class Item extends Component {
                                                     : this.state.QRcheck == false ? <Icon name="times-circle" color='red' size={35} /> :
                                                         <Text style={{ backgroundColor: 'green', color: 'white', borderRadius: 20, }} >  Lancer    </Text>}  </Text>
                                         </TouchableOpacity>
-                                       
-                                    </Overlay> 
+
+                                    </Overlay>
                                     <Overlay isVisible={this.state.visibleScanner}
                                         onBackdropPress={this.ScannerOverlay}>
                                         <QrScanner check={this.state.QRcheck}
                                             close={this.ScannerOverlay}
                                             QrCheck={this.QrCheck}
-                                            refresh={()=>this.props.refresh()}
+                                            refresh={() => this.props.refresh()}
                                             id={this.props.item.id}
                                             OperationID={''.concat(this.props.item.id).concat(this.props.item.Client['0'].id).concat(this.props.item.DeliveryMan['0'].id)} />
                                     </Overlay>
@@ -112,6 +112,73 @@ class Item extends Component {
                                     </View>
                                 )}
                             </View> : null}
+
+                        {this.props.item.status === 0  && this.props.Parcels.profil['profils'] != '' ?
+                            <View style={{ width: "50%", marginTop: "20%" }}>
+                                <TouchableOpacity onPress={this.toggleOverlay1}  >
+                                    <Icon name="users" color='green' size={35} />
+                                    <Overlay
+                                        overlayStyle={{
+                                            width: '90%', height: '70%', borderRadius: 80,
+                                            flexDirection: 'column', justifyContent: "space-around", alignItems: 'center'
+                                        }}
+                                        isVisible={this.state.visible1}
+                                        onBackdropPress={this.OverlayExample1}>
+                                        {this.props.Parcels.profil['profils'] != '' ?
+                                            <FlatList
+                                                style={{ backgroundColor: 'white', width: '80%', }}
+                                                data={this.props.Parcels.profil['profils']}
+                                                renderItem={({ item }) => (
+                                                    <ShowProfils  close={this.OverlayExample1}  refresh={() => this.props.refresh() } item={this.props.item.id} profil={item.delivery_man['0']} />
+                                                )}
+
+                                                keyExtractor={item => item.id.toString()}
+                                            /> : <Text >Vos  N'avez pas des demandes </Text>}
+                                        <TouchableOpacity onPress={() => this.props.showProfil(this.props.item.id)}  >
+                                            <Text>vv</Text>
+                                        </TouchableOpacity>
+
+                                    </Overlay>
+                                    <Overlay isVisible={this.state.visibleScanner}
+                                        onBackdropPress={this.ScannerOverlay}>
+
+                                    </Overlay>
+                                </TouchableOpacity   >
+                                {this.props.Parcels.profil['profils'] != '' && (
+                                    <View
+                                        style={{
+                                            position: 'absolute',
+                                            right: -6,
+                                            top: -3,
+                                            backgroundColor: 'red',
+                                            borderRadius: 6,
+                                            width: 12,
+                                            height: 12,
+                                            justifyContent: 'center',
+                                            alignItems: 'center',
+                                        }}  >
+                                        <Text style={{ color: 'white', fontSize: 15, fontWeight: 'bold' }}>+</Text>
+                                    </View>
+                                )}
+                            </View> : null}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                     </View>
                     <View style={{ flex: 3, alignSelf: 'stretch', }} >
                         <View style={{ justifyContent: 'flex-end', flexDirection: 'row', paddingRight: 20, alignSelf: 'stretch', }} >
@@ -120,7 +187,7 @@ class Item extends Component {
                         <Text>{this.props.item.Client['0'].name} -- {this.props.item.Receiver_name} </Text>
                         <Text>{this.props.item.starting_adresse} -- {this.props.item.destination_adresse}</Text>
                         <View style={{ justifyContent: 'flex-end', flexDirection: 'row', alignSelf: 'stretch', }} >
-                            <TouchableOpacity onPress={this.toggleOverlay}  >
+                         {  this.props.item.status.toString() !== '0' ? <TouchableOpacity  disabled={true} onPress={this.toggleOverlay}  >
                                 <Icon style={{ padding: 10 }} name="comments-o" color='#DB4BDB' size={35} />
                                 <Overlay
                                     overlayStyle={{ width: '90%', height: '20%', borderRadius: 80, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}
@@ -133,10 +200,12 @@ class Item extends Component {
                                         <Text>{this.props.item.status.toString() !== '0' ? this.props.item.DeliveryMan['0'].name : ''}</Text>
                                     </View>
                                     <Icon style={{ padding: 10 }} name="phone-square" color='green' size={45} />
-                                    <Icon onPress={() => this.props.nav.push('Chat', { idReceiver: this.props.item.Client['0'].id })}
+                                    <Icon onPress={() => this.props.nav.push('Chat', { idReceiver: this.props.item.id })}
                                         style={{ padding: 10 }} name="envelope-o" color='#007aff' size={45} />
                                 </Overlay>
-                            </TouchableOpacity >
+                            </TouchableOpacity > :<TouchableOpacity disabled={true} onPress={this.toggleOverlay}  >
+                                <Icon style={{ padding: 10 }} name="comments-o" color='grey' size={35} />
+                            </TouchableOpacity >}
                             <TouchableOpacity onPress={() => this.props.nav.navigate('Map', { item: this.props.item, DeliveryMan: this.props.item.DeliveryMan['0'], Client: this.props.item.Client['0'] })}  >
                                 <Icon style={{ padding: 10 }} name="map-marker" color='#007aff' size={35} />
                             </TouchableOpacity>
@@ -180,4 +249,4 @@ const styles = {
 const mapStateToProps = state => {
     return { Parcels: state.parcel };
 };
-export default connect(mapStateToProps, { parcelReady, fetshParcels })(Item);
+export default connect(mapStateToProps, { parcelReady, showProfil, fetshParcels })(Item);
