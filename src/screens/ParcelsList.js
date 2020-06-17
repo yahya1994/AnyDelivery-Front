@@ -92,6 +92,10 @@ class ParcelsList extends Component {
             <View style={{ flex: 1, backgroundColor: '#EFFBFB' }}>
                 <View style={{ flexDirection: 'row', backgroundColor: '#EFFBFB' }}>
                     <Input
+                 onSubmitEditing=   {() =>
+                        this.setState({ currentPage: 1,status:'' },
+            () => {   this.props.fetshParcels('', this.state.input,1)}
+                         ) }  
                         placeholder={'rechercher..'}
                         onChangeText={text => this.setState({ input: (text) })}
                         inputContainerStyle={{ borderBottomWidth: 0 }}

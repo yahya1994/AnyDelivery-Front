@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
-import { TouchableOpacity, View, Text, Image, Button } from 'react-native';
+import { TouchableOpacity, View, Text, Image} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { Overlay, CheckBox } from 'react-native-elements';
-import QrScanner from './QrScanner';
-import QRCode from 'react-native-qrcode-svg';
 import { connect } from 'react-redux';
 import { parcelReady, ChoseParcel } from '../redux/actions';
-import Item from './Item';
 
 class ShowProfils extends Component {
     chose = async () => {
@@ -20,8 +16,7 @@ class ShowProfils extends Component {
             <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', paddingBottom: 15 }}>
                 <Image
                     source={require('../assets/img/me.jpg')}
-                    style={{ borderRadius: 80, paddingTop: 20, height: '100%', width: '20%' }}
-                />
+                    style={{ borderRadius: 80, paddingTop: 20, height: '100%', width: '20%' }}  />
                 <Text >{this.props.profil.name}</Text>
                 <TouchableOpacity onPress={() => this.chose()}>
                     <Icon name="check-circle" color='green' size={35} />

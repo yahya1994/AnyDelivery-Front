@@ -7,6 +7,7 @@ import QRCode from 'react-native-qrcode-svg';
 import { connect } from 'react-redux';
 import { parcelReady, showProfil, fetshParcels } from '../redux/actions';
 import ShowProfils from './ShowProfils';
+import { Linking } from 'react-native';
 class Item extends Component {
     constructor() {
         super();
@@ -64,7 +65,10 @@ class Item extends Component {
                         {this.props.item.status === 3 ?
                             <View style={{ width: "50%", marginTop: "20%" }}>
                                 <TouchableOpacity onPress={this.toggleOverlay1}  >
-                                    <Icon name="users" color='green' size={35} />
+                                    <Image
+                                        source={require('../assets/img/w.png')}
+                                    />
+
                                     <Overlay
                                         overlayStyle={{
                                             width: '90%', height: '70%', borderRadius: 80,
@@ -95,25 +99,10 @@ class Item extends Component {
                                             OperationID={''.concat(this.props.item.id).concat(this.props.item.Client['0'].id).concat(this.props.item.DeliveryMan['0'].id)} />
                                     </Overlay>
                                 </TouchableOpacity   >
-                                {2 > 0 && (
-                                    <View
-                                        style={{
-                                            position: 'absolute',
-                                            right: -6,
-                                            top: -3,
-                                            backgroundColor: 'red',
-                                            borderRadius: 6,
-                                            width: 12,
-                                            height: 12,
-                                            justifyContent: 'center',
-                                            alignItems: 'center',
-                                        }}  >
-                                        <Text style={{ color: 'white', fontSize: 10, fontWeight: 'bold' }}> 1    </Text>
-                                    </View>
-                                )}
+
                             </View> : null}
 
-                        {this.props.item.status === 0  && this.props.Parcels.profil['profils'] != '' ?
+                        {this.props.item.status === 0 && this.props.Parcels.profil['profils'] != '' ?
                             <View style={{ width: "50%", marginTop: "20%" }}>
                                 <TouchableOpacity onPress={this.toggleOverlay1}  >
                                     <Icon name="users" color='green' size={35} />
@@ -129,7 +118,7 @@ class Item extends Component {
                                                 style={{ backgroundColor: 'white', width: '80%', }}
                                                 data={this.props.Parcels.profil['profils']}
                                                 renderItem={({ item }) => (
-                                                    <ShowProfils  close={this.OverlayExample1}  refresh={() => this.props.refresh() } item={this.props.item.id} profil={item.delivery_man['0']} />
+                                                    <ShowProfils close={this.OverlayExample1} refresh={() => this.props.refresh()} item={this.props.item.id} profil={item.delivery_man['0']} />
                                                 )}
 
                                                 keyExtractor={item => item.id.toString()}
@@ -187,7 +176,7 @@ class Item extends Component {
                         <Text>{this.props.item.Client['0'].name} -- {this.props.item.Receiver_name} </Text>
                         <Text>{this.props.item.starting_adresse} -- {this.props.item.destination_adresse}</Text>
                         <View style={{ justifyContent: 'flex-end', flexDirection: 'row', alignSelf: 'stretch', }} >
-                         {  this.props.item.status.toString() !== '0' ? <TouchableOpacity  disabled={true} onPress={this.toggleOverlay}  >
+                            {this.props.item.status.toString() !== '0' ? <TouchableOpacity onPress={this.toggleOverlay}  >
                                 <Icon style={{ padding: 10 }} name="comments-o" color='#DB4BDB' size={35} />
                                 <Overlay
                                     overlayStyle={{ width: '90%', height: '20%', borderRadius: 80, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}
@@ -199,13 +188,16 @@ class Item extends Component {
                                         <Text>votre livreur :</Text>
                                         <Text>{this.props.item.status.toString() !== '0' ? this.props.item.DeliveryMan['0'].name : ''}</Text>
                                     </View>
-                                    <Icon style={{ padding: 10 }} name="phone-square" color='green' size={45} />
+                                    <Icon style={{ padding: 10 }} name="phone-square" onPress={() =>
+                                        Linking.openURL(`tel:${parseInt(this.props.item.DeliveryMan['0'].phone_number)}`)
+
+                                    } color='green' size={45} />
                                     <Icon onPress={() => this.props.nav.push('Chat', { idReceiver: this.props.item.id })}
                                         style={{ padding: 10 }} name="envelope-o" color='#007aff' size={45} />
                                 </Overlay>
-                            </TouchableOpacity > :<TouchableOpacity disabled={true} onPress={this.toggleOverlay}  >
-                                <Icon style={{ padding: 10 }} name="comments-o" color='grey' size={35} />
-                            </TouchableOpacity >}
+                            </TouchableOpacity > : <TouchableOpacity disabled={true} onPress={this.toggleOverlay}  >
+                                    <Icon style={{ padding: 10 }} name="comments-o" color='grey' size={35} />
+                                </TouchableOpacity >}
                             <TouchableOpacity onPress={() => this.props.nav.navigate('Map', { item: this.props.item, DeliveryMan: this.props.item.DeliveryMan['0'], Client: this.props.item.Client['0'] })}  >
                                 <Icon style={{ padding: 10 }} name="map-marker" color='#007aff' size={35} />
                             </TouchableOpacity>

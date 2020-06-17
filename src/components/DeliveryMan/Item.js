@@ -4,6 +4,9 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { Overlay ,CheckBox} from 'react-native-elements';
 import { connect } from 'react-redux';
 import { HideModal,sendRequest, ChoseParcel} from '../../redux/actions';
+import { Linking } from 'react-native';
+
+
 class Item extends Component {
     constructor() {
         super();
@@ -58,8 +61,11 @@ class Item extends Component {
                                         <Text>votre livreur :</Text>
                                         <Text>{this.props.item.status.toString() !== '0' ? this.props.item.DeliveryMan['0'].name : ''}</Text>
                                     </View>
-                                    <Icon style={{ padding: 10 }} name="phone-square" color='green' size={45} />
-                                    <Icon   onPress={() => this.props.nav.push('Chat',   {  idReceiver: this.props.item.id})} style={{ padding: 10 }} name="envelope-o" color='#007aff' size={45} />
+                                    <Icon style={{ padding: 10 }} name="phone-square" onPress={() =>
+                                        Linking.openURL(`tel:${parseInt(this.props.item.Client['0'].phone_number)}`)
+
+                                    } color='green' size={45} />
+                                     <Icon   onPress={() => this.props.nav.push('Chat',   {  idReceiver: this.props.item.id})} style={{ padding: 10 }} name="envelope-o" color='#007aff' size={45} />
                                 </Overlay>
                             </TouchableOpacity >
                             <TouchableOpacity onPress={() => this.props.nav.push('Map', { item: this.props.item, DeliveryMan: this.props.item.DeliveryMan['0'], Client: this.props.item.Client['0'] })}  >

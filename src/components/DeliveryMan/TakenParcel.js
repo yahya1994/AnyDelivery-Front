@@ -6,6 +6,7 @@ import { InputText } from '../Shared';
 import { Input } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { parcelDone, } from '../../redux/actions';
+import { Linking } from 'react-native';
 
 
 
@@ -21,7 +22,7 @@ class TakenParcel extends Component {
 
     ParcelDone = async (id) => {
         await this.props.parcelDone(id);
-         this.OverlayExample1();
+        this.OverlayExample1();
         this.props.refresh();
 
     }
@@ -82,16 +83,16 @@ class TakenParcel extends Component {
                                             value={this.state.comfirmationCode}
                                             onChangeText={text => this.setState({ comfirmationCode: (text) })}
                                         />
-                                            <TouchableOpacity style={{ alignSelf: 'center' }}
+                                        <TouchableOpacity style={{ alignSelf: 'center' }}
 
-                                                onPress={() => { this.ParcelDone(this.props.item.id) }} >
-                                                <Text style={{
-                                                    alignSelf: 'center',
-                                                    color: 'white', backgroundColor: '#007aff',
-                                                    fontSize: 30, borderRadius: 20, paddingLeft: 30, paddingRight: 30
-                                                }}>  Valider </Text>
-                                            </TouchableOpacity> 
-                                         
+                                            onPress={() => { this.ParcelDone(this.props.item.id) }} >
+                                            <Text style={{
+                                                alignSelf: 'center',
+                                                color: 'white', backgroundColor: '#007aff',
+                                                fontSize: 30, borderRadius: 20, paddingLeft: 30, paddingRight: 30
+                                            }}>  Valider </Text>
+                                        </TouchableOpacity>
+
                                     </Overlay>
                                 </TouchableOpacity   >
 
@@ -117,8 +118,11 @@ class TakenParcel extends Component {
                                         <Text>votre livreur :</Text>
                                         <Text>{this.props.item.status.toString() !== '0' ? this.props.item.DeliveryMan['0'].name : ''}</Text>
                                     </View>
-                                    <Icon style={{ padding: 10 }} name="phone-square" color='green' size={45} />
-                                    <Icon onPress={() => this.props.nav.push('Chat',   {  idReceiver: this.props.item.Client['0'].id})} style={{ padding: 10 }} name="envelope-o" color='#007aff' size={45} />
+                                    <Icon style={{ padding: 10 }} name="phone-square" onPress={() =>
+                                        Linking.openURL(`tel:${parseInt(this.props.item.Client['0'].phone_number)}`)
+
+                                    } color='green' size={45} />
+                                    <Icon onPress={() => this.props.nav.push('Chat', { idReceiver: this.props.item.Client['0'].id })} style={{ padding: 10 }} name="envelope-o" color='#007aff' size={45} />
                                 </Overlay>
                             </TouchableOpacity >
                             <TouchableOpacity onPress={() => this.props.nav.navigate('Map', { item: this.props.item, DeliveryMan: this.props.item.DeliveryMan['0'], Client: this.props.item.Client['0'] })}   >
