@@ -3,6 +3,7 @@ import { CLIENT_ROLE,DELIVERYMAN_ROLE,ANYDELIVERY_BASE_URL } from '../../helpers
 import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios';
 import { SharedFunction, } from '../../helpers/functions/functions';
+import { POST, GET, PUT  } from '../../helpers/constants/method/method';
 import { Alert } from 'react-native';
 import { REGISTERATION,DATA_ATTEMPT,SUCCESS ,FAIL,HIDE_MODAL,LOGOUT } from './actionType';
 import OneSignal from 'react-native-onesignal'; 
@@ -13,7 +14,7 @@ import OneSignal from 'react-native-onesignal';
 export const Registration = (data, nav) => dispatch => {
   dispatch({ type: DATA_ATTEMPT })
   axios({
-    method: 'post',
+    method: POST,
     url: ANYDELIVERY_BASE_URL+'/user/register',
     data: data,
     headers: {

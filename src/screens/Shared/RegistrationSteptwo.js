@@ -148,7 +148,7 @@ class RegistrationSteptwo extends Component {
                             color='red'
                             onPress={this.getImage} />}
                 />
-                {validateImage(this.state.size['fileSize']) == false && this.state.size['fileSize']==0? 
+                {validateImage(this.state.size['fileSize']) == false    ? 
                 <Image source={this.state.Image}
                     style={{
                         height: 120, width: 250, borderRadius: 20
@@ -178,7 +178,7 @@ class RegistrationSteptwo extends Component {
                             color='red'
                             onPress={this.getImage2} />}
                 /> : null}
-                {validateImage(this.state.size2['fileSize']) == false && this.state.size2['fileSize']==0 ? <Image source={this.state.Image2}
+                {validateImage(this.state.size2['fileSize']) == false  ? <Image source={this.state.Image2}
                     style={{
                         height: 120, width: 250, borderRadius: 20
                     }}

@@ -1,11 +1,12 @@
 import { SharedFunction, } from '../../helpers/functions/functions';
 import { Alert } from 'react-native';
 import { CREATE_REPORT,CREATE_REPORT_ATTEMPT} from './actionType';
+import { POST, GET, PUT  } from '../../helpers/constants/method/method';
 
 
 export const CreateReport = (id,data,role ,nav) => dispatch => {
   dispatch({ type: CREATE_REPORT_ATTEMPT })
-  SharedFunction('/parcel/'+id+'/reclamation', 'POST', data).then((response) => {
+  SharedFunction('/parcel/'+id+'/reclamation', POST, data).then((response) => {
         console.log(data);
         console.log(response);
         Alert.alert(

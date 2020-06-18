@@ -12,7 +12,7 @@ class Item extends Component {
     constructor() {
         super();
         this.state = {
-            visible: false, visible1: false, visibleScanner: false, QRcheck: null
+            visible2:false,  visible: false, visible1: false, visibleScanner: false, QRcheck: null
         }
     }
     parcelReady = async (id) => {
@@ -21,7 +21,12 @@ class Item extends Component {
         this.props.refresh();
     }
 
-
+    OverlayExample2 = () => {
+        this.setState({ visible2: false });
+    }
+    toggleOverlay2 = () => {
+        this.setState({ visible2: true });
+    };
     QrCheck = (res) => {
         this.setState({ QRcheck: res })
     }
@@ -104,21 +109,21 @@ class Item extends Component {
 
                         {this.props.item.status === 0 && this.props.Parcels.profil['profils'] != '' ?
                             <View style={{ width: "50%", marginTop: "20%" }}>
-                                <TouchableOpacity onPress={this.toggleOverlay1}  >
+                                <TouchableOpacity onPress={this.toggleOverlay2}  >
                                     <Icon name="users" color='green' size={35} />
                                     <Overlay
                                         overlayStyle={{
                                             width: '90%', height: '70%', borderRadius: 80,
                                             flexDirection: 'column', justifyContent: "space-around", alignItems: 'center'
                                         }}
-                                        isVisible={this.state.visible1}
-                                        onBackdropPress={this.OverlayExample1}>
+                                        isVisible={this.state.visible2}
+                                        onBackdropPress={this.OverlayExample2}>
                                         {this.props.Parcels.profil['profils'] != '' ?
                                             <FlatList
                                                 style={{ backgroundColor: 'white', width: '80%', }}
                                                 data={this.props.Parcels.profil['profils']}
                                                 renderItem={({ item }) => (
-                                                    <ShowProfils close={this.OverlayExample1} refresh={() => this.props.refresh()} item={this.props.item.id} profil={item.delivery_man['0']} />
+                                                    <ShowProfils close={this.OverlayExample2} refresh={() => this.props.refresh()} item={this.props.item.id} profil={item.delivery_man['0']} />
                                                 )}
 
                                                 keyExtractor={item => item.id.toString()}

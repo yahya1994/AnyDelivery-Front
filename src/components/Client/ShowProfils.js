@@ -7,7 +7,7 @@ import { parcelReady, ChoseParcel } from '../../redux/actions';
 class ShowProfils extends Component {
     chose = async () => {
         await this.props.ChoseParcel(this.props.item, this.props.profil.id);
-       // await this.props.close();
+        await this.props.close();
         this.props.refresh();
     }
     render() {
