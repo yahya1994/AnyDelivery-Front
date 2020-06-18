@@ -5,6 +5,7 @@ import axios from 'axios';
 import { SharedFunction, } from '../../helpers/functions/functions';
 import { Alert } from 'react-native';
 import { REGISTERATION,DATA_ATTEMPT,SUCCESS ,FAIL,HIDE_MODAL,LOGOUT } from './actionType';
+import OneSignal from 'react-native-onesignal'; 
 
  
 
@@ -44,10 +45,12 @@ export const Login = (email, password, nav) => dispatch => {
         storeData(response.data.token);
         // clearToken()
         nav.navigate('Main');
+        OneSignal.setExternalUserId(response.data.role.toString());
         dispatch({ type: SUCCESS, payload: { user: response.data.user, success: response.data.success } })
       }
       if (response.data.role === DELIVERYMAN_ROLE) {
         storeData(response.data.token);
+        OneSignal.setExternalUserId(response.data.role.toString());
         nav.navigate('MainDeliveryMan');
         dispatch({ type: SUCCESS, payload: { user: response.data.user, success: response.data.success } })
       }
@@ -71,7 +74,6 @@ export const storeData = async (token) => {
   }
 };
 export const clearToken =async   () => {
-
   await  AsyncStorage.removeItem('AUTH_TOKEN');
   console.log('clear token  ')
 };
