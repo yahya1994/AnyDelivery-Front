@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import { View, Image, Text, StyleSheet, TextInput, TouchableOpacity, Dimensions, Alert, Button } from 'react-native';
 import Animated, { Easing } from 'react-native-reanimated';
 import { TapGestureHandler, State } from 'react-native-gesture-handler';
-import { Login, HideModal } from '../redux/actions';
+import { Login, HideModal } from '../../redux/actions';
 import { connect } from 'react-redux';
-import { InputText, Buttons } from '../components/Shared';
+import { InputText, Buttons } from '../../components/Shared';
 import { Overlay } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import networkCheck from '../helpers/functions/networkCheck';
+import networkCheck from '../../helpers/functions/networkCheck';
+import { CONNEXION ,ERROR,CLOSE_TAG,EMAIL,PASSWORD,LOGIN,CREATE_NEW_ACCOUNT,CREATE_NEW_ACCOUNT_REQUEST } from '../../helpers/strings/strings';
 const { width, height } = Dimensions.get('window');
 const {
   Value,
@@ -148,7 +149,7 @@ componentDidMount(){
             ...StyleSheet.absoluteFill, transform: [{ translateY: this.bgY }]
           }} >
           <Image
-            source={require('../assets/img/login-image.jpg')}
+            source={require('../../assets/img/login-image.jpg')}
             style={{ flex: 1, height: null, width: null }}
           />
         </Animated.View>
@@ -161,7 +162,7 @@ componentDidMount(){
                 transform: [{ translateY: this.buttonY }]
               }}
             >
-              <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Se Connecter</Text>
+              <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{CONNEXION}</Text>
             </Animated.View>
           </TapGestureHandler>
           <Animated.View
@@ -175,26 +176,26 @@ componentDidMount(){
             <TapGestureHandler onHandlerStateChange={this.OnClose}>
               <Animated.View style={styles.closeBtn}>
                 <Animated.Text style={{ fontSize: 30, transform: [{ rotate: this.rotateCross }] }} >
-                  X
+                  {CLOSE_TAG}
                     </Animated.Text>
               </Animated.View>
             </TapGestureHandler>
             <InputText
-              placeholder='email'
+              placeholder={EMAIL}
               value={this.state.email}
               onChangeText={text => this.setState({ email: (text) })}
             />
             <InputText
-              placeholder='password'
+              placeholder={PASSWORD}
               value={this.state.password}
               onChangeText={text => this.setState({ password: (text) })}
               secureTextEntry={true}
             /> 
-            <Buttons width={'97%'} title='Login' loading={this.props.auth.loading} onPress={() => this.props.Login(this.state.email, this.state.password, this.props.navigation
+            <Buttons width={'97%'} title={LOGIN} loading={this.props.auth.loading} onPress={() => this.props.Login(this.state.email, this.state.password, this.props.navigation
             )} />
 
-            <Text style={{ alignSelf: 'center', }} >vous n'avez pas un compte ?,</Text>
-            <Text onPress={() => this.props.navigation.navigate("RegistrationType")} style={styles.textStyleNewAcount} >creer votre compte </Text>
+            <Text style={{ alignSelf: 'center', }} >{CREATE_NEW_ACCOUNT_REQUEST}</Text>
+            <Text onPress={() => this.props.navigation.navigate("RegistrationType")} style={styles.textStyleNewAcount} >{CREATE_NEW_ACCOUNT}</Text>
           </Animated.View>
           <Overlay
             overlayStyle={{
@@ -203,7 +204,7 @@ componentDidMount(){
             }}
             isVisible={this.props.auth.modal}
             onBackdropPress={() => this.props.HideModal()}>
- <Text style={{ fontSize: 20 , color:'red',alignSelf:'flex-start',paddingLeft:'5%',marginBottom:"5%"  }} >erreur </Text>
+ <Text style={{ fontSize: 20 , color:'red',alignSelf:'flex-start',paddingLeft:'5%',marginBottom:"5%"  }} >{ERROR} </Text>
 
  <Text style={{ fontSize: 20,marginBottom:10 }} > {this.props.auth.message} </Text>
           </Overlay>

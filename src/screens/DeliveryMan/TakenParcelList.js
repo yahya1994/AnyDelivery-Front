@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import { parcelDone, fetsh_DeliveryMan_Parcel } from '../../redux/actions';
 import TakenParcel from '../../components/DeliveryMan/TakenParcel';
 import networkCheck from '../../helpers/functions/networkCheck';
+import { SEARCH, WAITING, RESERVED, IN_PROGRESS, DELIVERED,SEARCH_BY } from '../../helpers/strings/strings';
 
 class TakenParcelList extends Component {
     state = {
@@ -54,7 +55,7 @@ class TakenParcelList extends Component {
             <View style={{ flex: 1, backgroundColor: '#EFFBFB' }}>
                 <View style={{ flexDirection: 'row', backgroundColor: '#EFFBFB' }}>
                     <Input
-                        placeholder={'rechercher..'}
+                        placeholder={SEARCH}
                         inputContainerStyle={{ borderBottomWidth: 0 }}
                         onChangeText={text => this.setState({ input: (text) })}
                         containerStyle={{
@@ -92,7 +93,7 @@ class TakenParcelList extends Component {
                         overlayStyle={{ width: '90%', height: '25%', borderRadius: 40, flexDirection: 'column' }}
                         isVisible={this.state.visible}
                         onBackdropPress={this.OverlayExample}>
-                        <Text style={{ alignSelf: 'center',paddingBottom:'5%' }}>filter selon le status :</Text>
+                        <Text style={{ alignSelf: 'center',paddingBottom:'5%' }}>{SEARCH_BY}</Text>
                         <View style={{ flex: 1, flexDirection: 'column', padding: 3, }}>
                             <View style={{ flex: 1, flexDirection: 'row' , justifyContent: 'space-between' }}>
                                 <TouchableOpacity onPress={() => { this.setState({currentPage: 1 , input:'', status:0 }, this.props.fetsh_DeliveryMan_Parcel(0,this.state.input,1)) }} >
@@ -109,10 +110,10 @@ class TakenParcelList extends Component {
                                 </TouchableOpacity  >
                             </View>
                             <View style={{ flex: 1, flexDirection: 'row' , justifyContent: 'space-between' }}>
-                                <Text>en attente </Text>
-                                <Text>Reservé </Text>
-                                <Text>en cours </Text>
-                                <Text>livré </Text>
+                                <Text>{WAITING} </Text>
+                                <Text>{RESERVED} </Text>
+                                <Text>{IN_PROGRESS}</Text>
+                                <Text>{DELIVERED}</Text>
                             </View>
                         </View>
                     </Overlay>

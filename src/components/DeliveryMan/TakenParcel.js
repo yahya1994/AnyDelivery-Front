@@ -21,9 +21,20 @@ class TakenParcel extends Component {
 
 
     ParcelDone = async (id) => {
-        await this.props.parcelDone(id);
-        this.OverlayExample1();
-        this.props.refresh();
+
+        if (''.concat(this.props.item.id)
+            .concat(this.props.item.Client['0'].id)
+            .concat(this.props.item.DeliveryMan['0'].id) == this.state.comfirmationCode) {
+            await this.props.parcelDone(id);
+            this.OverlayExample1();
+            this.props.refresh();
+        } else {
+            Alert.alert(
+                "Erreur",
+                "code comfirmation incorrect",
+                [{ text: "OK", cancelable: false }],
+                { cancelable: false });
+        }
 
     }
     QrCheck = (res) => {

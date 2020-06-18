@@ -1,13 +1,14 @@
 import { FlatList, Text, View, RefreshControl, TouchableOpacity, TextInput, StyleSheet, ActivityIndicator, Animated } from 'react-native';
 import React, { Component } from 'react';
-import Item from '../components/Item';
+import Item from '../../components/Client/Item';
 import { Input, Overlay, ThemeProvider } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { connect } from 'react-redux';
-import { parcelReady, fetshParcels } from '../redux/actions';
-import { InputText, Buttons } from '../components/Shared';
-import networkCheck from '../helpers/functions/networkCheck';
-
+import { parcelReady, fetshParcels } from '../../redux/actions';
+import { InputText, Buttons } from '../../components/Shared';
+import networkCheck from '../../helpers/functions/networkCheck';
+import { SEARCH ,WAITING, RESERVED , IN_PROGRESS, DELIVERED,CREATE_PARCEL } from '../../helpers/strings/strings';
+ 
 class ParcelsList extends Component {
     constructor() {
         super();
@@ -96,7 +97,7 @@ class ParcelsList extends Component {
                         this.setState({ currentPage: 1,status:'' },
             () => {   this.props.fetshParcels('', this.state.input,1)}
                          ) }  
-                        placeholder={'rechercher..'}
+                        placeholder={SEARCH}
                         onChangeText={text => this.setState({ input: (text) })}
                         inputContainerStyle={{ borderBottomWidth: 0 }}
                         containerStyle={{
@@ -151,10 +152,10 @@ class ParcelsList extends Component {
                                 </TouchableOpacity  >
                             </View>
                             <View style={{ flex: 1, flexDirection: 'row' , justifyContent: 'space-between' }}>
-                                <Text>en attente </Text>
-                                <Text>Reservé </Text>
-                                <Text>en cours </Text>
-                                <Text>livré </Text>
+                                <Text>{WAITING} </Text>
+                                <Text>{RESERVED}</Text>
+                                <Text>{IN_PROGRESS} </Text>
+                                     <Text>{DELIVERED}</Text>
                             </View>
                         </View>
 
@@ -190,7 +191,7 @@ class ParcelsList extends Component {
                         onPress={() => this.props.navigation.navigate('create parcel')}>
                         <InputText
                             disable={true}
-                            value={" +  Créer une nouvelle colis "}
+                            value={CREATE_PARCEL}
                             secureTextEntry={false} color={'red'} />
                     </TouchableOpacity>
                 </Animated.View>
@@ -200,16 +201,8 @@ class ParcelsList extends Component {
     }
 }
 const styles = StyleSheet.create({
-    container: {
-        width: '100%',
-        alignItems: 'center', zIndex: 0
-    },
-    map: {
-        height: "95%",
-        width: "100%",
-        paddingBottom: 5
-
-    }, InputText1: {
+    
+   InputText1: {
         position: 'absolute', bottom: '1%', right: '15%',
         backgroundColor: 'red', borderRadius: 50, height: '10%', width: '80%',
     },

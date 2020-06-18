@@ -11,7 +11,7 @@ import {
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import { RNCamera } from 'react-native-camera';
 import { connect } from 'react-redux';
-import { parcelReady, fetsh_DeliveryMan_Parcel } from '../redux/actions';
+import { parcelReady, fetsh_DeliveryMan_Parcel } from '../../redux/actions';
 class QrScanner extends Component {
   onSuccess =async e => {
     let test = e.data == this.props.OperationID;

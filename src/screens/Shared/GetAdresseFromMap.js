@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { View, StyleSheet, Dimensions, Alert, PermissionsAndroid, Button, TextInput } from 'react-native'
 import MapView, { Polyline } from 'react-native-maps';
 import geolocation from '@react-native-community/geolocation';
-import { getDistance } from 'geolib';
-import networkCheck from '../helpers/functions/networkCheck';
+import networkCheck from '../../helpers/functions/networkCheck';
+import { SAVE } from '../../helpers/strings/strings';
 
 const { width, height } = Dimensions.get('window')
 
@@ -148,7 +148,7 @@ class GetAdresseFromMap extends Component {
        
         <Button
           onPress={() => this.props.changeFunction(this.state.adresse.latitude, this.state.adresse.longitude)}
-          title="       sauvgarder         "></Button>
+          title={SAVE}></Button>
       </View>
     );
   }

@@ -3,8 +3,8 @@ import Pusher from 'pusher-js/react-native';
 import { GiftedChat } from 'react-native-gifted-chat';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import networkCheck from '../helpers/functions/networkCheck';
-import{ANYDELIVERY_BASE_URL} from '../helpers/constants/constants';
+import networkCheck from '../../helpers/functions/networkCheck';
+import { ANYDELIVERY_BASE_URL } from '../../helpers/constants/constants';
 
 class Chat extends React.Component {
 
@@ -29,25 +29,21 @@ class Chat extends React.Component {
         };
     }
 
-    onSend = (messages) => {
-        this.setState(previousState => ({
-            message: GiftedChat.append(previousState.message, messages)
-        }))
-    }
+
     Send = async (messages) => {
-        axios.post(ANYDELIVERY_BASE_URL+'/message',
-            { 
-            content: messages['0'].text, 
-            user_id: this.props.auth.user.id, 
-            parcel_id: this.props.route.params.idReceiver 
+        axios.post(ANYDELIVERY_BASE_URL + '/message',
+            {
+                content: messages['0'].text,
+                user_id: this.props.auth.user.id,
+                parcel_id: this.props.route.params.idReceiver
             })
             .then((response) => {
                 console.log('succes : ' + response)
-            
-            }) 
+
+            })
     }
     FetshMessages = async () => {
-        const response = await axios.get(ANYDELIVERY_BASE_URL+`/message?id=${this.props.route.params.idReceiver}`);
+        const response = await axios.get(ANYDELIVERY_BASE_URL + `/message?id=${this.props.route.params.idReceiver}`);
         try {
             console.log(response.data);
             for (let dd of response.data) {
@@ -71,7 +67,7 @@ class Chat extends React.Component {
         }
     }
     componentDidMount() {
-   networkCheck()
+        networkCheck()
         this.FetshMessages();
         let rec = this.props.route.params.idReceiver;
         Pusher.logToConsole = true;
@@ -81,22 +77,23 @@ class Chat extends React.Component {
         let this2 = this
         var channel = pusher.subscribe('my-channel');
         channel.bind('my-event', function (data) {
-           // alert(JSON.stringify(data));
+            // alert(JSON.stringify(data));
             let mess = this2.state.message;
-          if (data.message.parcel_id === rec ){
-            mess.push(data.message);
-            this2.setState(prevState => ({
-                message: [...prevState.message, {
-                    _id: data.message.id,
-                    text: data.message.content,
-                    createdAt: new Date(),
-                    user: {
-                        _id: data.message.user_id,
-                        name: 'React Native',
-                        avatar: 'https://placeimg.com/140/140/any',
-                    },
-                }]
-            }))}else {null}
+            if (data.message.parcel_id === rec) {
+                mess.push(data.message);
+                this2.setState(prevState => ({
+                    message: [...prevState.message, {
+                        _id: data.message.id,
+                        text: data.message.content,
+                        createdAt: new Date(),
+                        user: {
+                            _id: data.message.user_id,
+                            name: 'React Native',
+                            avatar: 'https://placeimg.com/140/140/any',
+                        },
+                    }]
+                }))
+            } else { null }
         });
     }
     render() {

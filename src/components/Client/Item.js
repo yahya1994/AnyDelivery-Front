@@ -5,7 +5,7 @@ import { Overlay, CheckBox } from 'react-native-elements';
 import QrScanner from './QrScanner';
 import QRCode from 'react-native-qrcode-svg';
 import { connect } from 'react-redux';
-import { parcelReady, showProfil, fetshParcels } from '../redux/actions';
+import { parcelReady, showProfil, fetshParcels } from '../../redux/actions';
 import ShowProfils from './ShowProfils';
 import { Linking } from 'react-native';
 class Item extends Component {
@@ -66,7 +66,7 @@ class Item extends Component {
                             <View style={{ width: "50%", marginTop: "20%" }}>
                                 <TouchableOpacity onPress={this.toggleOverlay1}  >
                                     <Image
-                                        source={require('../assets/img/w.png')}
+                                        source={require('../../assets/img/w.png')}
                                     />
 
                                     <Overlay
@@ -78,7 +78,7 @@ class Item extends Component {
                                         onBackdropPress={this.OverlayExample1}>
                                         <Text style={{ fontSize: 20 }} >votre livreur est  :  {this.props.item.status.toString() !== '0' ? this.props.item.DeliveryMan['0'].name : ''}</Text>
                                         <Image
-                                            source={require('../assets/img/me.jpg')}
+                                            source={require('../../assets/img/me.jpg')}
                                             style={{ borderRadius: 80, paddingTop: 20, height: '60%', width: "90%" }}
                                         />
                                         <TouchableOpacity onPress={this.toggleScanner}  >

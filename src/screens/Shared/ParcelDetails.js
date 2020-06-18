@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import QRCode from 'react-native-qrcode-svg';
 import { Overlay } from 'react-native-elements';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import {COST, REPORT,COMFIRMATION_CODE,ESTIMATED_DISTANCE,KM ,RAPIDITY,QR_CODE,PHONE_NUMBER_S} from '../../helpers/strings/strings';
 
 class ParcelDetails extends Component {
     state = {
@@ -36,7 +37,7 @@ class ParcelDetails extends Component {
                     <View  style={{ backgroundColor: '#EFFBFB', flexDirection: 'column', flex: 1   ,marginRight:'3%'}}>
                     <TouchableOpacity onPress={ ()=>this.props.navigation.navigate('Report',{ParcelId : this.props.route.params.item.id})}>
                     <Icon style={{   marginTop:'5%' , alignSelf:'center' }}  name="exclamation-circle" color='black' size={35} />
-                    <Text  >Reclammer</Text>
+                    <Text  >{REPORT}</Text>
                     </TouchableOpacity>
                     </View>
 
@@ -55,7 +56,7 @@ class ParcelDetails extends Component {
                             </View>
                         </Overlay>: null}
                         { this.props.route.params.item.status != 0 ? 
-                        <Text style={{ color: 'green', fontSize: 20, padding: 2, }} >Code Qr</Text>: null}
+                        <Text style={{ color: 'green', fontSize: 20, padding: 2, }} >{QR_CODE}</Text>: null}
                         { this.props.route.params.item.status != 0 ? 
                         <Icon style={{ paddingRight: 12, paddingTop: 3 }} onPress={this.open} name="qrcode" color='black' size={45} /> : null}
                     </View>
@@ -66,7 +67,7 @@ class ParcelDetails extends Component {
                     </View>
                     <Text style={{ color: '#007aff', marginLeft: 5, }} >description</Text>
                     <Text></Text>
-                    { this.props.route.params.item.status != 0 ?  <Text style={{ color: '#007aff', marginLeft: 5, }} >code comfirmation :   {this.props.route.params.item.id}{this.props.route.params.item.DeliveryMan['0'].id}{this.props.route.params.item.Client['0'].id}  </Text>:null }
+                    { this.props.route.params.item.status != 0 ?  <Text style={{ color: '#007aff', marginLeft: 5, }} >{COMFIRMATION_CODE}{this.props.route.params.item.id}{this.props.route.params.item.DeliveryMan['0'].id}{this.props.route.params.item.Client['0'].id}  </Text>:null }
                     <TextInput
                         multiline={true}
                         numberOfLines={3}
@@ -74,19 +75,20 @@ class ParcelDetails extends Component {
                         style={{ height: '15%', borderWidth: 1, borderColor: '#007aff', margin: 5, backgroundColor: 'white' }}
                     />
                     <View style={{ backgroundColor: 'white', margin: 5, justifyContent: 'space-between', flexDirection: 'row', flex: 1, }}>
-                        <Text style={{ color: '#007aff', marginLeft: 5, }} >temp estimé {"\n"}30 min  </Text>
-                        <Text style={{ color: '#007aff', marginLeft: 5, }} >distance  estimé {"\n"}{this.props.route.params.item.Distance} km</Text>
+                        <Text style={{ color: '#007aff', marginLeft: 5, }} >{ESTIMATED_DISTANCE}{"\n"}</Text>
+                        <Text style={{ color: '#007aff', marginLeft: 5, }} >{this.props.route.params.item.Distance} {KM} </Text>
+                    
                     </View>
                     <View style={{ backgroundColor: 'white', margin: 5, justifyContent: 'space-between', flexDirection: 'row', flex: 1, }}>
-                        <Text style={{ color: '#007aff', marginLeft: 5, }} >frais de livraison {"< "}</Text>
+                        <Text style={{ color: '#007aff', marginLeft: 5, }} >{COST} {"< "}</Text>
                         <Text style={{ color: '#007aff', marginLeft: 5, }} >{this.props.route.params.item.cost} dt </Text>
                     </View>
                     <View style={{ backgroundColor: 'white', margin: 5, justifyContent: 'space-between', flexDirection: 'row', flex: 1, }}>
-                        <Text style={{ color: '#007aff', marginLeft: 5, }} >num Tel {this.props.route.params.user.name}  {"\n"}{this.props.route.params.user.phone_number} </Text>
-                        <Text style={{ color: '#007aff', marginLeft: 5, }} >num Tel {this.props.route.params.item.Receiver_name} {"\n"}{this.props.route.params.item.Receiver_num_Tel}</Text>
+                        <Text style={{ color: '#007aff', marginLeft: 5, }} >{PHONE_NUMBER_S}{this.props.route.params.user.name}  {"\n"}{this.props.route.params.user.phone_number} </Text>
+                        <Text style={{ color: '#007aff', marginLeft: 5, }} >{PHONE_NUMBER_S}{this.props.route.params.item.Receiver_name} {"\n"}{this.props.route.params.item.Receiver_num_Tel}</Text>
                     </View>
                     <View style={{ backgroundColor: 'white', margin: 5, justifyContent: 'space-between', flexDirection: 'row', flex: 1, }}>
-                        <Text style={{ color: '#007aff', marginLeft: 5, }} >rapidté </Text>
+                        <Text style={{ color: '#007aff', marginLeft: 5, }} >{RAPIDITY} </Text>
                         <Icon style={{ padding: 10 }} name="car" color='#007aff' size={25} />
 
                     </View>

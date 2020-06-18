@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { View, StyleSheet, Dimensions, Alert, PermissionsAndroid, Button, } from 'react-native'
 import MapView, { Polyline } from 'react-native-maps';
 import geolocation from '@react-native-community/geolocation';
-import networkCheck from '../helpers/functions/networkCheck';
+import networkCheck from '../../helpers/functions/networkCheck';
 import axios from 'axios';
 import Pusher from 'pusher-js/react-native';
 import { connect } from 'react-redux';
-import { ANYDELIVERY_BASE_URL } from '../helpers/constants/constants';
+import { ANYDELIVERY_BASE_URL } from '../../helpers/constants/constants';
 const { width, height } = Dimensions.get('window')
 
 const SCREEN_HEIGHT = height
@@ -113,7 +113,7 @@ class Map extends Component {
     );
   }
   componentWillUnmount() {
-    geolocation.clearWatch(this.watchID);
+   geolocation.clearWatch(this.watchID);
   }
   componentDidMount() {
     networkCheck()

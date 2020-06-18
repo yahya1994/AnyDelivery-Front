@@ -3,22 +3,23 @@ import ImagePicker from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { View, Alert, StyleSheet, Image } from 'react-native';
 import { Input, Button, ThemeProvider } from 'react-native-elements';
-import { InputText, Buttons } from '../components/Shared';
-import networkCheck from '../helpers/functions/networkCheck';
-import { Registration } from '../redux/actions';
+import { InputText, Buttons } from '../../components/Shared';
+import networkCheck from '../../helpers/functions/networkCheck';
+import { Registration } from '../../redux/actions';
 import { connect } from 'react-redux';
-import { validateNumCin, validateAdresse, validateImage } from '../helpers/functions/InputValidation';
+import { validateNumCin, validateAdresse, validateImage } from '../../helpers/functions/InputValidation';
+import {IMAGE_PICKER_TITLE,IMAGE_PICKER_TAKE_PHOTO_TITLE,IMAGE_PICKER_GET_PHOTO_FROM_GALLERY_TITLE, ADRESSE, CIN_NUMBER} from '../../helpers/strings/strings';
+
 
 const options = {
-    title: 'ajouter une photo ',
-    takePhotoButtonTitle: 'prendre une photo  ',
-    chooseFromLibraryButtonTitle: 'Importer une photo',
+    title: IMAGE_PICKER_TITLE,
+    takePhotoButtonTitle: IMAGE_PICKER_TAKE_PHOTO_TITLE,
+    chooseFromLibraryButtonTitle: IMAGE_PICKER_GET_PHOTO_FROM_GALLERY_TITLE,
     storageOptions: {
         skipBackup: true,
         path: 'images',
     },
 };
-
 class RegistrationSteptwo extends Component {
     constructor() {
         super();
@@ -35,6 +36,7 @@ class RegistrationSteptwo extends Component {
             size2: { fileSize: 0 }
         };
     }
+    
     registration = () => {
 
         var data = new FormData();
@@ -72,24 +74,9 @@ class RegistrationSteptwo extends Component {
         networkCheck()
     }
     getImage = () => {
+
         ImagePicker.showImagePicker(options, (response) => {
             console.log('Response = ', response.type);
-
-            switch (true) {
-                case response.didCancel:
-                    console.log('User cancelled image picker');
-                    break;
-                case response.error:
-                    console.log('ImagePicker Error: ', response.error);
-                    break;
-                case response.takePhotoButtonTitle:
-                    console.log('ImagePicker Error: ', response.error);
-                    break; 
-                case response.chooseFromLibraryButtonTitle:
-                    console.log('ImagePicker Error: ', response.error);
-                    break;
-               
-                default:
                     const source = { uri: response.uri };
                     const file = { uri: response.path };
                     const fileName = { fileName: response.fileName };
@@ -102,26 +89,13 @@ class RegistrationSteptwo extends Component {
                         size: FileSize,
                         type: type,
                     });
-            }
+            
         });
     }
     getImage2 = () => {
+ 
         ImagePicker.showImagePicker(options, (response) => {
             console.log('Response = ', response.type);
-            switch (true) {
-                case response.didCancel:
-                    console.log('User cancelled image picker');
-                    break;
-                case response.error:
-                    console.log('ImagePicker Error: ', response.error);
-                    break;
-                case response.takePhotoButtonTitle:
-                    console.log('ImagePicker Error: ', response.error);
-                    break; 
-                case response.chooseFromLibraryButtonTitle:
-                    console.log('ImagePicker Error: ', response.error);
-                    break;
-                default:
                     const source = { uri: response.uri };
                     const file = { uri: response.path };
                     const fileName = { fileName: response.fileName };
@@ -134,7 +108,6 @@ class RegistrationSteptwo extends Component {
                         size2: FileSize,
                         type2: type,
                     });
-            } 
         });
     }
 
@@ -143,11 +116,11 @@ class RegistrationSteptwo extends Component {
         console.log(this.state.size['fileSize'])
         return (
             <View style={styles.container}>
-                <InputText placeholder='adresse' onChangeText={text =>
+                <InputText placeholder={ADRESSE} onChangeText={text =>
                     this.setState({ adresse: (text) })}
                     errorMessage={validateAdresse(this.state.adresse)}
                 />
-                <InputText placeholder='Numero de Cin' onChangeText={text =>
+                <InputText placeholder={CIN_NUMBER} onChangeText={text =>
                     this.setState({ CIN: (parseInt(text)) })}
                     errorMessage={validateNumCin(this.state.CIN)}
                 />
@@ -175,7 +148,8 @@ class RegistrationSteptwo extends Component {
                             color='red'
                             onPress={this.getImage} />}
                 />
-                {validateImage(this.state.size['fileSize']) == false ? <Image source={this.state.Image}
+                {validateImage(this.state.size['fileSize']) == false && this.state.size['fileSize']==0? 
+                <Image source={this.state.Image}
                     style={{
                         height: 120, width: 250, borderRadius: 20
                     }}
@@ -204,7 +178,7 @@ class RegistrationSteptwo extends Component {
                             color='red'
                             onPress={this.getImage2} />}
                 /> : null}
-                {validateImage(this.state.size2['fileSize']) == false ? <Image source={this.state.Image2}
+                {validateImage(this.state.size2['fileSize']) == false && this.state.size2['fileSize']==0 ? <Image source={this.state.Image2}
                     style={{
                         height: 120, width: 250, borderRadius: 20
                     }}

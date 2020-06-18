@@ -2,9 +2,9 @@ import { View, Alert, TextInput } from 'react-native';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {Buttons,InputText} from '../components/Shared';
-import { CreateReport } from '../redux/actions';
-import {validateName } from '../helpers/functions/InputValidation';
+import {Buttons,InputText} from '../../components/Shared';
+import { CreateReport } from '../../redux/actions';
+import {validateName } from '../../helpers/functions/InputValidation';
 import LinearGradient from 'react-native-linear-gradient';
  
 class Report extends Component {

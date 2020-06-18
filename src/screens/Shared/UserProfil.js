@@ -4,8 +4,10 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { Overlay, CheckBox } from 'react-native-elements';
 import LinearGradient from 'react-native-linear-gradient';
 import { connect } from 'react-redux';
-import {logout} from '../redux/actions';
-class UserProfil extends Component {
+import {logout} from '../../redux/actions';
+import { RAPIDITY } from '../../helpers/strings/strings';
+import  {IMAGE_PATH} from '../../helpers/constants/constants';
+ class UserProfil extends Component {
     state = {
         place: '', visible: false,
     }
@@ -23,7 +25,7 @@ class UserProfil extends Component {
                 <LinearGradient colors={['white', '#30ACE4', '#30ACE4', '#007aff']} style={{ flex: 1 }}>
                     <View style={{ backgroundColor: 'white',marginTop:'1%', borderRadius: 100, flex: 2, justifyContent: 'center', flexDirection: 'column', alignItems: 'center', alignSelf: 'center', width: '50%' }} >
                     <Image
-            source={require('../assets/img/me.jpg')}
+            source={require('../../assets/img/me.jpg')}
             style={{ borderRadius:80 ,paddingTop:20,height:'100%',width:"100%" }}
           />
 
@@ -39,7 +41,7 @@ class UserProfil extends Component {
                         <View style={{ backgroundColor: 'white', flexDirection: 'row', flex: 1, justifyContent: 'space-around' }}>
                             <Text onPress={this.toggleOverlay}
                                 style={{ borderWidth: 1, borderColor: '#007aff', textAlign: 'center', margin: 5, width: '25%', backgroundColor: 'white', }}
-                            >rapidité  {"\n"}{"\n"} 
+                            >{RAPIDITY}  {"\n"}{"\n"} 
                             {this.props.auth.user.rapidity === 0 ?
                                     <Icon
                                     backgroundColor='white'

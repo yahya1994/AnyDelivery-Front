@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { View, Alert, StyleSheet, } from 'react-native';
 import { Input, Button, ThemeProvider } from 'react-native-elements';
-import { Buttons, InputText } from '../components/Shared';
-import {validateName,validateEmail,validateNumTel,validatePassword,validateComfirmPassword} from '../helpers/functions/InputValidation';
+import { Buttons, InputText } from '../../components/Shared';
+import {validateName,validateEmail,validateNumTel,validatePassword,validateComfirmPassword} from '../../helpers/functions/InputValidation';
+import { FULL_NAME, EMAIL,COMFIRME_PASSWORD,INPUT_CHECK, PASSWORD, PHONE_NUMBER ,ERROR} from '../../helpers/strings/strings';
 
 export default class RegistrationStepOne extends Component {
     constructor() {
@@ -11,52 +12,40 @@ export default class RegistrationStepOne extends Component {
             name: '', email: '', password: '', Comfirmpassword: '', phone_number: ''
         };
     }
-  
-     
-   
-
     render() {
-
         console.log(this.state.isValide)
         return (
-
-
             <View style={styles.container}>
                 <InputText style={styles.InputText}
-                    placeholder='Nom et prenom'
+                    placeholder={FULL_NAME}
                     onChangeText={text => {
                         this.setState({ name: (text) })
-
                     }}
                     errorMessage={validateName(this.state.name)}
-
                 />
                 <InputText style={styles.InputText}
-                    placeholder='Email'
+                    placeholder={EMAIL}
                     onChangeText={text => {
                         this.setState({ email: (text) })
                     }
                     }
                     errorMessage={validateEmail(this.state.email)}
                 /><InputText style={styles.InputText}
-                    placeholder='Mot de passe '
+                    placeholder={PASSWORD}
                     onChangeText={text =>
                         this.setState({ password: (text) })}
-
                     errorMessage={validatePassword(this.state.password)}
                 />
                 <InputText style={styles.InputText}
-                    placeholder='Confirmez le mot de passe'
+                    placeholder={COMFIRME_PASSWORD}
                     onChangeText={text =>
                         this.setState({ Comfirmpassword: (text) })}
                     errorMessage={validateComfirmPassword(this.state.Comfirmpassword,this.state.password)}
-
                 />
                 <InputText
-                    placeholder='Numero de Télephone' onChangeText={text =>
+                    placeholder={PHONE_NUMBER} onChangeText={text =>
                         this.setState({ phone_number: (text) })}
                     errorMessage={validateNumTel(this.state.phone_number)}
-
                 />
 
                 <Buttons  
@@ -70,14 +59,12 @@ export default class RegistrationStepOne extends Component {
                         || validateComfirmPassword(this.state.Comfirmpassword,this.state.password)
                         || validateNumTel(this.state.phone_number))==false ? () => this.props.navigation.push('Creér votre compte2',
                         { name: this.state.name, email: this.state.email, password: this.state.password, phone_number: this.state.phone_number, role: this.props.route.params.role }): ()=> Alert.alert(
-                        "Erreur",
-                        "vérifier vos champs",
+                       ERROR,
+                       INPUT_CHECK,
                         [{ text: "OK",   cancelable: false   }],
                         { cancelable: false })}
                 />
             </View>
-
-
         );
     }
 }

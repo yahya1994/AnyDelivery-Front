@@ -108,6 +108,9 @@ export const validateImage = (fileSize) => {
     switch (true) {
         case (fileSize < 1):
             return [errorMessage = '*', error = true]
+            break;  
+            case (fileSize = 0 ):
+            return [errorMessage = '*', error = true]
             break;
         case (fileSize > 800000):
             return [errorMessage = 'taille trés grand', error = true]

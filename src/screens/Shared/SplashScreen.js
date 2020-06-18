@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Image, View, MaskedViewIOS, Animated } from 'react-native';
-import { retrieveToken, } from '../helpers/functions/functions';
+import { retrieveToken, } from '../../helpers/functions/functions';
 
 export default class SplashScreen extends React.Component {
     state = {
@@ -38,7 +38,7 @@ export default class SplashScreen extends React.Component {
         return (
             <View style={{ flex: 1 ,justifyContent:'center'}}>
                         <Animated.Image
-                            source={require("../assets/img/logoSP.png")}
+                            source={require("../../assets/img/logoSP.png")}
                             style={[{ width: '100%' ,flex:1} ,imageScale]}
                             resizeMode="contain"
                         />

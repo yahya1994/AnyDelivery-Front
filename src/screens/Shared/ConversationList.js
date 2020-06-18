@@ -1,9 +1,10 @@
 import { FlatList, Text, View,   ActivityIndicator } from 'react-native';
 import React, { Component } from 'react';
-import ChatItem from '../components/ChatItem';
+import ChatItem from '../../components/Shared/ChatItem';
 import { connect } from 'react-redux';
-import { fetshConversation } from '../redux/actions';
-import networkCheck from '../helpers/functions/networkCheck'; 
+import { fetshConversation } from '../../redux/actions';
+import networkCheck from '../../helpers/functions/networkCheck'; 
+import { NO_MESSAGE_ERROR } from '../../helpers/strings/strings';
 
 class ConversationList extends Component {
     componentDidMount() {
@@ -26,7 +27,7 @@ class ConversationList extends Component {
                         )}
                         
                         keyExtractor={item => item.user_id.toString()}
-                    /> : <Text >Vos  N'avez pas des enciens convesation </Text>}
+                    /> : <Text >{NO_MESSAGE_ERROR} </Text>}
             </View>
         );
     }

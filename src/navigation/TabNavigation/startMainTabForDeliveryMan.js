@@ -1,21 +1,18 @@
 import * as React from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import ParcelDetails from '../screens/ParcelDetails';
-import ParcelList_DM from '../screens/DeliveryMan/ParcelList_DM';
-import CreateParcelStepTwo from '../screens/CreateParcelStepTwo';
-import CreateParcel from '../screens/CreateParcel';
-import UserProfil from '../screens/UserProfil';
-import ConversationList from '../screens/ConversationList';
-import CreateParcels from '../screens/CreateParcels';
-import TakenParcelList from '../screens/DeliveryMan/TakenParcelList';
- 
+import ParcelDetails from '../../screens/Shared/ParcelDetails';
+import ParcelList_DM from '../../screens/DeliveryMan/ParcelList_DM';
+import UserProfil from '../../screens/Shared/UserProfil';
+import ConversationList from '../../screens/Shared/ConversationList';
+import TakenParcelList from '../../screens/DeliveryMan/TakenParcelList';
+ import {HOME_SCREEN ,CHAT_SCREEN,PROFIL_SCREEN,DELIVERY_MAN_TAKEN_PARCELS  } from '../stack screen name/StackScreenName';
 const Tab = createBottomTabNavigator(); 
 
 const DeliveryManTabs = () => {
   return (
     <Tab.Navigator
-      initialRouteName="Home"
+      initialRouteName={HOME_SCREEN}
       tabBarOptions={{
         showLabel : false,
         activeTintColor: '#007aff',
@@ -24,7 +21,7 @@ const DeliveryManTabs = () => {
       }}
     >
       <Tab.Screen
-        name="Home"
+        name={HOME_SCREEN}
         component={ParcelList_DM}
         options={{
           tabBarIcon: ({ color, focused }) => (
@@ -33,7 +30,7 @@ const DeliveryManTabs = () => {
         }}
       />
         <Tab.Screen
-        name="UserParcel"
+        name={DELIVERY_MAN_TAKEN_PARCELS}
         component={TakenParcelList}
         options={{
          
@@ -44,7 +41,7 @@ const DeliveryManTabs = () => {
       } 
       />
       <Tab.Screen
-        name="chat"
+        name={CHAT_SCREEN}
         component={ConversationList}
         options={{
          
@@ -55,7 +52,7 @@ const DeliveryManTabs = () => {
       } 
       />
       <Tab.Screen
-        name="Profil"
+        name={PROFIL_SCREEN}
         component={UserProfil}
         options={{
           tabBarIcon: ({ focused, color }) => (

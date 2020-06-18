@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { TouchableOpacity, View, Text, Image} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { connect } from 'react-redux';
-import { parcelReady, ChoseParcel } from '../redux/actions';
+import { parcelReady, ChoseParcel } from '../../redux/actions';
 
 class ShowProfils extends Component {
     chose = async () => {
         await this.props.ChoseParcel(this.props.item, this.props.profil.id);
-        await this.props.close();
+       // await this.props.close();
         this.props.refresh();
     }
     render() {
@@ -15,7 +15,7 @@ class ShowProfils extends Component {
         return (
             <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', paddingBottom: 15 }}>
                 <Image
-                    source={require('../assets/img/me.jpg')}
+                    source={require('../../assets/img/me.jpg')}
                     style={{ borderRadius: 80, paddingTop: 20, height: '100%', width: '20%' }}  />
                 <Text >{this.props.profil.name}</Text>
                 <TouchableOpacity onPress={() => this.chose()}>
