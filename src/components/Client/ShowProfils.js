@@ -7,17 +7,27 @@ import { parcelReady, ChoseParcel } from '../../redux/actions';
 class ShowProfils extends Component {
     chose = async () => {
         await this.props.ChoseParcel(this.props.item, this.props.profil.id);
+        await this.props.refresh();
         await this.props.close();
-        this.props.refresh();
     }
     render() {
-
+ 
         return (
-            <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', paddingBottom: 15 }}>
+            <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', paddingBottom: 25 }}>
                 <Image
                     source={require('../../assets/img/me.jpg')}
                     style={{ borderRadius: 80, paddingTop: 20, height: '100%', width: '20%' }}  />
                 <Text >{this.props.profil.name}</Text>
+                <Text>  {this.props.profil.price_km} DT/km</Text>
+                  {this.props.profil.rapidity == 1 ?  <Icon
+                                        backgroundColor='white'
+                                        name='car'
+                                        size={25}
+                                        color='#007aff' />: <Icon
+                                        backgroundColor='white'
+                                        name='bicycle'
+                                        size={25}
+                                        color='#007aff' />}   
                 <TouchableOpacity onPress={() => this.chose()}>
                     <Icon name="check-circle" color='green' size={35} />
                 </TouchableOpacity>

@@ -8,11 +8,13 @@ import { connect } from 'react-redux';
 import { parcelReady, showProfil, fetshParcels } from '../../redux/actions';
 import ShowProfils from './ShowProfils';
 import { Linking } from 'react-native';
+import OneSignal from 'react-native-onesignal';
+
 class Item extends Component {
     constructor() {
         super();
         this.state = {
-            visible2:false,  visible: false, visible1: false, visibleScanner: false, QRcheck: null
+            visible2: false, visible: false, visible1: false, visibleScanner: false, QRcheck: null
         }
     }
     parcelReady = async (id) => {
@@ -26,6 +28,7 @@ class Item extends Component {
     }
     toggleOverlay2 = () => {
         this.setState({ visible2: true });
+          this.props.showProfil(this.props.item.id)
     };
     QrCheck = (res) => {
         this.setState({ QRcheck: res })
@@ -49,7 +52,10 @@ class Item extends Component {
     toggleScanner = () => {
         this.setState({ visibleScanner: true });
     };
+    componentDidMount() {
+    }
     render() {
+        OneSignal.setExternalUserId(this.props.auth.user.id.toString());
         const change = {
             ...styles.circle,
             backgroundColor: this.props.item.status === 2 ? '#1BB566' : this.props.item.status === 0 ? 'red' : this.props.item.status === 1 ? 'yellow'
@@ -107,13 +113,15 @@ class Item extends Component {
 
                             </View> : null}
 
-                        {this.props.item.status === 0 && this.props.Parcels.profil['profils'] != '' ?
+                        {this.props.item.status === 0  ?
+
                             <View style={{ width: "50%", marginTop: "20%" }}>
+
                                 <TouchableOpacity onPress={this.toggleOverlay2}  >
                                     <Icon name="users" color='green' size={35} />
                                     <Overlay
                                         overlayStyle={{
-                                            width: '90%', height: '70%', borderRadius: 80,
+                                            width: '95%', height: '70%', borderRadius: 30,
                                             flexDirection: 'column', justifyContent: "space-around", alignItems: 'center'
                                         }}
                                         isVisible={this.state.visible2}
@@ -129,7 +137,7 @@ class Item extends Component {
                                                 keyExtractor={item => item.id.toString()}
                                             /> : <Text >Vos  N'avez pas des demandes </Text>}
                                         <TouchableOpacity onPress={() => this.props.showProfil(this.props.item.id)}  >
-                                            <Text>vv</Text>
+                                            <Icon name="refresh" color='#007aff' size={35} />
                                         </TouchableOpacity>
 
                                     </Overlay>
@@ -244,6 +252,6 @@ const styles = {
     }
 };
 const mapStateToProps = state => {
-    return { Parcels: state.parcel };
+    return { Parcels: state.parcel , auth:state.auth };
 };
 export default connect(mapStateToProps, { parcelReady, showProfil, fetshParcels })(Item);

@@ -6,6 +6,7 @@ import QRCode from 'react-native-qrcode-svg';
 import { Overlay } from 'react-native-elements';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import {COST, REPORT,COMFIRMATION_CODE,ESTIMATED_DISTANCE,KM ,RAPIDITY,QR_CODE,PHONE_NUMBER_S} from '../../helpers/strings/strings';
+import { CLIENT_ROLE, DELIVERYMAN_ROLE } from '../../helpers/constants/constants';
 
 class ParcelDetails extends Component {
     state = {
@@ -48,16 +49,17 @@ class ParcelDetails extends Component {
                 <View style={{ flex: 3, width: "95%", alignSelf: 'center', borderWidth: 1, backgroundColor: 'white', borderColor: '#007aff' }} >
                     <View style={{ backgroundColor: 'white', justifyContent: 'space-around', flexDirection: 'row', }}>
                         
-                      { this.props.route.params.item.status != 0 ?  <Overlay overlayStyle={{ width: '90%', height: '70%', borderRadius: 30, flexDirection: 'column' }}
+                      { this.props.route.params.item.status != 0  ? 
+                       <Overlay overlayStyle={{ width: '90%', height: '70%', borderRadius: 30, flexDirection: 'column' }}
                             isVisible={this.state.visible}
                             onBackdropPress={this.close}>
                                 <View style={{ alignItems:'center',paddingTop:50 }}>
                             <QRCode   size={300} value={''.concat(this.props.route.params.item.id).concat(this.props.route.params.item.Client['0'].id).concat(this.props.route.params.item.DeliveryMan['0'].id)} />
                             </View>
                         </Overlay>: null}
-                        { this.props.route.params.item.status != 0 ? 
+                        { this.props.route.params.item.status != 0 && this.props.auth.user.role == DELIVERYMAN_ROLE ? 
                         <Text style={{ color: 'green', fontSize: 20, padding: 2, }} >{QR_CODE}</Text>: null}
-                        { this.props.route.params.item.status != 0 ? 
+                        { this.props.route.params.item.status != 0  && this.props.auth.user.role == 2 ? 
                         <Icon style={{ paddingRight: 12, paddingTop: 3 }} onPress={this.open} name="qrcode" color='black' size={45} /> : null}
                     </View>
 
@@ -67,9 +69,10 @@ class ParcelDetails extends Component {
                     </View>
                     <Text style={{ color: '#007aff', marginLeft: 5, }} >description</Text>
                     <Text></Text>
-                    { this.props.route.params.item.status != 0 ?  <Text style={{ color: '#007aff', marginLeft: 5, }} >{COMFIRMATION_CODE}{this.props.route.params.item.id}{this.props.route.params.item.DeliveryMan['0'].id}{this.props.route.params.item.Client['0'].id}  </Text>:null }
+                    { this.props.route.params.item.status != 0 && this.props.auth.user.role == CLIENT_ROLE  ?  <Text style={{ color: '#007aff', marginLeft: 5, }} >{COMFIRMATION_CODE}{this.props.route.params.item.id}{this.props.route.params.item.DeliveryMan['0'].id}{this.props.route.params.item.Client['0'].id}  </Text>:null }
                     <TextInput
                         multiline={true}
+                        disabled={false}
                         numberOfLines={3}
                         value={this.props.route.params.item.description}
                         style={{ height: '15%', borderWidth: 1, borderColor: '#007aff', margin: 5, backgroundColor: 'white' }}
@@ -99,6 +102,6 @@ class ParcelDetails extends Component {
     }
 }
 const mapStateToProps = state => {
-    return { Parcels: state.parcel };
+    return { Parcels: state.parcel , auth : state.auth };
 };
 export default connect(mapStateToProps )(ParcelDetails);

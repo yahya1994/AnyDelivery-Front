@@ -127,7 +127,7 @@ class TakenParcel extends Component {
                                         style={{ padding: 10 }} name="user" color='#007aff' size={65} />
                                     <View>
                                         <Text>votre livreur :</Text>
-                                        <Text>{this.props.item.status.toString() !== '0' ? this.props.item.DeliveryMan['0'].name : ''}</Text>
+                                        <Text>{this.props.item.status.toString() !== '0' ? this.props.item.Client['0'].name : ''}</Text>
                                     </View>
                                     <Icon style={{ padding: 10 }} name="phone-square" onPress={() =>
                                         Linking.openURL(`tel:${parseInt(this.props.item.Client['0'].phone_number)}`)

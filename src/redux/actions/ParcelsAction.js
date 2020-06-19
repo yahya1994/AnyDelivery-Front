@@ -67,11 +67,11 @@ export const CreateParcel = (data,nav) => dispatch => {
 
   })
 };
-export const sendRequest = (parcel_id,delivery_man_id) => dispatch => {
+export const sendRequest = (parcel_id,delivery_man_id,client_id) => dispatch => {
   let data ={
-    parcel_id,delivery_man_id
+    parcel_id,delivery_man_id,client_id
   }
-  SharedFunction('/deliveryMan/req', POST, { parcel_id,delivery_man_id}).then((response) => {
+  SharedFunction('/deliveryMan/req', POST, { parcel_id,delivery_man_id,client_id}).then((response) => {
     console.log(response)
      
     dispatch({

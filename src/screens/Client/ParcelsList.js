@@ -73,7 +73,9 @@ class ParcelsList extends Component {
                 { scale: this.animation },
                 {
                     translateY: this.animation.interpolate({
-                        inputRange: [0, 1], useNativeDriver: true,
+                        inputRange: [0, 1], 
+                        duration: 300,
+                        useNativeDriver: true,
                         outputRange: [0, -40]
                     })
                 }
@@ -158,15 +160,13 @@ class ParcelsList extends Component {
                                      <Text>{DELIVERED}</Text>
                             </View>
                         </View>
-
-
                     </Overlay>
                 </View>
                 <FlatList
                     style={{ backgroundColor: '#EFFBFB', padding: 5 }}
                     data={this.props.Parcels.items}
                     renderItem={({ item }) => (
-                        <Item nav={this.props.navigation} item={item} refresh={this._refresh} />
+                        <Item nav={this.props.navigation} item={item} item_id={item.id.toString()} refresh={this._refresh} />
                     )}
                     keyExtractor={item => item.id.toString()}
                     refreshControl={
@@ -177,15 +177,11 @@ class ParcelsList extends Component {
                     onEndReached={this.LoadMore}
                     onEndReachedThreshold ={0.4}
                 />
-
-
-
                 <TouchableOpacity style={styles.InputText} onPress={this.toggleBtn}>
                     <Animated.View style={[rotation]} >
                         <Icon name='plus-circle' color='#DA0505' size={70} />
                     </Animated.View>
                 </TouchableOpacity>
-
                 <Animated.View style={[styles.InputText1, ShowMessage]} >
                     <TouchableOpacity
                         onPress={() => this.props.navigation.navigate('create parcel')}>

@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
 import { TouchableOpacity, View, Text, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { Overlay ,CheckBox} from 'react-native-elements';
+import { Overlay, CheckBox } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { HideModal,sendRequest, ChoseParcel} from '../../redux/actions';
+import { HideModal, sendRequest, ChoseParcel } from '../../redux/actions';
 import { Linking } from 'react-native';
 
 
 class Item extends Component {
     constructor() {
         super();
-        this.state = { visible: false ,checked:'3'}
+        this.state = { visible: false, checked: '3' }
     }
-     
+
     OverlayExample = () => {
         this.setState({ visible: false });
     }
@@ -22,8 +22,8 @@ class Item extends Component {
     render() {
         const change = {
             ...styles.circle,
-            backgroundColor: this.props.item.status === 2 ? '#1BB566' : this.props.item.status === 0 ? 'red' :this.props.item.status === 1 ?   'yellow' 
-            :this.props.item.status === 3 ?   'orange': 'black'
+            backgroundColor: this.props.item.status === 2 ? '#1BB566' : this.props.item.status === 0 ? 'red' : this.props.item.status === 1 ? 'yellow'
+                : this.props.item.status === 3 ? 'orange' : 'black'
         }
         return (
             <View >
@@ -31,16 +31,16 @@ class Item extends Component {
                     <View style={{ flex: 1, flexDirection: 'column' }}>
                         <View style={{ flexDirection: 'row' }} >
                             <Text style={change}>  </Text>
-                            <Text>{this.props.item.status.toString() === '1' ? 'en cours' : this.props.item.status.toString() === '2' ? 'livré' : 
-                            this.props.item.status.toString() === '3' ? 'réserver' :
-                             'en attente'}</Text>
+                            <Text>{this.props.item.status.toString() === '1' ? 'en cours' : this.props.item.status.toString() === '2' ? 'livré' :
+                                this.props.item.status.toString() === '3' ? 'réserver' :
+                                    'en attente'}</Text>
                         </View>
-                     { this.props.item.status.toString() === '0'?  
-                     <CheckBox
-             checked={this.props.Parcels.delivery_man_id ==this.props.auth.user.id&&this.props.item.id==this.props.Parcels.parcel_id ? true : false   } 
-                             onPress={() => this.setState({checked:true},
-                             ()=>this.props.sendRequest(this.props.item.id,this.props.auth.user.id))}
-                        />: null}
+                        {this.props.item.status.toString() === '0' ?
+                            <CheckBox
+                                checked={this.props.Parcels.delivery_man_id == this.props.auth.user.id && this.props.item.id == this.props.Parcels.parcel_id ? true : false}
+                                onPress={() => this.setState({ checked: true },
+                                    () => this.props.sendRequest(this.props.item.id, this.props.auth.user.id, this.props.item.Client['0'].id))}
+                            /> : null}
                     </View>
                     <View style={{ flex: 3, alignSelf: 'stretch', }} >
                         <View style={{ justifyContent: 'flex-end', flexDirection: 'row', paddingRight: 20, alignSelf: 'stretch', }} >
@@ -49,23 +49,23 @@ class Item extends Component {
                         <Text>{this.props.item.Client['0'].name} -{this.props.item.Receiver_name} </Text>
                         <Text>{this.props.item.starting_adresse} --{this.props.item.destination_adresse}</Text>
                         <View style={{ justifyContent: 'flex-end', flexDirection: 'row', alignSelf: 'stretch', }} >
-                            <TouchableOpacity onPress={this.toggleOverlay}  >
-                                <Icon style={{ padding: 10 }} name="comments-o" color='#DB4BDB' size={35} />
+                            <TouchableOpacity disabled={true} onPress={this.toggleOverlay}  >
+                                <Icon style={{ padding: 10 }} name="comments-o" color='grey' size={35} />
                                 <Overlay
                                     overlayStyle={{ width: '90%', height: '20%', borderRadius: 80, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}
                                     isVisible={this.state.visible}
                                     onBackdropPress={this.OverlayExample}>
-                                     <Icon
+                                    <Icon
                                         style={{ padding: 10 }} name="user" color='#007aff' size={65} />
                                     <View>
                                         <Text>votre livreur :</Text>
-                                        <Text>{this.props.item.status.toString() !== '0' ? this.props.item.DeliveryMan['0'].name : ''}</Text>
+                                        <Text>{this.props.item.status.toString() !== '0' ? this.props.item.Client['0'].name : ''}</Text>
                                     </View>
                                     <Icon style={{ padding: 10 }} name="phone-square" onPress={() =>
                                         Linking.openURL(`tel:${parseInt(this.props.item.Client['0'].phone_number)}`)
 
                                     } color='green' size={45} />
-                                     <Icon   onPress={() => this.props.nav.push('Chat',   {  idReceiver: this.props.item.id})} style={{ padding: 10 }} name="envelope-o" color='#007aff' size={45} />
+                                    <Icon onPress={() => this.props.nav.push('Chat', { idReceiver: this.props.item.id })} style={{ padding: 10 }} name="envelope-o" color='#007aff' size={45} />
                                 </Overlay>
                             </TouchableOpacity >
                             <TouchableOpacity onPress={() => this.props.nav.push('Map', { item: this.props.item, DeliveryMan: this.props.item.DeliveryMan['0'], Client: this.props.item.Client['0'] })}  >
@@ -117,8 +117,8 @@ const styles = {
     }
 };
 const mapStateToProps = state => {
-    return { auth: state.auth ,Parcels: state.parcel};
+    return { auth: state.auth, Parcels: state.parcel };
 };
-export default connect(mapStateToProps, {  HideModal, sendRequest, ChoseParcel })(Item);
- 
+export default connect(mapStateToProps, { HideModal, sendRequest, ChoseParcel })(Item);
+
 
