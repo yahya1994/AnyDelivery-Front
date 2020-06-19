@@ -32,6 +32,7 @@ import OneSignal from 'react-native-onesignal';
 import {PARCEL_LIST_SCREEN_TITLE,CHAT_SCREEN_TITLE, PROFIL_SCREEN_TITLE,HOME_SCREEN_TITLE,REGISTRATION_SCREEN_TITLE ,CHATS_SCREEN_TITLE,REPORT_SCREEN_TITLE,CREATE_PARCEL_SCREEN_TITLE ,PARCEL_DETAILS_SCREEN_TITLE} from 
 './src/navigation/stack screen title/stackScreenTitle';
 import {DELIVERY_MAN_TAKEN_PARCELS,PROFIL_SCREEN,HOME_SCREEN,SPLASH_SCREEN,MAP_SCREEN,GET_ADRESSE_FROM_MAP_SCREEN,CREATE_PARCEL_SCREEN,REPORT_SCREEN,PARCEL_DETAILS_SCREEN, LOGIN_SCREEN,REGISTRATION_STEP_ONE_SCREEN,CHAT_SCREEN,REGISTRATION_STEP_TWO_SCREEN, REGISTRATION_TYPE_SCREEN} from './src/navigation/stack screen name/StackScreenName';
+import DetailsProfil from './src/screens/Shared/DetailsProfil';
 const Stack = createStackNavigator();
 
 
@@ -68,6 +69,7 @@ function getHeaderTitle_Client(route) {
 
 function App() {
 useEffect(()=>{
+  //console.disableYellowBox = true;
   OneSignal.init("f0427f2f-25cf-4346-88b2-7b5ea50b7214");
 }) 
   return (
@@ -75,6 +77,7 @@ useEffect(()=>{
     <Provider store={createStore(reducers, {}, applyMiddleware(thunk))}>
       <NavigationContainer>
         <Stack.Navigator  >
+
         <Stack.Screen name={SPLASH_SCREEN} component={SplashScreen} options={{ headerShown: false } } />
           <Stack.Screen name={LOGIN_SCREEN} component={Authentification} options={{ headerShown: false }} />
           <Stack.Screen name={REGISTRATION_STEP_ONE_SCREEN} component={RegistrationStepOne}
@@ -87,7 +90,12 @@ useEffect(()=>{
               headerTransparent: true, title:REGISTRATION_SCREEN_TITLE,
               cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
             }} />
+          <Stack.Screen name="details" component={DetailsProfil} options={{
+              title: 'details profil', headerTitleStyle: { color: 'white', fontSize: 25, },headerBackground: () => (<Header />), headerStyle: { height: 49 }
+           
+            }}  />
 
+          
           <Stack.Screen name={REGISTRATION_STEP_TWO_SCREEN} component={RegistrationSteptwo}
             options={{
               headerTransparent: true, title: REGISTRATION_SCREEN_TITLE,
