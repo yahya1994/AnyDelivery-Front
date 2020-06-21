@@ -4,6 +4,8 @@ import authReducer from './authReducer';
 import ParcelsReducer from './ParcelsReducer';
 import ReportReducer from './ReportReducer';
 import ChatReducer from './ChatReducer';
+import UserProfilReducer from './UserProfilReducer';
+ 
 
  
  export default  combineReducers({
@@ -11,4 +13,5 @@ import ChatReducer from './ChatReducer';
   Report: ReportReducer   ,
   parcel: ParcelsReducer,
   chat: ChatReducer,
+  userProfil: UserProfilReducer
 });

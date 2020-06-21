@@ -18,7 +18,9 @@ export default (state = INITIAL_STATE, action) => {
             return { ...state, modal: false, message: '' };
         case 'AUTH_TOKEN':
             return { ...state, token: action.token };
-
+            case 'UPDATE_PROFIL':
+                return { ...state, user: action.payload.UserProfil };
+    
         case REGISTERATION:
             return { ...state, loading: false };
         case LOGOUT:
