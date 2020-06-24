@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, TextInput, StyleSheet, Text } from 'react-native';
+import { View, TextInput, StyleSheet, Text ,Alert} from 'react-native';
 import { Input, CheckBox, Overlay } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { ProgressSteps, ProgressStep } from 'react-native-progress-steps';
@@ -7,15 +7,18 @@ import DatePicker from 'react-native-datepicker';
 import GetAdresseFromMap from '../Shared/GetAdresseFromMap';
 import { CreateParcel } from '../../redux/actions';
 import { connect } from 'react-redux';
+import {InputText} from '../../components/Shared';
 import { getDistance } from 'geolib';
 import   {   VALIDATION,DESTINATION_POINT, DATE,PICK_UP_POINT,FULL_NAME,PHONE_NUMBER ,ADRESSE}  from '../../helpers/strings/strings';
+import { validateName, validateAdresse, validateNumTel, validateLocation,validateCost } from '../../helpers/functions/InputValidation';
+import { BloquingLoader } from '../../components/Shared/BloquingLoader';
 
 class CreateParcels extends Component {
     constructor() {
         super();
         this.state = {
             visible: false, checked: null,
-            lat_Depart: 0, date: '', long_Depart: 0, name_Depart: '',
+            lat_Depart: 0, date: '', long_Depart: 0, name_Depart: '',disable:false,
             description: '', numTel_Depart: 0, adresse_Depart: ''
             , lat_Destination: 0, long_Destination: 0, errors: true,
             name_Receiver: '', name_Destination: '', numTel_Destination: "",
@@ -53,6 +56,7 @@ class CreateParcels extends Component {
             destination_latitude: this.state.lat_Destination
         }
         console.log(data);
+        this.setState({disable:!this.state.disable})
         this.props.CreateParcel(data, this.props.navigation);
     }
     handleChange = (lat, long) => {
@@ -74,24 +78,29 @@ class CreateParcels extends Component {
             <View style={{ flex: 1, backgroundColor: 'white', flexDirection: 'column' }}>
                 <ProgressSteps   >
                     <ProgressStep label={PICK_UP_POINT} nextBtnTextStyle={{ fontSize: 40 }}
-                        nextBtnText={<Icon style={{ alignItems: 'center', alignSelf: 'center' }}
+                    
+                     nextBtnDisabled={validateAdresse(this.state.adresse_Depart) || 
+                        validateLocation(this.state.lat_Depart)  ||(this.state.date =='') == true }	    nextBtnText={<Icon style={{ alignItems: 'center', alignSelf: 'center' }}
                             backgroundColor='white'
                             name='chevron-circle-right'
                             size={50}
                         />} >
                         <View style={styles.container}>
-                            <TextInput style={styles.InputText}
+                            <InputText style={styles.InputText}
+                          
                                 placeholder={FULL_NAME}
                                 value={this.props.auth.user.name}
                                 onChangeText={text =>
                                     this.setState({ name_Depart: (text) })} />
-                            <TextInput style={styles.InputText}
+                            <InputText style={styles.InputText}
                                 placeholder={PHONE_NUMBER}
                                 value={'+216 ' + this.props.auth.user.phone_number}
                                 onChangeText={value =>
                                     this.setState({ numTel_Depart: (value) })} />
                             <Input
                                 disabled
+                                errorStyle={{ color: 'red' }}
+                                errorMessage={validateLocation(this.state.lat_Depart)}
                                 placeholder={'localisation'}
                                 value={'lat= ' + this.state.lat_Depart + ',' + 'long =' + this.state.long_Depart}
                                 inputContainerStyle={{ borderBottomWidth: 0, }}
@@ -116,11 +125,13 @@ class CreateParcels extends Component {
                                         onPress={this.toggleOverlay}
                                     />
                                 } />
-                            <TextInput style={styles.InputText}
+                            <InputText style={styles.InputText}
                                 placeholder={ADRESSE}
+                                errorMessage={validateAdresse(this.state.adresse_Depart)}
                                 value={this.state.adresse_Depart}
                                 onChangeText={text => this.setState({ adresse_Depart: (text) })} />
                             <DatePicker
+                            
                                 mode="date"
                                 date={this.state.date}
                                 placeholder={DATE}
@@ -152,6 +163,12 @@ class CreateParcels extends Component {
                         </View>
                     </ProgressStep>
                     <ProgressStep label={DESTINATION_POINT}
+                      nextBtnDisabled={
+                        validateAdresse(this.state.adresse_Destination)|| 
+                        validateLocation(this.state.long_Destination) ||
+                        validateName(this.state.name_Destination)||
+                        validateNumTel(this.state.numTel_Destination)
+                        == true }	
                         nextBtnTextStyle={{ fontSize: 40 }}
                         nextBtnText={<Icon style={{ alignItems: 'center', alignSelf: 'center' }}
                             backgroundColor='white'
@@ -163,7 +180,7 @@ class CreateParcels extends Component {
                             name='chevron-circle-left'
                             size={50} />}
                         onNext={() =>
-                            this.setState({
+                             this.setState({
                                 distance: getDistance(
                                     { latitude: this.state.lat_Destination, longitude: this.state.long_Destination },
                                     { latitude: this.state.lat_Depart, longitude: this.state.long_Depart }
@@ -171,16 +188,20 @@ class CreateParcels extends Component {
                             })
                         } >
                         <View style={styles.container}>
-                            <TextInput style={styles.InputText}
+                            <InputText style={styles.InputText}
                                 placeholder={FULL_NAME}
+                                errorMessage={validateName(this.state.name_Destination)}
                                 value={this.state.name_Destination}
                                 onChangeText={text => this.setState({ name_Destination: (text) })} />
-                            <TextInput style={styles.InputText}
+                            <InputText style={styles.InputText}
                                 placeholder={PHONE_NUMBER}
+                                errorMessage={validateNumTel(this.state.numTel_Destination)}
                                 value={this.state.numTel_Destination}
                                 onChangeText={text => this.setState({ numTel_Destination: (text) })} />
                             <Input
                                 disabled
+
+                                errorMessage={validateLocation(this.state.long_Destination)}
                                 placeholder={'localisation'}
                                 value={'lat= ' + this.state.lat_Destination + ',' + 'long =' + this.state.long_Destination}
                                 inputContainerStyle={{ borderBottomWidth: 0, }}
@@ -203,8 +224,9 @@ class CreateParcels extends Component {
                                         size={28}
                                         color='blue'
                                         onPress={this.toggleOverlay} />} />
-                            <TextInput style={styles.InputText}
+                            <InputText style={styles.InputText}
                                 placeholder={ADRESSE}
+                                errorMessage={validateAdresse(this.state.adresse_Destination)}
                                 value={this.state.adresse_Destination}
                                 onChangeText={text => this.setState({ adresse_Destination: (text) })} />
                             <Overlay
@@ -222,9 +244,16 @@ class CreateParcels extends Component {
                             backgroundColor='white'
                             name='chevron-circle-left'
                             size={50} />}
-                        onSubmit={() => this.createParcel()}>
+        
+                            nextBtnDisabled	={ validateCost(this.state.frais)|| this.state.disable||
+                                validateName(this.state.description) ||(this.state.checked =!null) == false }
+                            onSubmit={   () => this.createParcel()  }
+                               
+                                    >
+                                        {this.props.parcel.Loading == true ? <BloquingLoader />:null}
                         <View style={styles.container}>
-                            <TextInput style={styles.InputText}
+                            <InputText style={styles.InputText}
+                            errorMessage={validateName(this.state.description)}
                                 placeholder='Description..'
                                 value={this.state.description}
                                 onChangeText={text => this.setState({ description: (text) })} />
@@ -253,7 +282,9 @@ class CreateParcels extends Component {
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignSelf: 'stretch', padding: 10 }}>
                                 <Text
                                     style={{ borderRadius: 20, padding: 15, borderColor: '#007aff', }}>Distance estimé</Text>
-                                <TextInput style={{ width: '40%', borderWidth: 2, borderRadius: 20, padding: 15, borderColor: '#007aff', }}    >
+                                <TextInput 
+                            
+                                style={{ width: '40%', borderWidth: 2, borderRadius: 20, padding: 15, borderColor: '#007aff', }}    >
                                     {this.state.distance} Km </TextInput>
                             </View>
                             <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignSelf: 'stretch', padding: 10, }}>
@@ -262,10 +293,13 @@ class CreateParcels extends Component {
                                     padding: 15,
                                     borderColor: '#007aff'
                                 }}>frais de livraison inferieur a </Text>
-                                <TextInput
-                                    style={{ width: '40%', borderWidth: 2, borderRadius: 20, padding: 15, borderColor: '#007aff', }}
+                                <View style={{width:"40%"}}>
+                                <InputText
+                            errorMessage={validateCost(this.state.frais)}
+                            style={{ width: '40%', borderWidth: 2, borderRadius: 20, padding: 15, borderColor: '#007aff', }}
                                     value={this.state.frais}
                                     onChangeText={text => this.setState({ frais: (parseInt(text)) })} />
+                            </View>
                             </View>
                         </View>
                     </ProgressStep>
@@ -296,6 +330,6 @@ const styles = StyleSheet.create({
 }
 );
 const mapStateToProps = state => {
-    return { auth: state.auth };
+    return { auth: state.auth,parcel:state.parcel };
 };
 export default connect(mapStateToProps, { CreateParcel })(CreateParcels);

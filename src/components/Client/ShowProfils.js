@@ -17,7 +17,7 @@ class ShowProfils extends Component {
                 <Image
                     source={require('../../assets/img/me.jpg')}
                     style={{ borderRadius: 80, paddingTop: 20, height: '100%', width: '20%' }}  />
-                <Text >{this.props.profil.name}</Text>
+                <Text >  {this.props.profil.name}</Text>
                 <Text>  {this.props.profil.price_km} DT/km</Text>
                   {this.props.profil.rapidity == 1 ?  <Icon
                                         backgroundColor='white'

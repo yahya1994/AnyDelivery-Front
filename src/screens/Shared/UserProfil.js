@@ -1,4 +1,4 @@
-import { View, Text, Image, Button } from 'react-native';
+import { View, Text, Image, Button, Alert } from 'react-native';
 import React, { Component } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Overlay, CheckBox } from 'react-native-elements';
@@ -8,10 +8,12 @@ import { logout, UpdateProfil } from '../../redux/actions';
 import { RAPIDITY } from '../../helpers/strings/strings';
 import { IMAGE_PATH, DELIVERYMAN_ROLE, CLIENT_ROLE } from '../../helpers/constants/constants';
 import { InputText, Buttons } from '../../components/Shared';
+import { BloquingLoader } from '../../components/Shared/BloquingLoader';
+import { validateNumTel } from '../../helpers/functions/InputValidation';
 
 class UserProfil extends Component {
     state = {
-        visible2: false, visible1: false, place: '', visible: false, phone_number: '',price_km:0
+        visible2: false, visible1: false, place: '', visible: false, phone_number: '', price_km: 0
     }
     OverlayRapidity = () => {
         this.setState({ visible: false });
@@ -32,16 +34,20 @@ class UserProfil extends Component {
         this.setState({ visible2: true });
     };
     render() {
-console.log(this.props.UserProfil.Loading)
+        console.log(this.props.UserProfil.Loading)
         return (
             <View style={{ flexDirection: 'column', flex: 1, }} >
                 <LinearGradient colors={['white', '#30ACE4', '#30ACE4', '#007aff']} style={{ flex: 1 }}>
                     <View style={{ backgroundColor: 'white', marginTop: '1%', borderRadius: 100, flex: 2, justifyContent: 'center', flexDirection: 'column', alignItems: 'center', alignSelf: 'center', width: '50%' }} >
-                        <Image
-                            source={require('../../assets/img/me.jpg')}
+                        {this.props.auth.user.role == 2 ? <Image
+                            source={require('../../assets/img/livreur.jpg')}
                             style={{ borderRadius: 80, paddingTop: 20, height: '100%', width: "100%" }}
                         />
-
+                            : <Image
+                                source={require('../../assets/img/client.jpg')}
+                                style={{ borderRadius: 80, paddingTop: 20, height: '100%', width: "100%" }}
+                            />
+                        }
                     </View>
                     <View style={{
                         backgroundColor: 'white', borderRadius: 20,
@@ -94,57 +100,80 @@ console.log(this.props.UserProfil.Loading)
                             <Button title='Déconnexion' onPress={() => this.props.logout(this.props.navigation)} />
                         </View>
                     </View>
-                    <Overlay
-                        overlayStyle={{ width: '90%', height: '18%', borderRadius: 80, flexDirection: 'column' }}
-                        isVisible={this.state.visible}
-                        onBackdropPress={this.OverlayRapidity}>
-                        <Text style={{ textAlign: 'center', }}>votre status de rapidité</Text>
-                        <View style={{ alignItems: 'center', flexDirection: 'row' }}>
-                            <CheckBox
-                                checked={this.props.UserProfil.Profil.rapidity == 0 ? true : false}
-                                onPress={() => this.props.UpdateProfil(this.props.auth.user.id, { rapidity: 0 })}
-                            />
-                            <Icon
-                                backgroundColor='white'
-                                name='bicycle'
-                                size={30}
-                                color='#007aff'
-                            />
-                            <CheckBox
-                                onPress={() => this.props.UpdateProfil(this.props.auth.user.id, { rapidity: 1 })}
-                                containerStyle={{ borderColor: 'black' }}
-                                checked={this.props.UserProfil.Profil.rapidity == 1 ? true : false}
-                            />
-                            <Icon
-                                backgroundColor='white'
-                                name='car'
-                                size={30}
-                                color='#007aff'
 
-                            />
+                    <Overlay
+                        overlayStyle={{ width: '80%', height: '22%', borderRadius: 20, justifyContent: 'center', flexDirection: 'column' }}
+                        isVisible={this.state.visible}
+     /***************/onBackdropPress={this.props.UserProfil.Loading == false ?this.OverlayRapidity:null}>
+                        <Text style={{ textAlign: 'center', }}>votre status de rapidité {"\n"}</Text>
+                        <View style={{ justifyContent: 'space-around', paddingLeft: '10%', flexDirection: 'row' }}>
+                            <View >
+                                <Icon
+                                    style={{ paddingLeft: '6%' }}
+                                    backgroundColor='white'
+                                    name='bicycle'
+                                    size={30} 
+                                    color='#007aff'
+                                />
+                                <CheckBox
+                                    checked={this.props.UserProfil.Profil.rapidity == 0 ? true : false}
+                                    onPress={() => this.props.UpdateProfil(this.props.auth.user.id, { rapidity: 0 })}
+                                />
+                            </View>
+                            {this.props.UserProfil.Loading == true ? <BloquingLoader /> : null}
+
+                            <View  >
+
+                                <Icon
+                                    style={{ paddingLeft: '12%' }}
+                                    backgroundColor='white'
+                                    name='car'
+                                    size={30}
+                                    color='#007aff'
+
+                                />
+                                <CheckBox
+                                    onPress={() => this.props.UpdateProfil(this.props.auth.user.id, { rapidity: 1 })}
+                                    containerStyle={{ borderColor: 'black' }}
+                                    checked={this.props.UserProfil.Profil.rapidity == 1 ? true : false}
+                                />
+                            </View>
                         </View>
                     </Overlay>
                     <Overlay
-                        overlayStyle={{ width: '90%', height: '40%', borderRadius: 40,justifyContent:"center", flexDirection: 'column' }}
+                        overlayStyle={{ width: '90%', height: '40%', borderRadius: 40, justifyContent: "center", flexDirection: 'column' }}
                         isVisible={this.state.visible1}
-                        onBackdropPress={this.OverlayRapidity1}>
+                        onBackdropPress={this.props.UserProfil.Loading == false ?this.OverlayRapidity1:null}>
                         <InputText
                             value={this.state.phone_number}
+                            disable={this.props.UserProfil.Loading}
+                            errorMessage={validateNumTel(this.state.phone_number)}
                             onChangeText={text => this.setState({ phone_number: (text) })}
                         />
-                        <Buttons width={'55%'} title='confirmer'
-                            onPress={() => this.props.UpdateProfil(this.props.auth.user.id, { phone_number: this.state.phone_number })} />
+
+                        <Buttons width={'55%'} title='confirmer' loading={this.props.UserProfil.Loading} disabled={this.props.UserProfil.Loading}
+                            onPress={
+                                validateNumTel(this.state.phone_number) == false ?
+                                    () => this.props.UpdateProfil(this.props.auth.user.id, { phone_number: this.state.phone_number }) : () => Alert.alert(
+                                        "Erreur",
+                                        "vérifier vos champs",
+                                        [{ text: "OK", cancelable: false }],
+                                        { cancelable: false })}
+                        >
+                            {this.props.UserProfil.Loading == true ? <BloquingLoader /> : null}
+
+                        </Buttons>
 
                     </Overlay>
                     <Overlay
-                        overlayStyle={{ width: '90%', height: '40%', borderRadius: 40,justifyContent:"center", flexDirection: 'column' }}
+                        overlayStyle={{ width: '90%', height: '40%', borderRadius: 40, alignItems: 'center', justifyContent: "center", flexDirection: 'column' }}
                         isVisible={this.state.visible2}
-                        onBackdropPress={this.OverlayRapidity2}>
-                        <InputText
+                        onBackdropPress={this.props.UserProfil.Loading == false ?this.OverlayRapidity2:null}>
+                        <InputText disable={this.props.UserProfil.Loading}
                             value={this.state.price_km}
-                            onChangeText={text => this.setState({ price_km: (parseInt(text))})}
+                            onChangeText={text => this.setState({ price_km: (parseInt(text)) })}
                         />
-                        <Buttons width={'55%'} title='confirmer' loading={this.props.UserProfil.Loading}
+                        <Buttons width={'55%'} title='confirmer' loading={this.props.UserProfil.Loading} disabled={this.props.UserProfil.Loading}
                             onPress={() => this.props.UpdateProfil(this.props.auth.user.id, { price_km: this.state.price_km })} />
 
                     </Overlay>
