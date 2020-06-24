@@ -8,8 +8,8 @@ import {
 const INITIAL_STATE = {
     items: [],
     item: [],
-    profil:[],
-    Loading: true,
+    profil:[],Loading1:null,
+    Loading: null,message:'vous ',
     Last_page: 0,
     current_page: 0, success: null, modal: null,delivery_man_id:null,parcel_id:null
 
@@ -23,7 +23,7 @@ export default (state = INITIAL_STATE, action) => {
             return {
                 ...state, items: action.payload.items,
                 Loading: false, Last_page: action.payload.last_page
-                , current_page: action.payload.current_page
+                , current_page: action.payload.current_page, 
             };
         case FETCH_MORE_PARCELS:
             console.log('4 : ' + [...state.items, ...action.payload.items].length)
@@ -52,7 +52,7 @@ export default (state = INITIAL_STATE, action) => {
 
         case CREATE_PARCEL:
             console.log('6:+' + action.payload.items.date)
-        //  return { ...state, items: action.payload.items }
+         return { ...state,Loading:false }
         case FETCH_DATA_ATTEMPT:
             return { ...state, Loading: true }
         case CHOSE_PARCEL_FAIL:
@@ -60,12 +60,15 @@ export default (state = INITIAL_STATE, action) => {
         case HIDE_MODAL:
             return { ...state, modal: false, message: '' };
         case LOGOUT: 
-            return { ...state, items: [] };
+            return { ...state, items: [],item:[] };
             case 'SHOW_PROFIL':
                 console.log(action.payload.profil['profils'].length)
-                return { ...state, profil: action.payload.profil };
+                return { ...state, profil: action.payload.profil,Loading:false };
+                case 'FETCH_DATA_ATTEMPT_INSEND':
+                    return { ...state, Loading1: true };
             case 'REQUEST_FOR_PARCEL':
-            return { ...state, parcel_id : action.payload.parcel_id,delivery_man_id: action.payload.delivery_man_id };
+
+            return { ...state, Loading1:false,parcel_id : action.payload.parcel_id,delivery_man_id: action.payload.delivery_man_id };
         default:
             return state;
 

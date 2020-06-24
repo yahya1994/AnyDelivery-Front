@@ -8,6 +8,7 @@ import { parcelReady, fetshParcels } from '../../redux/actions';
 import { InputText, Buttons } from '../../components/Shared';
 import networkCheck from '../../helpers/functions/networkCheck';
 import { SEARCH ,WAITING, RESERVED , IN_PROGRESS, DELIVERED,CREATE_PARCEL } from '../../helpers/strings/strings';
+import OneSignal from 'react-native-onesignal';
  
 class ParcelsList extends Component {
     constructor() {
@@ -17,9 +18,14 @@ class ParcelsList extends Component {
             refreshing: null, currentPage: 1,
 
         }
-
+        OneSignal.setExternalUserId("2");
+        OneSignal.inFocusDisplaying(2);
+        OneSignal.addEventListener('opened', this.ReceiveNotif );
     }
-
+    ReceiveNotif=()=>{
+        this.props.navigation.navigate('Home');
+        this._refresh
+    }
     parcelReady = async (id) => {
         await this.props.parcelReady(id);
         this._refresh();
@@ -30,8 +36,9 @@ class ParcelsList extends Component {
     toggleOverlay = () => {
         this.setState({ visible: true });
     };
-
+ 
     componentDidMount() {
+  
         networkCheck()
         console.disableYellowBox = true;
         this.props.fetshParcels(this.state.status,this.state.input, this.state.currentPage);
@@ -53,10 +60,10 @@ class ParcelsList extends Component {
     
     renderFooter = () => {
         return (
-            this.state.Loading ?
+            this.props.Parcels.Loading ?
                 <View>
                     <ActivityIndicator animating size='large' />
-                </View> : null);
+                </View> : this.props.Parcels.items == '' ? <Text> vous n'avez aucun colis pour le moment  </Text>:null);
     }
     animation = new Animated.Value(0);
     toggleBtn = () => {
@@ -68,6 +75,8 @@ class ParcelsList extends Component {
     }
  
     render() {
+        //OneSignal.setExternalUserId(this.props.auth.user.id.toString());
+
         const ShowMessage = {
             transform: [
                 { scale: this.animation },
@@ -208,6 +217,8 @@ const styles = StyleSheet.create({
     }
 });
 const mapStateToProps = state => {
-    return { Parcels: state.parcel };
+    return { Parcels: state.parcel,
+        
+        auth: state.auth };
 };
 export default connect(mapStateToProps, { parcelReady, fetshParcels })(ParcelsList);

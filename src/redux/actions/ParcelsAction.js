@@ -57,11 +57,13 @@ export const fetshParcels_DeliveryMan = (status,pageNumber) => dispatch => {
   console.log("error = "+ err ); })
 };
 export const CreateParcel = (data,nav) => dispatch => {
+  dispatch({ type: FETCH_DATA_ATTEMPT })
+
   SharedFunction('/client/parcel', POST, data).then((response) => {
     console.log(response)
     nav.replace ('Main');
     dispatch({
-      type: CREATE_PARCEL, payload: { items: response, } })
+      type: CREATE_PARCEL, payload: { items: response, Loading:false} })
   }).catch((err) => {
     console.log(err);
 
@@ -71,11 +73,13 @@ export const sendRequest = (parcel_id,delivery_man_id,client_id) => dispatch => 
   let data ={
     parcel_id,delivery_man_id,client_id
   }
+  dispatch({ type: 'FETCH_DATA_ATTEMPT_INSEND' })
+
   SharedFunction('/deliveryMan/req', POST, { parcel_id,delivery_man_id,client_id}).then((response) => {
     console.log(response)
      
     dispatch({
-      type: 'REQUEST_FOR_PARCEL', payload: { parcel_id:response.parcel_id,delivery_man_id: response.delivery_man_id } })
+      type: 'REQUEST_FOR_PARCEL', payload: {Loading:false, parcel_id:response.parcel_id,delivery_man_id: response.delivery_man_id } })
   }).catch((err) => {
     console.log(err);
 
@@ -104,10 +108,11 @@ export const parcelDone = (id) => dispatch => {
 };
 
 export const showProfil = (parcel_id) => dispatch => {
+  dispatch({ type: FETCH_DATA_ATTEMPT })
   SharedFunction('/client/showProfils/?parcel='+parcel_id, GET ).then((response) => {
     console.log('Done '+response['profils'])
     dispatch({
-      type: 'SHOW_PROFIL', payload: { profil: response, } })
+      type: 'SHOW_PROFIL', payload: { profil: response,Loading:false } })
   }).catch((err) => {
     console.log(err);
 

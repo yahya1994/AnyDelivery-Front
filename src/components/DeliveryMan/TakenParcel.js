@@ -133,7 +133,7 @@ class TakenParcel extends Component {
                                         Linking.openURL(`tel:${parseInt(this.props.item.Client['0'].phone_number)}`)
 
                                     } color='green' size={45} />
-                                    <Icon onPress={() => this.props.nav.push('Chat', { idReceiver: this.props.item.Client['0'].id })} style={{ padding: 10 }} name="envelope-o" color='#007aff' size={45} />
+                                    <Icon onPress={() => this.props.nav.push('Chat', { idReceiver: this.props.item.id })} style={{ padding: 10 }} name="envelope-o" color='#007aff' size={45} />
                                 </Overlay>
                             </TouchableOpacity >
                             <TouchableOpacity onPress={() => this.props.nav.navigate('Map', { item: this.props.item, DeliveryMan: this.props.item.DeliveryMan['0'], Client: this.props.item.Client['0'] })}   >

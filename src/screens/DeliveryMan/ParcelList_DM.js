@@ -9,13 +9,26 @@ import { connect } from 'react-redux';
 import { ChoseParcel, fetshParcels_DeliveryMan } from '../../redux/actions';
 import networkCheck from '../../helpers/functions/networkCheck';
 import { SEARCH } from '../../helpers/strings/strings';
+import { BloquingLoader } from '../../components/Shared/BloquingLoader';
+import OneSignal from 'react-native-onesignal';
 
 class ParcelsList_DM extends Component {
-    state = {
+    constructor() {
+        super();
+        this.state = {
         visible: false, Loading: true, status: '',
         refreshing: null, currentPage: 1,input:'',
 
     }
+   /* OneSignal.setExternalUserId("2");
+    OneSignal.inFocusDisplaying(2);
+    OneSignal.addEventListener('opened', this.ReceiveNotif );*/
+  
+}
+ReceiveNotif=()=>{
+    this.props.navigation.navigate('Home');
+    this._refresh
+}
     OverlayExample = () => {
         this.setState({ visible: false });
     }
@@ -28,6 +41,7 @@ class ParcelsList_DM extends Component {
     }
     componentDidMount() {
         networkCheck()
+       
         this.props.fetshParcels_DeliveryMan(this.state.status, this.state.currentPage);
     }
     _refresh = async () => {
@@ -45,10 +59,11 @@ class ParcelsList_DM extends Component {
     }
     renderFooter = () => {
         return (
-            this.state.Loading ?
+            this.props.Parcels.Loading ?
                 <View>
                     <ActivityIndicator animating size='large' />
-                </View> : null);
+                    </View> : this.props.Parcels.items == '' ? <Text> vous n'avez aucun colis pour le moment  </Text>:null);
+
     }
     render() {
 
@@ -85,8 +100,9 @@ class ParcelsList_DM extends Component {
                         />
                     }
                     /> 
-                    
+                     
                 </View>
+                
                 <FlatList
                     style={{ backgroundColor: '#EFFBFB', padding: 5 }}
                     data={this.props.Parcels.items}
@@ -101,7 +117,7 @@ class ParcelsList_DM extends Component {
                     onEndReachedThreshold ={0.4}
                     ListFooterComponent={this.renderFooter}
                     onEndReached={this.LoadMore}
-                />
+                /> 
             </View>
         );
     }
