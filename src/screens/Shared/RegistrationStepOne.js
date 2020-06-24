@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { View, Alert, StyleSheet, } from 'react-native';
 import { Input, Button, ThemeProvider } from 'react-native-elements';
 import { Buttons, InputText } from '../../components/Shared';
-import {validateName,validateEmail,validateNumTel,validatePassword,validateComfirmPassword} from '../../helpers/functions/InputValidation';
-import { FULL_NAME, EMAIL,COMFIRME_PASSWORD,INPUT_CHECK, PASSWORD, PHONE_NUMBER ,ERROR} from '../../helpers/strings/strings';
+import { validateName, validateEmail, validateNumTel, validatePassword, validateComfirmPassword } from '../../helpers/functions/InputValidation';
+import { FULL_NAME, EMAIL, COMFIRME_PASSWORD, INPUT_CHECK, PASSWORD, PHONE_NUMBER, ERROR } from '../../helpers/strings/strings';
 
 export default class RegistrationStepOne extends Component {
     constructor() {
@@ -32,15 +32,17 @@ export default class RegistrationStepOne extends Component {
                     errorMessage={validateEmail(this.state.email)}
                 /><InputText style={styles.InputText}
                     placeholder={PASSWORD}
+                    secureTextEntry={true}
                     onChangeText={text =>
                         this.setState({ password: (text) })}
                     errorMessage={validatePassword(this.state.password)}
                 />
                 <InputText style={styles.InputText}
                     placeholder={COMFIRME_PASSWORD}
+                    secureTextEntry={true}
                     onChangeText={text =>
                         this.setState({ Comfirmpassword: (text) })}
-                    errorMessage={validateComfirmPassword(this.state.Comfirmpassword,this.state.password)}
+                    errorMessage={validateComfirmPassword(this.state.Comfirmpassword, this.state.password)}
                 />
                 <InputText
                     placeholder={PHONE_NUMBER} onChangeText={text =>
@@ -48,21 +50,21 @@ export default class RegistrationStepOne extends Component {
                     errorMessage={validateNumTel(this.state.phone_number)}
                 />
 
-                <Buttons  
+                <Buttons
                     width='40%'
                     title='Suivant'
-                    
-                    onPress={ ( 
-                         validateName(this.state.name)
+
+                    onPress={(
+                        validateName(this.state.name)
                         || validateEmail(this.state.email)
                         || validatePassword(this.state.password)
-                        || validateComfirmPassword(this.state.Comfirmpassword,this.state.password)
-                        || validateNumTel(this.state.phone_number))==false ? () => this.props.navigation.push('Creér votre compte2',
-                        { name: this.state.name, email: this.state.email, password: this.state.password, phone_number: this.state.phone_number, role: this.props.route.params.role }): ()=> Alert.alert(
-                       ERROR,
-                       INPUT_CHECK,
-                        [{ text: "OK",   cancelable: false   }],
-                        { cancelable: false })}
+                        || validateComfirmPassword(this.state.Comfirmpassword, this.state.password)
+                        || validateNumTel(this.state.phone_number)) == false ? () => this.props.navigation.push('Creér votre compte2',
+                            { name: this.state.name, email: this.state.email, password: this.state.password, phone_number: this.state.phone_number, role: this.props.route.params.role }) : () => Alert.alert(
+                                ERROR,
+                                INPUT_CHECK,
+                                [{ text: "OK", cancelable: false }],
+                                { cancelable: false })}
                 />
             </View>
         );

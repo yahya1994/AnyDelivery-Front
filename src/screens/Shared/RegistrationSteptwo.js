@@ -76,7 +76,7 @@ class RegistrationSteptwo extends Component {
     getImage = () => {
 
         ImagePicker.showImagePicker(options, (response) => {
-            console.log('Response = ', response.type);
+            console.log('Response = ', response.fileSize);
                     const source = { uri: response.uri };
                     const file = { uri: response.path };
                     const fileName = { fileName: response.fileName };

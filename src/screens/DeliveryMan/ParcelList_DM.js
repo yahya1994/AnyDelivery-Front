@@ -62,7 +62,7 @@ ReceiveNotif=()=>{
             this.props.Parcels.Loading ?
                 <View>
                     <ActivityIndicator animating size='large' />
-                    </View> : this.props.Parcels.items == '' ? <Text> vous n'avez aucun colis pour le moment  </Text>:null);
+                    </View> : this.props.Parcels.items.length == 0 ?<Text> vous n'avez aucun colis pour le moment  </Text>:null);
 
     }
     render() {

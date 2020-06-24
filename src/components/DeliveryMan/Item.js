@@ -5,6 +5,7 @@ import { Overlay, CheckBox } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { HideModal, sendRequest, ChoseParcel } from '../../redux/actions';
 import { Linking } from 'react-native';
+import { BloquingLoader } from '../Shared/BloquingLoader';
 
 
 class Item extends Component {
@@ -41,6 +42,7 @@ class Item extends Component {
                                 onPress={() => this.setState({ checked: true },
                                     () => this.props.sendRequest(this.props.item.id, this.props.auth.user.id, this.props.item.Client['0'].id))}
                             /> : null}
+
                     </View>
                     <View style={{ flex: 3, alignSelf: 'stretch', }} >
                         <View style={{ justifyContent: 'flex-end', flexDirection: 'row', paddingRight: 20, alignSelf: 'stretch', }} >

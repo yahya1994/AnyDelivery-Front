@@ -69,7 +69,7 @@ class ParcelDetails extends Component {
                     </View>
                     <Text style={{ color: '#007aff', marginLeft: 5, }} >description</Text>
                     <Text></Text>
-                    { this.props.route.params.item.status != 0 && this.props.auth.user.role == CLIENT_ROLE  ?  <Text style={{ color: '#007aff', marginLeft: 5, }} >{COMFIRMATION_CODE}{this.props.route.params.item.id}{this.props.route.params.item.DeliveryMan['0'].id}{this.props.route.params.item.Client['0'].id}  </Text>:null }
+                    { this.props.route.params.item.status != 0 && this.props.auth.user.role == CLIENT_ROLE  ?  <Text style={{ color: '#007aff', marginLeft: 5, }} >{COMFIRMATION_CODE}{this.props.route.params.item.id}{this.props.route.params.item.Client['0'].id} {this.props.route.params.item.DeliveryMan['0'].id} </Text>:null }
                     <TextInput
                         multiline={true}
                         disabled={false}

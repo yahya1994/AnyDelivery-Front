@@ -13,11 +13,11 @@ export const validateName = (name) => {
             return error;
     }
 };
-export const validateComfirmPassword = (name, password) => {
+export const validateComfirmPassword = (password, Conpassword) => {
     var errorMessage = '*';
     let error = false;
 
-    if (password != name) {
+    if (password != Conpassword) {
         return [errorMessage = 'invalid', error = true];
     } return error;
 
@@ -39,15 +39,15 @@ export const validateNumTel = (name) => {
 
 
 };
-export const validatePassword = (name) => {
+export const validatePassword = (password) => {
     var errorMessage = '*';
     let error = false;
 
     switch (true) {
-        case name.length == 0:
+        case password.length == 0:
             return [errorMessage = '*', error = true]
             break;
-        case (name.length < 4):
+        case (password.length < 4):
             return [errorMessage = 'mot de passe trop court', error = true]
             break;
         default:
@@ -55,31 +55,30 @@ export const validatePassword = (name) => {
     }
 
 };
-export const validateEmail = (name) => {
+export const validateEmail = (email) => {
     let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     var errorMessage = '*';
     let error = false;
     switch (true) {
-        case name.length == 0:
+        case email.length == 0:
             return [errorMessage = '*', error = true]
             break;
-        case (name.length < 2 || reg.test(name) === false):
+        case (email.length < 2 || reg.test(email) === false):
             return [errorMessage = 'format email invalid', error = true]
             break;
         default:
             return error;
     }
 };
-
-export const validateNumCin = (name) => {
+export const validateCost = (cost) => {
     let reg = /^\d*\.?\d*$/;
     var errorMessage = '*';
     var error = false;
     switch (true) {
-        case (name.toString().length < 2):
+        case (cost.toString().length < 1):
             return [errorMessage = '*', error = true]
             break;
-        case (name.toString().length < 4 || reg.test(name) === false):
+        case (reg.test(cost) == false):
             return [errorMessage = 'format invalid', error = true]
             break;
         default:
@@ -87,20 +86,53 @@ export const validateNumCin = (name) => {
     }
 
 };
-export const validateAdresse = (name) => {
+export const validateNumCin = (cin) => {
+    let reg = /^\d*\.?\d*$/;
     var errorMessage = '*';
     var error = false;
     switch (true) {
-        case name.length == 0:
+        case (cin.toString().length < 2):
             return [errorMessage = '*', error = true]
             break;
-        case (name.length < 3):
+        case (reg.test(cin) == false || cin.toString().length != 8 ):
+            return [errorMessage = 'format invalid', error = true]
+            break;
+        case (reg.test(cin) == false):
+            return [errorMessage = 'format invalid', error = true]
+            break;
+        default:
+            return error;
+    }
+
+};
+export const validateAdresse = (adresse) => {
+    var errorMessage = '*';
+    var error = false;
+    switch (true) {
+        case adresse.length == 0:
+            return [errorMessage = '*', error = true]
+            break;
+        case (adresse.length < 3):
             return [errorMessage = 'trop court', error = true]
             break;
         default:
             return error;
     }
 };
+
+export const validateLocation = (position) => {
+    var errorMessage = '*';
+    let error = false;
+
+    switch (true) {
+        case (position == 0):
+            return [errorMessage = '*', error = true]
+            break;
+        default:
+            return error;
+        } }
+
+
 export const validateImage = (fileSize) => {
     var errorMessage = '*';
     let error = false;
@@ -108,8 +140,8 @@ export const validateImage = (fileSize) => {
     switch (true) {
         case (fileSize < 1):
             return [errorMessage = '*', error = true]
-            break;  
-            case (fileSize = 0 ):
+            break;
+        case (fileSize = 0):
             return [errorMessage = '*', error = true]
             break;
         case (fileSize > 800000):

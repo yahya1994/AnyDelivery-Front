@@ -47,7 +47,7 @@ class TakenParcelList extends Component {
             this.props.Parcels.Loading ?
                 <View>
                     <ActivityIndicator animating size='large' />
-                    </View> : this.props.Parcels.item == '' ? <Text> vous n'avez aucun colis pour le moment  </Text>:null);
+                    </View> : this.props.Parcels.item.length == 0 ? <Text> vous n'avez aucun colis pour le moment  </Text>:null);
 
     }
     render() {
@@ -119,8 +119,6 @@ class TakenParcelList extends Component {
                         </View>
                     </Overlay>
                 </View>
-          
-
                 <FlatList
                     style={{ backgroundColor: '#EFFBFB', padding: 5 }}
                     data={this.props.Parcels.item}

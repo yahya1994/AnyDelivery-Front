@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Dimensions, Alert, PermissionsAndroid, Button, } from 'react-native'
+import { View, StyleSheet, Dimensions, Alert, Text,PermissionsAndroid, TextInput, } from 'react-native'
 import MapView, { Polyline } from 'react-native-maps';
 import geolocation from '@react-native-community/geolocation';
 import networkCheck from '../../helpers/functions/networkCheck';
@@ -73,47 +73,12 @@ class Map extends Component {
           longitudeDelta: LONGITUDE_DELTA,
         };
         this2.setState({ DeliveryManPosition: initialRegion });
-      }
-   /*
-     var deliveryManCurentLocation = {
-        latitude: lat,
-        longitude: long,
-        latitudeDelta: LATITUDE_DELTA,
-        longitudeDelta: LONGITUDE_DELTA,
-      };
-   
-      var point = [];
-      point.push({
-        latitude: lat,
-        longitude: long,
-
-      });
-
-      this.setState(prevState => ({
-        points: [...prevState.points, {
-          latitude: lat,
-          longitude: long,
-        }]
-      }))
-   ---------------
-      mess.push(data.message);
-      this2.setState(prevState => ({
-          message: [...prevState.message, {
-              _id: data.message.id,
-              text: data.message.content,
-              createdAt: new Date(),
-              user: {
-                  _id: data.message.user_id,
-                  name: 'React Native',
-                  avatar: 'https://placeimg.com/140/140/any',
-              },
-          }]
-         }) 
-      ) */}
+      } }
     );
   }
   componentWillUnmount() {
-   geolocation.clearWatch(this.watchID);
+    geolocation.clearWatch(this.watchID);
+     
   }
   componentDidMount() {
     networkCheck()
@@ -142,24 +107,9 @@ class Map extends Component {
         longitudeDelta: LONGITUDE_DELTA,
       };
 
-      /* var point = [];
-       point.push({
-         latitude: lat,
-         longitude: long,
- 
-       });
- 
-       this.setState(prevState => ({
-         points: [...prevState.points, {
-           latitude: lat,
-           longitude: long,
-         }]
-       }))*/
-      if (this.props.auth.user.role == 2) { this.Send(long, lat) }
+       if (this.props.auth.user.role === 2) { this.Send(long, lat) }
       console.log("SendFct : " + this.state.points);
       this.Tracking();
-
-      // this.setState({ initialPosition: initialRegion });
       // Alert.alert('done' + ' ' + this.state.initialPosition.latitude);
     }, error => { Alert.alert('Error', JSON.stringify(error)); } ,
     );
@@ -201,7 +151,7 @@ class Map extends Component {
     axios.post(ANYDELIVERY_BASE_URL + '/track',
       {
         client_id: this.props.route.params.Client.id,
-        delivery_man_id: 2,
+        delivery_man_id: this.props.auth.user.id,
         parcel_id: this.props.route.params.item.id,
         longitude: long,
         latitude: lat
@@ -247,24 +197,7 @@ class Map extends Component {
 
     );
   }
-  changePosition = event => {
-    const coords = event.nativeEvent.coordinate;
-    this.map.animateToRegion({
-      ...this.state.initialPosition,
-      latitude: coords.latitude,
-      longitude: coords.longitude
-    })
-    var initialRegion = {
-      latitude: coords.latitude,
-      longitude: coords.longitude,
-      latitudeDelta: LATITUDE_DELTA,
-      longitudeDelta: LONGITUDE_DELTA
-    }
 
-    this.setState({ initialPosition: initialRegion, Marker: true })
-    this.setState({ Marker: true })
-
-  }
 
   render() {
     var markers = [
@@ -285,6 +218,9 @@ class Map extends Component {
 
     return (
       <View style={styles.container} >
+        <Text  style={styles.InputText}  > 
+          postion de colis </Text>
+        <Text  style={[styles.InputText,{color:'green',marginTop :50}]}  > position de livreur </Text>
 
 
         <MapView style={styles.map}
@@ -295,9 +231,9 @@ class Map extends Component {
         >
           {marker}
           {this.props.route.params.item.status != 2 && this.props.route.params.item.status != 0 ?
-            <MapView.Marker title={this.props.route.params.DeliveryMan.name} pinColor={"green"} description={'1234 Foo Drive'} coordinate={this.state.DeliveryManPosition} /> : null}
-          {Finalmarker = <MapView.Marker title={this.props.route.params.item.Receiver_name} description={'recepteur -- 1234 Foo Drive'} coordinate={this.state.finalPosition} />}
-          {Departmarker = <MapView.Marker title={this.props.route.params.Client.name} description={'emeteur -- 1234 Foo Drive'} coordinate={this.state.DepartPosition} />}
+            <MapView.Marker title={this.props.route.params.DeliveryMan.name} pinColor={"green"} coordinate={this.state.DeliveryManPosition} /> : null}
+          {Finalmarker = <MapView.Marker title={this.props.route.params.item.Receiver_name} description={'Point de Destination'} coordinate={this.state.finalPosition} />}
+          {Departmarker = <MapView.Marker title={this.props.route.params.Client.name} description={'Point de Depart'} coordinate={this.state.DepartPosition} />}
           <Polyline strokeColor={'red'} strokeWidth={4} coordinates={this.state.points} />
 
         </MapView>
@@ -309,13 +245,26 @@ class Map extends Component {
 const styles = StyleSheet.create({
   container: {
     width: '100%',
+    zIndex: 0,
     alignItems: 'center'
   },
   map: {
     height: "100%",
     width: "100%"
 
-  }
+  },
+  InputText: {
+    position: 'absolute', zIndex: 1,
+    borderWidth: 2,
+    color:'red',
+    borderRadius: 20,
+    borderColor: '#007aff',
+    alignSelf: 'stretch',
+    margin: 15,alignSelf:"flex-end",
+    paddingLeft: 15, width: '40%',
+    backgroundColor: '#fff',
+  }, 
+  
 });
 const mapStateToProps = state => {
   return { auth: state.auth };
