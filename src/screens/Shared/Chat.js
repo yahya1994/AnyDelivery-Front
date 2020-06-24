@@ -30,6 +30,16 @@ class Chat extends React.Component {
     }
 
 
+componentWillUnmount(){
+   /* var pusher = new Pusher('0c956035633c2f990d85', {
+        cluster: 'eu' 
+    }); 
+    var channel = pusher.subscribe('my-channel');
+    channel.unbind('my-event1')
+   pusher.disconnect();*/
+ 
+}
+
     Send = async (messages) => {
         axios.post(ANYDELIVERY_BASE_URL + '/message',
             {
@@ -76,10 +86,10 @@ class Chat extends React.Component {
         });
         let this2 = this
         var channel = pusher.subscribe('my-channel');
-        channel.bind('my-event', function (data) {
+        channel.bind('my-event1', function (data) {
             // alert(JSON.stringify(data));
             let mess = this2.state.message;
-            if (data.message.parcel_id === rec) {
+           if (data.message.parcel_id === rec) {
                 mess.push(data.message);
                 this2.setState(prevState => ({
                     message: [...prevState.message, {
