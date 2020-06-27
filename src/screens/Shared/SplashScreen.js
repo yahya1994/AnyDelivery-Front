@@ -19,7 +19,7 @@ export default class SplashScreen extends React.Component {
            console.log(token);
            if (token ==null){
            this.props.navigation.push('Auth')}
-           else this.props.navigation.push('Main')
+           else this.props.navigation.push('Auth')
             this.setState({animationDone:true})
         });
      }

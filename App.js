@@ -109,7 +109,7 @@ useEffect(()=>{
               , headerTitleStyle: { color: 'white', fontSize: 25, }, headerBackground: () => (<Header />), headerStyle: { height: 49 }
             })} />
 
-          <Stack.Screen name={CHAT_SCREEN} component={Chat}
+          <Stack.Screen name='chats' component={Chat}
             options={{
               title: 'chats',
               cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,

@@ -23,12 +23,7 @@ class DetailsProfil extends Component {
         return (
             <View style={{ flexDirection: 'column', flex: 1, }} >
                 <LinearGradient colors={['white', '#30ACE4', '#30ACE4', '#007aff']} style={{ flex: 1 }}>
-                    <View style={{ backgroundColor: 'white', marginTop: '1%', borderRadius: 100, flex: 2, justifyContent: 'center', flexDirection: 'column', alignItems: 'center', alignSelf: 'center', width: '50%' }} >
-                        <Image
-                            source={require('../../assets/img/me.jpg')}
-                            style={{ borderRadius: 80, paddingTop: 20, height: '100%', width: "100%" }}
-                        />
-                    </View>
+                   
                     <View style={{
                         backgroundColor: 'white', borderRadius: 20,
                         flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginTop: '3%', alignSelf: 'center', height: '8%', width: '85%'

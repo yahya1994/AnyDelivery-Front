@@ -17,7 +17,7 @@ class ChatItem extends Component {
                         && (this.props.auth.user.role == 1 ?
                             this.props.item.deliveryMan['0'].user_id == this.props.auth.user.id : true  )
                         ?
-                        <TouchableOpacity   onPress={() => this.props.nav.push('Chat',
+                        <TouchableOpacity   onPress={() => this.props.nav.navigate('chats',
                         { idReceiver: this.props.item.parcel_id })}>
                         <View  style={styles.containerStyle}>
                             <Image

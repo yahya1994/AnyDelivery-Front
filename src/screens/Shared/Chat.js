@@ -5,6 +5,7 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import networkCheck from '../../helpers/functions/networkCheck';
 import { ANYDELIVERY_BASE_URL } from '../../helpers/constants/constants';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 class Chat extends React.Component {
 
@@ -31,19 +32,18 @@ class Chat extends React.Component {
 
 
 componentWillUnmount(){
-   /* var pusher = new Pusher('0c956035633c2f990d85', {
-        cluster: 'eu' 
+    var pusher = new Pusher('be69eb45b105d1920b80', {
+        cluster: 'eu' , forceTLS: true
     }); 
-    var channel = pusher.subscribe('my-channel');
-    channel.unbind('my-event1')
-   pusher.disconnect();*/
+    pusher.disconnect();
  
 }
 
-    Send = async (messages) => {
+    Send = async (message) => {
+     
         axios.post(ANYDELIVERY_BASE_URL + '/message',
             {
-                content: messages['0'].text,
+                content: message['0'].text,
                 user_id: this.props.auth.user.id,
                 parcel_id: this.props.route.params.idReceiver
             })
@@ -81,7 +81,7 @@ componentWillUnmount(){
         this.FetshMessages();
         let rec = this.props.route.params.idReceiver;
         Pusher.logToConsole = true;
-        var pusher = new Pusher('0c956035633c2f990d85', {
+        var pusher = new Pusher('be69eb45b105d1920b80', {
             cluster: 'eu', forceTLS: true
         });
         let this2 = this
@@ -113,8 +113,17 @@ componentWillUnmount(){
                 inverted={false}
                 scrollToBottomOffset={0}
                 scrollToBottom={true}
+                label={
+                <Icon style={{ alignItems: 'center', alignSelf: 'center' }}
+                        backgroundColor='white'
+                        name='paper-plane'
+                        size={25}
+                        color='#007aff'
+                     
+                    />}
                 showAvatarForEveryMessage={true}
-                onSend={messages => this.Send(messages)}
+                onSend={messages => this.Send(messages)
+                }
                 user={{
                     _id: this.props.auth.user.id,
                 }}

@@ -35,7 +35,7 @@ const DeliveryManTabs = () => {
         options={{
          
           tabBarIcon: ({ color, size }) => (
-            <Icon name='database' color={color} size={30} /> 
+            <Icon name='road' color={color} size={30} /> 
           ), 
         } 
       } 
