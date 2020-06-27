@@ -6,7 +6,7 @@ import Item from '../../components/DeliveryMan/Item';
 import { Input, Overlay, ThemeProvider } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { connect } from 'react-redux';
-import { ChoseParcel, fetshParcels_DeliveryMan } from '../../redux/actions';
+import { ChoseParcel, fetshParcels_DeliveryMan,fetshRequest } from '../../redux/actions';
 import networkCheck from '../../helpers/functions/networkCheck';
 import { SEARCH } from '../../helpers/strings/strings';
 import { BloquingLoader } from '../../components/Shared/BloquingLoader';
@@ -17,17 +17,18 @@ class ParcelsList_DM extends Component {
         super();
         this.state = {
         visible: false, Loading: true, status: '',
-        refreshing: null, currentPage: 1,input:'',
+        refreshing: null, currentPage: 1,input:'',request:[]
 
     }
-   /* OneSignal.setExternalUserId("2");
+    OneSignal.setExternalUserId("2");
     OneSignal.inFocusDisplaying(2);
-    OneSignal.addEventListener('opened', this.ReceiveNotif );*/
+    OneSignal.addEventListener('opened', this.ReceiveNotif );
   
 }
-ReceiveNotif=()=>{
+ReceiveNotif= ()=>{
     this.props.navigation.navigate('Home');
-    this._refresh
+   this.props.fetshParcels_DeliveryMan(this.state.status, this.state.currentPage)
+
 }
     OverlayExample = () => {
         this.setState({ visible: false });
@@ -39,9 +40,9 @@ ReceiveNotif=()=>{
         await this.props.ChoseParcel(id);
         this._refresh();
     }
-    componentDidMount() {
+      componentDidMount() {
         networkCheck()
-       
+        // this.props.fetshRequest(this.props.auth.user.id);
         this.props.fetshParcels_DeliveryMan(this.state.status, this.state.currentPage);
     }
     _refresh = async () => {
@@ -102,12 +103,12 @@ ReceiveNotif=()=>{
                     /> 
                      
                 </View>
-                
+                {this.props.Parcels.Loading1 ? <BloquingLoader/>:null}
                 <FlatList
                     style={{ backgroundColor: '#EFFBFB', padding: 5 }}
                     data={this.props.Parcels.items}
                     renderItem={({ item }) => (
-                        <Item nav={this.props.navigation} item={item} choseParcel={this.choseParcel} status={this.state.status} />
+                        <Item  requests={this.props.Parcels.request} nav={this.props.navigation} item={item} choseParcel={this.choseParcel} status={this.state.status} />
                     )}
                     keyExtractor={item => item.id.toString()}
                     refreshControl={
@@ -117,12 +118,12 @@ ReceiveNotif=()=>{
                     onEndReachedThreshold ={0.4}
                     ListFooterComponent={this.renderFooter}
                     onEndReached={this.LoadMore}
-                /> 
+                />
             </View>
         );
     }
 }
 const mapStateToProps = state => {
-    return { Parcels: state.parcel };
+    return { Parcels: state.parcel,auth:state.auth };
 };
-export default connect(mapStateToProps, { ChoseParcel, fetshParcels_DeliveryMan })(ParcelsList_DM);
+export default connect(mapStateToProps, { ChoseParcel, fetshParcels_DeliveryMan ,fetshRequest})(ParcelsList_DM);

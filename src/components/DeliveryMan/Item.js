@@ -3,7 +3,7 @@ import { TouchableOpacity, View, Text, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Overlay, CheckBox } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { HideModal, sendRequest, ChoseParcel } from '../../redux/actions';
+import { HideModal, sendRequest, ChoseParcel,fetshRequest,CancelRequest } from '../../redux/actions';
 import { Linking } from 'react-native';
 import { BloquingLoader } from '../Shared/BloquingLoader';
 
@@ -11,9 +11,14 @@ import { BloquingLoader } from '../Shared/BloquingLoader';
 class Item extends Component {
     constructor() {
         super();
-        this.state = { visible: false, checked: '3' }
-    }
+        this.state = { visible: false,
+            requests:[],
+            checked: '3' }
 
+            }
+            componentDidMount() {
+               this.props.fetshRequest(this.props.auth.user.id);
+            }
     OverlayExample = () => {
         this.setState({ visible: false });
     }
@@ -38,9 +43,10 @@ class Item extends Component {
                         </View>
                         {this.props.item.status.toString() === '0' ?
                             <CheckBox
-                                checked={this.props.Parcels.delivery_man_id == this.props.auth.user.id && this.props.item.id == this.props.Parcels.parcel_id ? true : false}
-                                onPress={() => this.setState({ checked: true },
-                                    () => this.props.sendRequest(this.props.item.id, this.props.auth.user.id, this.props.item.Client['0'].id))}
+                                checked={this.props.Parcels.request.filter((item)=>item.parcel_id == this.props.item.id).length != 0  ? true :false}
+                                onPress={this.props.Parcels.request.filter((item)=>item.parcel_id == this.props.item.id  ).length == 0 ?
+                                    () => this.props.sendRequest(this.props.item.id, this.props.auth.user.id, this.props.item.Client['0'].id):
+                                     ()=>this.props.CancelRequest(this.props.item.id, this.props.auth.user.id)   }
                             /> : null}
 
                     </View>
@@ -121,6 +127,6 @@ const styles = {
 const mapStateToProps = state => {
     return { auth: state.auth, Parcels: state.parcel };
 };
-export default connect(mapStateToProps, { HideModal, sendRequest, ChoseParcel })(Item);
+export default connect(mapStateToProps, { HideModal, sendRequest, CancelRequest,ChoseParcel ,fetshRequest})(Item);
 
 
