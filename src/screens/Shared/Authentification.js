@@ -64,7 +64,7 @@ class Authentification extends Component {
   constructor() {
     super();
     this.state = {
-      email: 'ala@gmail.com', password: 'ala'
+      email: 'ala@gmail.com', password: 'ala',disabled:false
     };
     this.buttonOpacity = new Value(1);
     this.onStateChange = event([
@@ -181,6 +181,7 @@ componentDidMount(){
               </Animated.View>
             </TapGestureHandler>
             <InputText
+              disable={this.props.auth.loading}
               placeholder={EMAIL}
               value={this.state.email}
               onChangeText={text => this.setState({ email: (text) })}
@@ -190,12 +191,14 @@ componentDidMount(){
               value={this.state.password}
               onChangeText={text => this.setState({ password: (text) })}
               secureTextEntry={true}
+              disable={this.props.auth.loading}
             /> 
-            <Buttons width={'97%'} title={LOGIN} loading={this.props.auth.loading} onPress={() => this.props.Login(this.state.email, this.state.password, this.props.navigation
+            <Buttons width={'97%'} title={LOGIN} loading={this.props.auth.loading} disabled={this.props.auth.loading}
+            onPress={() => this.props.Login(this.state.email, this.state.password, this.props.navigation  
             )} />
 
-            <Text style={{ alignSelf: 'center', }} >{CREATE_NEW_ACCOUNT_REQUEST}</Text>
-            <Text onPress={() => this.props.navigation.navigate("RegistrationType")} style={styles.textStyleNewAcount} >{CREATE_NEW_ACCOUNT}</Text>
+            <Text style={{ alignSelf: 'center', }}  >{CREATE_NEW_ACCOUNT_REQUEST}</Text>
+            <Text disabled={this.props.auth.loading} onPress={() => this.props.navigation.navigate("RegistrationType")} style={styles.textStyleNewAcount} >{CREATE_NEW_ACCOUNT}</Text>
           </Animated.View>
           <Overlay
             overlayStyle={{

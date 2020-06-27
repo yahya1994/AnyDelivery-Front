@@ -75,25 +75,28 @@ class CreateParcels extends Component {
     render() {
         console.log('ggggg' + this.state.lat_Depart, this.state.long_Depart)
         return (
-            <View style={{ flex: 1, backgroundColor: 'white', flexDirection: 'column' }}>
-                <ProgressSteps   >
-                    <ProgressStep label={PICK_UP_POINT} nextBtnTextStyle={{ fontSize: 40 }}
-                    
+            <View style={{ flex: 1, backgroundColor: 'white',  }}>
+                <ProgressSteps       marginBottom={1}          topOffset={1}  
+    >
+                    <ProgressStep label={PICK_UP_POINT}  
                      nextBtnDisabled={validateAdresse(this.state.adresse_Depart) || 
-                        validateLocation(this.state.lat_Depart)  ||(this.state.date =='') == true }	    nextBtnText={<Icon style={{ alignItems: 'center', alignSelf: 'center' }}
+                        validateLocation(this.state.lat_Depart)  ||(this.state.date =='') == true }	  
+                        nextBtnStyle={{   haight:1,paddingBottom:0,marginBottom:0,alignItems: 'flex-end', alignSelf: 'flex-end' }} 
+                         nextBtnText={<Icon    
                             backgroundColor='white'
                             name='chevron-circle-right'
                             size={50}
                         />} >
                         <View style={styles.container}>
                             <InputText style={styles.InputText}
-                          
+                          disable={true}
                                 placeholder={FULL_NAME}
                                 value={this.props.auth.user.name}
                                 onChangeText={text =>
                                     this.setState({ name_Depart: (text) })} />
                             <InputText style={styles.InputText}
-                                placeholder={PHONE_NUMBER}
+                          disable={true}
+                          placeholder={PHONE_NUMBER}
                                 value={'+216 ' + this.props.auth.user.phone_number}
                                 onChangeText={value =>
                                     this.setState({ numTel_Depart: (value) })} />

@@ -10,14 +10,24 @@ import { parcelDone, fetsh_DeliveryMan_Parcel } from '../../redux/actions';
 import TakenParcel from '../../components/DeliveryMan/TakenParcel';
 import networkCheck from '../../helpers/functions/networkCheck';
 import { SEARCH, WAITING, RESERVED, IN_PROGRESS, DELIVERED,SEARCH_BY } from '../../helpers/strings/strings';
+import OneSignal from 'react-native-onesignal';
 
 class TakenParcelList extends Component {
-    state = {
+    constructor() {
+    super();
+     
+    this.state = {
         visible: false, Loading: true, status: '',
         refreshing: null, currentPage: 1,input:''
 
     }
-
+    OneSignal.inFocusDisplaying(2);
+    OneSignal.addEventListener('opened', this.ReceiveNotif );
+}
+ReceiveNotif = () => {
+    this.props.navigation.navigate('UserParcel');
+   this.props.fetsh_DeliveryMan_Parcel(this.state.status,this.state.input, this.state.currentPage);
+}
     OverlayExample = () => {
         this.setState({ visible: false });
     }
@@ -97,8 +107,8 @@ class TakenParcelList extends Component {
                         <Text style={{ alignSelf: 'center',paddingBottom:'5%' }}>{SEARCH_BY}</Text>
                         <View style={{ flex: 1, flexDirection: 'column', padding: 3, }}>
                             <View style={{ flex: 1, flexDirection: 'row' , justifyContent: 'space-between' }}>
-                                <TouchableOpacity onPress={() => { this.setState({currentPage: 1 , input:'', status:0 }, this.props.fetsh_DeliveryMan_Parcel(0,this.state.input,1)) }} >
-                                    <Icon name="circle" color='red' size={25} />
+                                <TouchableOpacity onPress={() => { this.setState({currentPage: 1 , input:'', status:'' }, this.props.fetsh_DeliveryMan_Parcel('',this.state.input,1)) }} >
+                                    <Icon name="circle" color='grey' size={25} />
                                 </TouchableOpacity  >
                                 <TouchableOpacity onPress={() => { this.setState({currentPage: 1 , input:'', status:3 }, this.props.fetsh_DeliveryMan_Parcel(3,this.state.input,1)) }}>
                                     <Icon style={{ paddingLeft: 15 }} name="circle" color='orange' size={25} />
@@ -111,10 +121,21 @@ class TakenParcelList extends Component {
                                 </TouchableOpacity  >
                             </View>
                             <View style={{ flex: 1, flexDirection: 'row' , justifyContent: 'space-between' }}>
-                                <Text>{WAITING} </Text>
-                                <Text>{RESERVED} </Text>
-                                <Text>{IN_PROGRESS}</Text>
-                                <Text>{DELIVERED}</Text>
+                            <Text>
+                                    tous{'\n'}
+                                    {this.state.status === '' ? <Icon style={{ paddingLeft: 15 }} name="check-circle" color='#007aff' size={25} /> : null}
+
+                                </Text>
+                                <Text>{RESERVED}{'\n'}
+                                    {this.state.status == 3 ? <Icon style={{ paddingLeft: 15 }} name="check-circle" color='#007aff' size={25} /> : null}
+
+                                </Text>
+                                <Text>{IN_PROGRESS} {'\n'}
+                                    {this.state.status == 1 ? <Icon style={{ paddingLeft: 15 }} name="check-circle" color='#007aff' size={25} /> : null}
+                                </Text>
+                                <Text>{DELIVERED}{'\n'}
+                                    {this.state.status == 2 ? <Icon style={{ paddingLeft: 15 }} name="check-circle" color='#007aff' size={25} /> : null}
+                                </Text>
                             </View>
                         </View>
                     </Overlay>
@@ -139,6 +160,6 @@ class TakenParcelList extends Component {
     }
 }
 const mapStateToProps = state => {
-    return { Parcels: state.parcel };
+    return { Parcels: state.parcel ,Auth:state.auth};
 };
 export default connect(mapStateToProps, { fetsh_DeliveryMan_Parcel })(TakenParcelList);
