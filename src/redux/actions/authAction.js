@@ -47,12 +47,15 @@ export const Login = (email, password, nav) => dispatch => {
         // clearToken()
         nav.navigate('Main');
         OneSignal.setExternalUserId(response.data.role.toString());
+       OneSignal.setExternalUserId(response.data.user.id.toString());
         dispatch({ type: SUCCESS, payload: { user: response.data.user, success: response.data.success } })
       }
       if (response.data.role === DELIVERYMAN_ROLE) {
         storeData(response.data.token);
-        OneSignal.setExternalUserId(response.data.role.toString());
-        nav.navigate('MainDeliveryMan');
+       OneSignal.setExternalUserId(response.data.role.toString());
+       OneSignal.setExternalUserId(response.data.user.id.toString());
+
+      nav.navigate('MainDeliveryMan');
         dispatch({ type: SUCCESS, payload: { user: response.data.user, success: response.data.success } })
       }
     }, (err) => {

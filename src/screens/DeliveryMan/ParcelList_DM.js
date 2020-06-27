@@ -20,16 +20,10 @@ class ParcelsList_DM extends Component {
         refreshing: null, currentPage: 1,input:'',request:[]
 
     }
-    OneSignal.setExternalUserId("2");
-    OneSignal.inFocusDisplaying(2);
-    OneSignal.addEventListener('opened', this.ReceiveNotif );
+  
   
 }
-ReceiveNotif= ()=>{
-    this.props.navigation.navigate('Home');
-   this.props.fetshParcels_DeliveryMan(this.state.status, this.state.currentPage)
-
-}
+ 
     OverlayExample = () => {
         this.setState({ visible: false });
     }
