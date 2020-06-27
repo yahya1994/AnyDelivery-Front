@@ -166,7 +166,7 @@ class Item extends Component {
                                         Linking.openURL(`tel:${parseInt(this.props.item.DeliveryMan['0'].phone_number)}`)
 
                                     } color='green' size={45} />
-                                    <Icon onPress={() => this.props.nav.push('Chat', { idReceiver: this.props.item.id })}
+                                    <Icon onPress={()=>this.setState({visible:false},() => this.props.nav.navigate('chats', { idReceiver: this.props.item.id })) }
                                         style={{ padding: 10 }} name="envelope-o" color='#007aff' size={45} />
                                 </Overlay>
                             </TouchableOpacity > : <TouchableOpacity disabled={true} onPress={this.toggleOverlay}  >
