@@ -7,6 +7,9 @@ import axios from 'axios';
 import Pusher from 'pusher-js/react-native';
 import { connect } from 'react-redux';
 import { ANYDELIVERY_BASE_URL } from '../../helpers/constants/constants';
+import { getDistance } from 'geolib';
+import { SendInClose } from '../../redux/actions';
+
 const { width, height } = Dimensions.get('window')
 
 const SCREEN_HEIGHT = height
@@ -18,10 +21,11 @@ class Map extends Component {
   constructor() {
     super();
     this.state = {
+      distance:0,
       points: [],
       finalPosition: {
-        latitude: 35.6326110,
-        longitude: 10.95301441848278,
+        latitude: 0.0,
+        longitude: 0.0,
         latitudeDelta: 0.0922,
         longitudeDelta: LONGITUDE_DELTA,
       },
@@ -32,8 +36,8 @@ class Map extends Component {
         longitudeDelta: LONGITUDE_DELTA,
       },
       initialPosition: {
-        latitude: 35.6326110,
-        longitude: 10.95301441848278,
+        latitude: 0,
+        longitude: 0,
         latitudeDelta: 0.0922,
         longitudeDelta: LONGITUDE_DELTA,
       }, DepartPosition: {
@@ -45,9 +49,26 @@ class Map extends Component {
       Marker: false
     }
   }
+
+   sendNotifInClose=  (id)=>{
+    this.setState({
+      distance: getDistance(
+          { latitude: this.state.finalPosition.latitude, longitude: this.state.finalPosition.longitude },
+          { latitude: this.state.DeliveryManPosition.latitude, longitude: this.state.DeliveryManPosition.longitude }
+      )
+  })
+console.log('distance++++++++++++++ :       '+this.state.distance);
+console.log('distance++++++++++++++ :       '+id);
+
+ if (this.state.distance < 500000){
+  
+   this.props.SendInClose(id,this.state.distance);
+ }else null ;
+
+}
   Tracking() {
     Pusher.logToConsole = true;
-    var pusher = new Pusher('0c956035633c2f990d85', {
+    var pusher = new Pusher('be69eb45b105d1920b80', {
       cluster: 'eu', forceTLS: true
     });
     let this2 = this
@@ -110,6 +131,12 @@ class Map extends Component {
        if (this.props.auth.user.role === 2) { this.Send(long, lat) }
       console.log("SendFct : " + this.state.points);
       this.Tracking();
+       this.sendNotifInClose(this.props.route.params.Client.id);
+
+ 
+
+
+
       // Alert.alert('done' + ' ' + this.state.initialPosition.latitude);
     }, error => { Alert.alert('Error', JSON.stringify(error)); } ,
     );
@@ -216,7 +243,7 @@ class Map extends Component {
       marker = <MapView.Marker coordinate={this.state.finalPosition} />
     }
 
-    return (
+    return ( 
       <View style={styles.container} >
         <Text  style={styles.InputText}  > 
           postion de colis </Text>
@@ -269,4 +296,4 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
   return { auth: state.auth };
 };
-export default connect(mapStateToProps, null)(Map);
+export default connect(mapStateToProps, {SendInClose})(Map);
