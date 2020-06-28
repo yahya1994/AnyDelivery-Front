@@ -175,7 +175,7 @@ componentDidMount(){
             }}>
             <TapGestureHandler onHandlerStateChange={this.OnClose}>
               <Animated.View style={styles.closeBtn}>
-                <Animated.Text style={{ fontSize: 30, transform: [{ rotate: this.rotateCross }] }} >
+                <Animated.Text style={{  fontSize: 30, transform: [{ rotate: this.rotateCross }] }} >
                   {CLOSE_TAG}
                     </Animated.Text>
               </Animated.View>
@@ -246,7 +246,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10
   }, closeBtn: {
     height: 40,
-    width: 40,
+    width: 40,zIndex:2,
     backgroundColor: 'white',
     borderRadius: 20,
     alignItems: 'center',

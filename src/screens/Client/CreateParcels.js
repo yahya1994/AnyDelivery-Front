@@ -42,12 +42,14 @@ class CreateParcels extends Component {
     createParcel = () => {
         let data = {
             description: this.state.description,
+            
             Receiver_name: this.state.name_Destination,
             Receiver_num_Tel: this.state.numTel_Destination,
             Distance: this.state.distance,
             date: this.state.date,
             cost: this.state.frais,
             status: 0,
+            Rapidity:1,
             starting_adresse: this.state.adresse_Depart,
             destination_adresse: this.state.adresse_Destination,
             starting_longitude: this.state.long_Depart,
@@ -97,6 +99,7 @@ class CreateParcels extends Component {
                             <InputText style={styles.InputText}
                           disable={true}
                           placeholder={PHONE_NUMBER}
+                          
                                 value={'+216 ' + this.props.auth.user.phone_number}
                                 onChangeText={value =>
                                     this.setState({ numTel_Depart: (value) })} />
@@ -198,6 +201,7 @@ class CreateParcels extends Component {
                                 onChangeText={text => this.setState({ name_Destination: (text) })} />
                             <InputText style={styles.InputText}
                                 placeholder={PHONE_NUMBER}
+                                keyboardType = 'number-pad'
                                 errorMessage={validateNumTel(this.state.numTel_Destination)}
                                 value={this.state.numTel_Destination}
                                 onChangeText={text => this.setState({ numTel_Destination: (text) })} />
@@ -298,6 +302,7 @@ class CreateParcels extends Component {
                                 }}>frais de livraison inferieur a </Text>
                                 <View style={{width:"40%"}}>
                                 <InputText
+                                  keyboardType = 'number-pad'
                             errorMessage={validateCost(this.state.frais)}
                             style={{ width: '40%', borderWidth: 2, borderRadius: 20, padding: 15, borderColor: '#007aff', }}
                                     value={this.state.frais}

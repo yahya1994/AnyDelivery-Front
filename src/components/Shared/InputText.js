@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import {  Input   } from 'react-native-elements';
 
-const InputText =({ disable,color, renderErrorMessage,errorStyle,errorMessage,value,onChangeText,placeholder,secureTextEntry })=>{
+const InputText =({  keyboardType , disable,color, renderErrorMessage,errorStyle,errorMessage,value,onChangeText,placeholder,secureTextEntry })=>{
  
      return(
         <Input
+        keyboardType = {keyboardType}
         disabledInputStyle={{color:'black',opacity:1}} 
         disabled={disable== true ?true : false}
         renderErrorMessage={ renderErrorMessage}

@@ -45,6 +45,7 @@ export default class RegistrationStepOne extends Component {
                     errorMessage={validateComfirmPassword(this.state.Comfirmpassword, this.state.password)}
                 />
                 <InputText
+                keyboardType = 'number-pad'
                     placeholder={PHONE_NUMBER} onChangeText={text =>
                         this.setState({ phone_number: (text) })}
                     errorMessage={validateNumTel(this.state.phone_number)}

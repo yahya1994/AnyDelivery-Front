@@ -120,7 +120,9 @@ class RegistrationSteptwo extends Component {
                     this.setState({ adresse: (text) })}
                     errorMessage={validateAdresse(this.state.adresse)}
                 />
-                <InputText placeholder={CIN_NUMBER} onChangeText={text =>
+                <InputText placeholder={CIN_NUMBER}
+                keyboardType = 'number-pad'
+                 onChangeText={text =>
                     this.setState({ CIN: (parseInt(text)) })}
                     errorMessage={validateNumCin(this.state.CIN)}
                 />
