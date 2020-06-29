@@ -122,7 +122,7 @@ class ParcelsList extends Component {
                             width: '85%',
                             backgroundColor: '#fff'
                         }}
-                        rightIcon={
+                        leftIcon={
                             <Icon.Button
 
                                 backgroundColor='white'
@@ -134,6 +134,20 @@ class ParcelsList extends Component {
                                         () => { this.props.fetshParcels('', this.state.input, 1) }
                                     )}
                             />
+                        }
+                        rightIcon={
+                            this.state.input != '' ?
+                            <Icon.Button
+
+                                backgroundColor='white'
+                                name='close'
+                                size={20}
+                                color='grey'
+                                onPress={() =>
+                                    this.setState({ currentPage: 1, status: '',input:'' },
+                                        () => { this.props.fetshParcels('', this.state.input, 1) }
+                                    )}
+                            />:null
                         }
                     /><Icon style={{ alignItems: 'center', alignSelf: 'center' }}
                         backgroundColor='white'
