@@ -45,6 +45,7 @@ componentWillUnmount(){
             {
                 content: message['0'].text,
                 user_id: this.props.auth.user.id,
+                role: this.props.auth.user.role,
                 parcel_id: this.props.route.params.idReceiver
             })
             .then((response) => {
