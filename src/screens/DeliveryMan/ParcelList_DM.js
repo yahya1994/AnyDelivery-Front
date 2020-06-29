@@ -6,7 +6,7 @@ import Item from '../../components/DeliveryMan/Item';
 import { Input, Overlay, ThemeProvider } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { connect } from 'react-redux';
-import { ChoseParcel, fetshParcels_DeliveryMan,fetshRequest } from '../../redux/actions';
+import { ChoseParcel, fetshParcels_DeliveryMan, fetshRequest } from '../../redux/actions';
 import networkCheck from '../../helpers/functions/networkCheck';
 import { SEARCH } from '../../helpers/strings/strings';
 import { BloquingLoader } from '../../components/Shared/BloquingLoader';
@@ -16,14 +16,14 @@ class ParcelsList_DM extends Component {
     constructor() {
         super();
         this.state = {
-        visible: false, Loading: true, status: '',
-        refreshing: null, currentPage: 1,input:'',request:[]
+            visible: false, Loading: true, status: '',
+            refreshing: null, currentPage: 1, input: '', request: []
+
+        }
+
 
     }
-  
-  
-}
- 
+
     OverlayExample = () => {
         this.setState({ visible: false });
     }
@@ -34,7 +34,7 @@ class ParcelsList_DM extends Component {
         await this.props.ChoseParcel(id);
         this._refresh();
     }
-      componentDidMount() {
+    componentDidMount() {
         networkCheck()
         // this.props.fetshRequest(this.props.auth.user.id);
         this.props.fetshParcels_DeliveryMan(this.state.status, this.state.currentPage);
@@ -57,16 +57,24 @@ class ParcelsList_DM extends Component {
             this.props.Parcels.Loading ?
                 <View>
                     <ActivityIndicator animating size='large' />
-                    </View> : this.props.Parcels.items.length == 0 ?<Text> vous n'avez aucun colis pour le moment  </Text>:null);
+                </View> : this.props.Parcels.items.length == 0 ? <Text> vous n'avez aucun colis pour le moment  </Text> : null);
 
     }
     render() {
 
         return (
             <View style={{ flex: 1, backgroundColor: '#EFFBFB' }}>
-                
+
                 <View style={{ flexDirection: 'row', backgroundColor: '#EFFBFB' }}>
                     <Input
+
+                        onSubmitEditing={() =>
+                            this.setState({ currentPage: 1 },
+                                () => { this.props.fetshParcels_DeliveryMan(this.state.input, 1) }
+                            )}
+
+
+                        value={this.state.input}
                         placeholder={SEARCH}
                         onChangeText={text => this.setState({ input: (text) })}
                         inputContainerStyle={{ borderBottomWidth: 0 }}
@@ -81,35 +89,49 @@ class ParcelsList_DM extends Component {
                             width: '95%',
                             backgroundColor: '#fff'
                         }}
-                        rightIcon={
+                        leftIcon={
                             <Icon.Button
- 
-                            backgroundColor='white'
-                            name='search'
-                            size={22}
-                            color='grey'
-                            onPress={() =>
-                                this.setState({ currentPage: 1 },
-                    () => {   this.props.fetshParcels_DeliveryMan( this.state.input,1)}
-                                 ) }  
-                        />
-                    }
-                    /> 
-                     
+
+                                backgroundColor='white'
+                                name='search'
+                                size={22}
+                                color='grey'
+                                onPress={() =>
+                                    this.setState({ currentPage: 1 },
+                                        () => { this.props.fetshParcels_DeliveryMan(this.state.input, 1) }
+                                    )}
+                            />
+                        }
+                        rightIcon={
+                            this.state.input != '' ?
+                                <Icon.Button
+
+                                    backgroundColor='white'
+                                    name='close'
+                                    size={22}
+                                    color='grey'
+                                    onPress={() =>
+                                        this.setState({ currentPage: 1, input: '' },
+                                            () => { this.props.fetshParcels_DeliveryMan(this.state.input, 1) }
+                                        )}
+                                /> : null
+                        }
+                    />
+
                 </View>
-                {this.props.Parcels.Loading1 ? <BloquingLoader/>:null}
+                {this.props.Parcels.Loading1 ? <BloquingLoader /> : null}
                 <FlatList
                     style={{ backgroundColor: '#EFFBFB', padding: 5 }}
                     data={this.props.Parcels.items}
                     renderItem={({ item }) => (
-                        <Item  requests={this.props.Parcels.request} nav={this.props.navigation} item={item} choseParcel={this.choseParcel} status={this.state.status} />
+                        <Item requests={this.props.Parcels.request} nav={this.props.navigation} item={item} choseParcel={this.choseParcel} status={this.state.status} />
                     )}
                     keyExtractor={item => item.id.toString()}
                     refreshControl={
                         <RefreshControl refreshing={this.state.refreshing}
                             onRefresh={this._refresh} />
                     }
-                    onEndReachedThreshold ={0.4}
+                    onEndReachedThreshold={0.4}
                     ListFooterComponent={this.renderFooter}
                     onEndReached={this.LoadMore}
                 />
@@ -118,6 +140,6 @@ class ParcelsList_DM extends Component {
     }
 }
 const mapStateToProps = state => {
-    return { Parcels: state.parcel,auth:state.auth };
+    return { Parcels: state.parcel, auth: state.auth };
 };
-export default connect(mapStateToProps, { ChoseParcel, fetshParcels_DeliveryMan ,fetshRequest})(ParcelsList_DM);
+export default connect(mapStateToProps, { ChoseParcel, fetshParcels_DeliveryMan, fetshRequest })(ParcelsList_DM);

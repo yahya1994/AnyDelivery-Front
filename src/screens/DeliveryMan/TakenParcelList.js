@@ -66,6 +66,11 @@ ReceiveNotif = () => {
             <View style={{ flex: 1, backgroundColor: '#EFFBFB' }}>
                 <View style={{ flexDirection: 'row', backgroundColor: '#EFFBFB' }}>
                     <Input
+                    value={this.state.input}
+                    onSubmitEditing={() =>
+                        this.setState({ currentPage: 1,status:'' },
+            () => {   this.props.fetsh_DeliveryMan_Parcel('', this.state.input,1)}
+                         ) }  
                         placeholder={SEARCH}
                         inputContainerStyle={{ borderBottomWidth: 0 }}
                         onChangeText={text => this.setState({ input: (text) })}

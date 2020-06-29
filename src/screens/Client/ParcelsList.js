@@ -108,6 +108,8 @@ class ParcelsList extends Component {
                             this.setState({ currentPage: 1, status: '' },
                                 () => { this.props.fetshParcels('', this.state.input, 1) }
                             )}
+                    value={this.state.input}
+
                         placeholder={SEARCH}
                         onChangeText={text => this.setState({ input: (text) })}
                         inputContainerStyle={{ borderBottomWidth: 0 }}
