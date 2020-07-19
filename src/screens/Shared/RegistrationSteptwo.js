@@ -9,6 +9,7 @@ import { Registration } from '../../redux/actions';
 import { connect } from 'react-redux';
 import { validateNumCin, validateAdresse, validateImage } from '../../helpers/functions/InputValidation';
 import {IMAGE_PICKER_TITLE,IMAGE_PICKER_TAKE_PHOTO_TITLE,IMAGE_PICKER_GET_PHOTO_FROM_GALLERY_TITLE, ADRESSE, CIN_NUMBER} from '../../helpers/strings/strings';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 
 const options = {
@@ -55,7 +56,7 @@ class RegistrationSteptwo extends Component {
         data.append('identity_card_image', image);
         data.append('price_km', 0);
         data.append('rapidity', 0);
-        data.append('Accepted', 1);
+ 
 
         if (this.props.route.params.role == 2) {
             let image2 = {
@@ -65,8 +66,10 @@ class RegistrationSteptwo extends Component {
             }
             data.append('driver_license_image', image2);
             data.append('role', 2);
+            data.append('Accepted', 0);
         } else {
             data.append('role', 1);
+            data.append('Accepted', 1);
         }
         this.props.Registration(data, this.props.navigation);
     }
@@ -115,13 +118,17 @@ class RegistrationSteptwo extends Component {
     render() {
         console.log(this.state.size['fileSize'])
         return (
+            <KeyboardAwareScrollView contentContainerStyle={{minHeight:'100%'}} style={{flex:1}}  
+             > 
             <View style={styles.container}>
                 <InputText placeholder={ADRESSE} onChangeText={text =>
                     this.setState({ adresse: (text) })}
+                    disable={this.props.auth.loading}
                     errorMessage={validateAdresse(this.state.adresse)}
                 />
                 <InputText placeholder={CIN_NUMBER}
                 keyboardType = 'number-pad'
+                disable={this.props.auth.loading}
                  onChangeText={text =>
                     this.setState({ CIN: (parseInt(text)) })}
                     errorMessage={validateNumCin(this.state.CIN)}
@@ -148,6 +155,7 @@ class RegistrationSteptwo extends Component {
                             name='upload'
                             size={24}
                             color='red'
+                            disabled={this.props.auth.loading}
                             onPress={this.getImage} />}
                 />
                 {validateImage(this.state.size['fileSize']) == false    ? 
@@ -173,10 +181,13 @@ class RegistrationSteptwo extends Component {
                         backgroundColor: '#fff'
                     }}
                     rightIcon={
+            
                         <Icon.Button
                             backgroundColor='white'
                             name='upload'
                             size={24}
+                        disabled={this.props.auth.loading}
+                       
                             color='red'
                             onPress={this.getImage2} />}
                 /> : null}
@@ -199,7 +210,7 @@ class RegistrationSteptwo extends Component {
                 />
 
             </View>
-
+            </KeyboardAwareScrollView  > 
 
         );
     }

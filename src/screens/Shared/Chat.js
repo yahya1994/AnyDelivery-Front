@@ -43,7 +43,7 @@ componentWillUnmount(){
      
         axios.post(ANYDELIVERY_BASE_URL + '/message',
             {
-                content: message['0'].text,
+                Content: message['0'].text,
                 user_id: this.props.auth.user.id,
                 role: this.props.auth.user.role,
                 parcel_id: this.props.route.params.idReceiver

@@ -58,9 +58,8 @@ class Map extends Component {
       )
   })
 console.log('distance++++++++++++++ :       '+this.state.distance);
-console.log('distance++++++++++++++ :       '+id);
 
- if (this.state.distance < 500000){
+ if ( this.state.distance < 500 &&  this.state.distance > 400){
   
    this.props.SendInClose(id,this.state.distance);
  }else null ;
@@ -117,6 +116,7 @@ console.log('distance++++++++++++++ :       '+id);
 
 
     this.showMAP();
+        
     this.watchID = geolocation.watchPosition((position) => {
       var lat = parseFloat(position.coords.latitude);
       var long = parseFloat(position.coords.longitude);
@@ -131,7 +131,7 @@ console.log('distance++++++++++++++ :       '+id);
        if (this.props.auth.user.role === 2) { this.Send(long, lat) }
       console.log("SendFct : " + this.state.points);
       this.Tracking();
-       this.sendNotifInClose(this.props.route.params.Client.id);
+       this.sendNotifInClose(this.props.route.params.Client.name);
 
  
 

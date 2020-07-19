@@ -44,6 +44,7 @@ export const Login = (email, password, nav) => dispatch => {
     .then((response) => {
       if (response.data.role === CLIENT_ROLE) {
         storeData(response.data.token);
+        console.log(response.data.Accepted);
         // clearToken()
         nav.navigate('Main');
         OneSignal.setExternalUserId(response.data.role.toString());
@@ -51,12 +52,19 @@ export const Login = (email, password, nav) => dispatch => {
         dispatch({ type: SUCCESS, payload: { user: response.data.user, success: response.data.success } })
       }
       if (response.data.role === DELIVERYMAN_ROLE) {
+        if (response.data.user.Accepted == 1){
         storeData(response.data.token);
+        console.log(response.data.Accepted);
        OneSignal.setExternalUserId(response.data.role.toString());
        OneSignal.setExternalUserId(response.data.user.id.toString());
 
       nav.navigate('MainDeliveryMan');
-        dispatch({ type: SUCCESS, payload: { user: response.data.user, success: response.data.success } })
+    }else {  Alert.alert(
+      "erreur",
+      "votre compte n'est pas encore vérifier",
+      [{ text: "OK", cancelable: false }],
+      { cancelable: false });
+}      dispatch({ type: SUCCESS, payload: { user: response.data.user, success: response.data.success } })
       }
     }, (err) => {
       console.log('xxxxxxxx')

@@ -1,4 +1,4 @@
-import { View, Text, TextInput } from 'react-native';
+import { View, Text, TextInput ,Image} from 'react-native';
 import React, { Component } from 'react';
 import { connect } from 'react-redux'; 
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -37,7 +37,10 @@ class ParcelDetails extends Component {
                     <View style={{ justifyContent: 'center', flexDirection: 'column' }} >
                     <View  style={{ backgroundColor: '#EFFBFB', flexDirection: 'column', flex: 1   ,marginRight:'3%'}}>
                     <TouchableOpacity onPress={ ()=>this.props.navigation.navigate('Report',{ParcelId : this.props.route.params.item.id})}>
-                    <Icon style={{   marginTop:'5%' , alignSelf:'center' }}  name="exclamation-circle" color='black' size={35} />
+                    <Image
+                        source={require('../../assets/img/alert.png')}
+                        style={{  marginTop:'5%' , alignSelf:'center' }}
+                    />
                     <Text  >{REPORT}</Text>
                     </TouchableOpacity>
                     </View>

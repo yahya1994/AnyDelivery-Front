@@ -4,6 +4,7 @@ import { Input, Button, ThemeProvider } from 'react-native-elements';
 import { Buttons, InputText } from '../../components/Shared';
 import { validateName, validateEmail, validateNumTel, validatePassword, validateComfirmPassword } from '../../helpers/functions/InputValidation';
 import { FULL_NAME, EMAIL, COMFIRME_PASSWORD, INPUT_CHECK, PASSWORD, PHONE_NUMBER, ERROR } from '../../helpers/strings/strings';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 export default class RegistrationStepOne extends Component {
     constructor() {
@@ -15,6 +16,8 @@ export default class RegistrationStepOne extends Component {
     render() {
         console.log(this.state.isValide)
         return (
+            <KeyboardAwareScrollView contentContainerStyle={{minHeight:'100%'}} style={{flex:1}}  
+             > 
             <View style={styles.container}>
                 <InputText style={styles.InputText}
                     placeholder={FULL_NAME}
@@ -30,7 +33,10 @@ export default class RegistrationStepOne extends Component {
                     }
                     }
                     errorMessage={validateEmail(this.state.email)}
-                /><InputText style={styles.InputText}
+                />
+                
+                
+                <InputText style={styles.InputText}
                     placeholder={PASSWORD}
                     secureTextEntry={true}
                     onChangeText={text =>
@@ -68,13 +74,14 @@ export default class RegistrationStepOne extends Component {
                                 { cancelable: false })}
                 />
             </View>
+            </KeyboardAwareScrollView>
         );
     }
 }
 const styles = StyleSheet.create({
     container: {
         paddingTop: Platform.OS === 'ios' ? 90 : '15%',
-        flex: 1,
+        flex: 1, 
         justifyContent: 'space-around',
         backgroundColor: 'white'
     }, InputContainer: {
